@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your expected pension under the WB Government scale. Free WB Pension calculator with Commutation, DR, and Medical Allowance.">
+    <title>WB Pension Calculator</title>
+
+    <meta name="google-adsense-account" content="ca-pub-8045648145414867">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8045648145414867" crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --navy: #1e3a8a; --navy-mid: #1d4ed8; --navy-light: #eff6ff;
+            --gold: #92400e; --gold-mid: #d97706; --gold-light: #fffbeb;
+            --green: #065f46; --green-mid: #059669; --green-light: #ecfdf5;
+            --red: #991b1b; --red-mid: #dc2626; --red-light: #fef2f2;
+            --page-bg: #f2efe9; --white: #ffffff; --border: #e5e7eb;
+            --text-dark: #111827; --text-mid: #374151; --text-light: #6b7280;
+            --sh-xl: 0 32px 80px rgba(30,58,138,0.10),0 16px 32px rgba(0,0,0,0.04);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--page-bg); color: var(--text-dark); min-height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8bfaf' fill-opacity='0.12'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        
+        .top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg,#1e3a8a 0%,#2563eb 30%,#7c3aed 60%,#d97706 100%); z-index: 1000; }
+        .main-wrap { max-width: 1200px; margin: 0 auto; padding: 5rem 1.5rem; }
+        .calc-card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; box-shadow: var(--sh-xl); }
+        .card-band { background: linear-gradient(130deg, #1e3a8a 0%, #1d4ed8 55%, #2563eb 100%); padding: 2rem; position: relative; overflow: hidden; }
+        .card-band::before { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; border-radius:50%; background: rgba(255,255,255,0.07); }
+        .band-row { display:flex; align-items:center; gap:14px; position:relative; z-index:2; }
+        .band-icon { width:56px; height:56px; flex-shrink:0; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.2); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:26px; color: white;}
+        .band-title { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:#fff; margin-bottom:3px; }
+        .band-sub { font-size:14px; color:rgba(255,255,255,0.7); }
+        
+        .card-body { padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        @media (max-width: 768px) { .card-body { grid-template-columns: 1fr; gap: 30px; padding: 1.5rem; } }
+
+        .f-label { display:flex; align-items:center; gap:7px; font-size:11.5px; font-weight:700; color:var(--text-light); margin-bottom:8px; letter-spacing:0.04em; text-transform:uppercase; }
+        .f-label i { color:var(--navy-mid); font-size:11px; }
+        .f-input { width:100%; padding:12px 16px; background: #f9f8f6; border: 1.5px solid var(--border); border-radius:11px; color:var(--text-dark); font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; outline:none; transition:all 0.2s; margin-bottom: 1.25rem; }
+        .f-input:focus { background:var(--white); border-color:var(--navy-mid); box-shadow:0 0 0 3px rgba(29,78,216,0.1); }
+        
+        .section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
+
+        .calc-btn { width:100%; padding:14px 24px; background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 100%); border:none; border-radius:12px; color:#fff; font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s; box-shadow:0 8px 24px rgba(30,58,138,0.28); margin-top: 10px;}
+        .calc-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(30,58,138,0.36); }
+
+        .results-section { background: var(--navy-light); border-radius: 16px; padding: 25px; border: 1px solid #bfdbfe; display: flex; flex-direction: column; justify-content: space-between; }
+        .breakdown-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; font-weight: 600; }
+        .breakdown-row.allowance { color: var(--green-mid); }
+        .breakdown-row.deduction { color: var(--red-mid); }
+        .breakdown-row span:first-child { color: var(--text-mid); }
+        .divider { height: 1px; background: #bfdbfe; margin: 15px 0; }
+        
+        .net-card { background: linear-gradient(130deg, #059669 0%, #10b981 100%); border-radius: 14px; padding: 20px; text-align: center; color: white; box-shadow: 0 10px 20px rgba(5, 150, 105, 0.2); margin-top: 15px; }
+        .net-card h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.9; font-weight: 700; }
+        .net-card .amount { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; }
+
+        .error-msg { color: var(--red-mid); background-color: var(--red-light); border: 1px solid #fecaca; border-radius: 8px; padding: 10px; text-align: center; margin-top: 15px; font-size: 0.85rem; font-weight: 600; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<button id="globalMenuBtn" class="fixed top-5 left-5 md:top-6 md:left-6 z-[100] w-12 h-12 bg-white/90 backdrop-blur-md border border-gray-200 rounded-xl shadow-lg flex items-center justify-center text-[#1e3a8a] hover:bg-blue-50 transition-all group outline-none">
+    <i class="fa-solid fa-bars text-xl transition-colors"></i>
+</button>
+
+<div id="globalNavOverlay" class="fixed inset-0 z-[90] bg-white/95 backdrop-blur-xl opacity-0 invisible transition-all duration-300 flex flex-col items-center justify-start overflow-y-auto py-16">
+    <div class="flex flex-col gap-6 text-center w-full max-w-md px-6 transform translate-y-8 transition-transform duration-300" id="overlayContent">
+        <a href="index.html" class="text-3xl font-black text-[#1e3a8a] hover:text-[#2563eb] transition-all font-['Playfair_Display']"><i class="fa-solid fa-house mr-2 text-[#d97706]"></i> Home</a>
+        <div class="w-full h-px bg-gray-200 my-2"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Calculators</span>
+        <div class="flex flex-col gap-4">
+            <a href="7th-pay-commission-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Calculator</a>
+            <a href="income-tax-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Income Tax Calculator</a>
+            <a href="salary-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Salary Calculator</a>
+            <a href="pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Pension Calculator</a>
+            <a href="7th-pay-pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Pension</a>
+            <a href="increment-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Increment Calculator</a>
+            <a href="payslip-generator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Payslip Generator</a>
+            <a href="da-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">DA Hike Calculator</a>
+        </div>
+        <div class="w-full h-px bg-gray-200 my-4"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Info</span>
+        <div class="flex flex-col gap-4">
+            <a href="blog.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Updates & Blog</a>
+            <a href="privacy.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Privacy Policy</a>
+            <a href="terms.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Terms & Conditions</a>
+            <a href="contact.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Contact Us</a>
+        </div>
+    </div>
+</div>
+
+<div class="main-wrap">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <div class="calc-card">
+            <div class="card-band">
+                <div class="band-row">
+                    <div class="band-icon"><i class="fa-solid fa-piggy-bank"></i></div>
+                    <div>
+                        <div class="band-title">Pension Calculator</div>
+                        <div class="band-sub">West Bengal Govt. (ROPA 2019 Rules)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div>
+                    <h3 class="section-title">Service Details</h3>
+                    
+                    <label class="f-label" for="basicPay"><i class="fa-solid fa-wallet"></i> Last Drawn Basic Pay (₹)</label>
+                    <input type="number" id="basicPay" placeholder="Enter basic pay amount" class="f-input" min="0">
+
+                    <div class="flex gap-4">
+                        <div class="w-1/2">
+                            <label class="f-label" for="service"><i class="fa-solid fa-calendar-check"></i> Service (Yrs)</label>
+                            <input type="number" id="service" placeholder="Min 10, Max 40" class="f-input" min="0" max="40">
+                        </div>
+                        <div class="w-1/2">
+                            <label class="f-label" for="commute"><i class="fa-solid fa-percent"></i> Commutation</label>
+                            <input type="number" id="commute" placeholder="Max 40%" class="f-input" min="0" max="40" value="40">
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="w-1/2">
+                            <label class="f-label" for="daPercent"><i class="fa-solid fa-arrow-trend-up"></i> DR (%)</label>
+                            <input type="number" id="daPercent" placeholder="e.g. 22" class="f-input" min="0">
+                        </div>
+                        <div class="w-1/2">
+                            <label class="f-label" for="medical"><i class="fa-solid fa-heart-pulse"></i> Medical (₹)</label>
+                            <input type="number" id="medical" placeholder="e.g. 500" class="f-input" min="0">
+                        </div>
+                    </div>
+
+                    <button class="calc-btn" onclick="calculatePension()">
+                        <i class="fa-solid fa-calculator"></i> Calculate Monthly Pension
+                    </button>
+
+                    <div id="error" class="error-msg"></div>
+                </div>
+
+                <div class="results-section">
+                    <div>
+                        <h3 class="font-bold text-[#1e3a8a] text-lg mb-4 font-['Playfair_Display']">Pension Breakdown</h3>
+                        
+                        <div class="breakdown-row">
+                            <span>Basic Pension</span>
+                            <span id="resBasicPension" class="text-slate-800">₹0</span>
+                        </div>
+                        <div class="breakdown-row deduction">
+                            <span>Less: Commuted Reduction</span>
+                            <span id="resCommuted">- ₹0</span>
+                        </div>
+                        
+                        <div class="divider"></div>
+                        
+                        <div class="breakdown-row allowance">
+                            <span>Dearness Relief (DR)</span>
+                            <span id="resDA">+ ₹0</span>
+                        </div>
+                        <div class="breakdown-row allowance">
+                            <span>Medical Allowance</span>
+                            <span id="resMedical">+ ₹0</span>
+                        </div>
+                    </div>
+
+                    <div class="net-card">
+                        <h3>Net Monthly Pension</h3>
+                        <div class="amount" id="resNetPension">₹0</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Educational Content & FAQs Section to satisfy AdSense guidelines -->
+    <div style="background: var(--white); border: 1px solid var(--border); border-radius: 22px; overflow: hidden; box-shadow: var(--sh-xl); margin-top: 1.75rem;">
+        <div style="padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: linear-gradient(to right, #eff6ff 0%, #fff 60%);">
+            <div style="width: 42px; height: 42px; flex-shrink: 0; background: var(--navy-light); border: 1px solid #bfdbfe; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">👵</div>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text-dark);">West Bengal Pension Rules &amp; Commutation: Comprehensive Guide</div>
+        </div>
+        <div style="padding: 1.75rem 2rem; line-height: 1.8; font-size: 14.5px; color: var(--text-mid);">
+            <p style="margin-bottom: 1rem;">Retirement benefits are a critical component of social security for public sector employees. Under the West Bengal Services (Death-cum-Retirement Benefit) Rules, 1971, which were systematically updated under the Revision of Pay and Allowances (ROPA) 2019 recommendations, the state government provides a defined pension plan for employees appointed before the introduction of the National Pension System (NPS). Proper management and understanding of these rules—specifically basic pension calculations, commutation limits, and Death-cum-Retirement Gratuity (DCRG) payouts—are essential for securing financial stability after retirement. This comprehensive guide covers the rules, calculations, and legal provisions governing pensions in West Bengal.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">How Basic Pension is Calculated</h3>
+            <p style="margin-bottom: 1rem;">The calculation of the monthly basic pension is based on two primary factors: the employee's **last drawn Basic Pay** and their total **Qualifying Service** duration. Qualifying service represents the total active service period under the state, excluding any non-qualifying periods such as extraordinary leave without pay (EOL) or suspensions. The mathematical rules are structured as follows:</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+                <li style="margin-bottom: 0.5rem;"><strong>Full Pension Eligibility:</strong> Employees who have completed a minimum of 20 years of qualifying service are eligible to receive the full basic pension. The basic pension is calculated as exactly **50% of the last drawn Basic Pay** at the time of superannuation.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Proportionate Pension:</strong> For employees with a service duration of less than 20 years but at least 10 years, the basic pension is calculated proportionally using the formula: <code>(Number of Qualifying Service Years / 20) &times; (50% of Last Basic Pay)</code>.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Minimum Service Threshold:</strong> A minimum of 10 years of qualifying service is required to receive any basic pension. Employees retiring with less than 10 years of service receive a one-time service gratuity instead of a monthly pension.</li>
+            </ul>
+            <p style="margin-bottom: 1rem;">Additionally, ROPA 2019 rules establish specific caps on basic pension payouts: the absolute minimum basic pension is fixed at <strong>₹8,500 per month</strong>, while the maximum ceiling is capped at <strong>₹1,00,500 per month</strong>.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">The Rules and Mathematics of Pension Commutation</h3>
+            <p style="margin-bottom: 1rem;">Pension Commutation allows a retiring employee to sacrifice a portion of their monthly pension in exchange for a substantial, tax-free lump-sum payout at retirement. Under West Bengal service rules, employees can commute up to a maximum of **40%** of their monthly basic pension. The calculation of the lump-sum commutation value uses a designated factor table based on the employee's age next birthday. The mathematical formula is:</p>
+            <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 1rem; border-radius: 12px; text-align: center; font-family: monospace; font-size: 14px; color: #1e3a8a; margin-bottom: 1.25rem; font-weight: bold;">
+                Commutation Lump Sum = Monthly Basic Pension Commuted &times; 12 &times; Commutation Factor
+            </div>
+            <p style="margin-bottom: 1rem;">For a 60-year-old retiring employee (whose age next birthday is 61), the official commutation factor is 8.194. If their monthly basic pension is fixed at ₹24,000, and they choose to commute the maximum 40% (₹9,600 per month), the calculation is: <code>₹9,600 &times; 12 &times; 8.194 = ₹9,43,949</code>. Consequently, their monthly basic pension is reduced to ₹14,400. This commuted portion (₹9,600) is systematically deducted for exactly **15 years** from the payout date, after which the full basic pension of ₹24,000 is restored.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">Dearness Relief and Gratuity Payouts</h3>
+            <p style="margin-bottom: 1rem;">To protect pensioners from inflation, the state government pays Dearness Relief (DR) monthly. A key financial rule is that **Dearness Relief is always calculated on the full, uncommuted Basic Pension** (in our example, ₹24,000), rather than the reduced pension (₹14,400). This ensures that pensioners receive the full benefits of cost-of-living adjustments. Additionally, employees receive a Death-cum-Retirement Gratuity (DCRG) calculated as: <code>(Basic Pay + DA) &times; 1/4 &times; number of completed six-month service periods</code>, subject to a maximum ceiling limit of ₹12,00,000 under ROPA 2019.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.75rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold; border-top: 1px solid var(--border); padding-top: 1.5rem;">Frequently Asked Questions (FAQs)</h3>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q1: What is pension commutation and how does it affect monthly payouts?</strong>
+                <p>A pensioner can opt to commute (sell back) a portion of their basic pension—up to a maximum of **40%**—for a one-time lump-sum payment. In return, the monthly basic pension payout is reduced by the commuted percentage. The commuted portion is fully restored after **15 years** from the date of commutation.</p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q2: How is Dearness Relief (DR) calculated on commuted pension?</strong>
+                <p>Dearness Relief (DR) is always calculated on the **uncommuted Basic Pension** (i.e. the full basic pension amount before subtracting the commutation deduction), ensuring pensioners receive the full benefits of cost-of-living adjustments.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q3: What is the age-based additional pension scale?</strong>
+                <p>Pensioners receive additional basic pension allowances upon reaching senior age milestones, beginning with an extra **20%** of basic pension at 80 years, up to a full **100%** increase at 100 years or older. This additional pension is also eligible for Dearness Relief calculations.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q4: How does qualifying service affect my pension calculation if I have exactly 15 years of service?</strong>
+                <p>Since 15 years is less than the 20-year threshold for a full pension, your basic pension is calculated proportionally. The calculation is: <code>(15 / 20) &times; 50% of Basic Pay</code>, which simplifies to 37.5% of your last drawn basic pay. If this calculated figure is lower than the minimum cap of ₹8,500, your pension is automatically adjusted up to ₹8,500.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q5: Is pension commutation mandatory for all retiring employees?</strong>
+                <p>No. Pension commutation is entirely voluntary. A retiring employee can choose to commute any percentage from 0% up to the maximum limit of 40%. Choosing not to commute ensures that you receive your full basic pension monthly from day one, which may be preferred by those who do not require a large lump-sum payout immediately.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q6: How does the Death-cum-Retirement Gratuity (DCRG) calculation differ from the pension calculation?</strong>
+                <p>While the pension is a recurring monthly payout, the DCRG is a one-time lump-sum payment. Pension requires a minimum of 10 years of service, whereas DCRG is payable even if an employee dies after completing just 5 years of service. Additionally, DCRG is calculated using both Basic Pay and Dearness Allowance, whereas the pension is calculated solely on Basic Pay.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Navigation Toggle Logic
+    document.getElementById('globalMenuBtn').addEventListener('click', function() {
+        const overlay = document.getElementById('globalNavOverlay');
+        const icon = this.querySelector('i');
+        const content = document.getElementById('overlayContent');
+        if (overlay.classList.contains('opacity-0')) {
+            overlay.classList.remove('opacity-0', 'invisible');
+            overlay.classList.add('opacity-100', 'visible');
+            content.classList.remove('translate-y-8');
+            content.classList.add('translate-y-0');
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+            document.body.style.overflow = 'hidden';
+        } else {
+            overlay.classList.remove('opacity-100', 'visible');
+            overlay.classList.add('opacity-0', 'invisible');
+            content.classList.remove('translate-y-0');
+            content.classList.add('translate-y-8');
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Pension Calculation Logic
+    function calculatePension() {
+        const errorDiv = document.getElementById('error');
+        
+        // Reset state
+        errorDiv.style.display = "none";
+
+        // Fetch Inputs
+        const basicPay = parseFloat(document.getElementById('basicPay').value);
+        const service = parseFloat(document.getElementById('service').value);
+        
+        // Parse optionals, default to 0 if left blank
+        let commute = parseFloat(document.getElementById('commute').value) || 0;
+        let daPercent = parseFloat(document.getElementById('daPercent').value) || 0;
+        let medical = parseFloat(document.getElementById('medical').value) || 0;
+
+        // Validation
+        if (isNaN(basicPay) || basicPay <= 0 || isNaN(service)) {
+            errorDiv.innerText = "Please enter valid numbers for Basic Pay and Qualifying Service.";
+            errorDiv.style.display = "block";
+            return;
+        }
+
+        if (service < 10) {
+            errorDiv.innerText = "A minimum of 10 years of qualifying service is required for pension.";
+            errorDiv.style.display = "block";
+            return;
+        }
+
+        // Cap commutation at 40%
+        commute = Math.max(0, Math.min(commute, 40));
+
+        // --- Core Calculations ---
+        
+        // 1. Full Basic Pension (50% of Last Basic Pay)
+        let fullPension = basicPay * 0.50;
+        
+        // Proportionate reduction if service is between 10 and 20 years
+        let serviceFactor = service >= 20 ? 1 : (service / 20);
+        let basicPension = fullPension * serviceFactor;
+
+        // Apply ROPA 2019 Ceilings (Min: ₹8,500 | Max: ₹1,00,500)
+        basicPension = Math.max(8500, Math.min(basicPension, 100500));
+
+        // 2. Commuted Amount Deduction
+        let commutedAmount = basicPension * (commute / 100);
+
+        // 3. Dearness Relief (Calculated on uncommuted Basic Pension)
+        let daAmount = Math.round(basicPension * (daPercent / 100));
+
+        // 4. Net Monthly Pension Calculation
+        let netPension = (basicPension - commutedAmount) + daAmount + medical;
+
+        // Currency Formatter
+        const formatINR = (value) => {
+            return new Intl.NumberFormat('en-IN', { 
+                style: 'currency', 
+                currency: 'INR', 
+                maximumFractionDigits: 0 
+            }).format(value);
+        };
+
+        // Inject data into DOM
+        document.getElementById('resBasicPension').innerText = formatINR(basicPension);
+        document.getElementById('resCommuted').innerText = "- " + formatINR(commutedAmount);
+        document.getElementById('resDA').innerText = "+ " + formatINR(daAmount);
+        document.getElementById('resMedical').innerText = "+ " + formatINR(medical);
+        document.getElementById('resNetPension').innerText = formatINR(netPension);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate and print official WB Government employee payslips. Free West Bengal ROPA salary slip generator with PDF export.">
+    <title>WB Govt Payslip Generator</title>
+
+    <meta name="google-adsense-account" content="ca-pub-8045648145414867">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8045648145414867" crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --navy: #1e3a8a; --navy-mid: #1d4ed8; --navy-light: #eff6ff;
+            --gold: #92400e; --gold-mid: #d97706; --gold-light: #fffbeb;
+            --green: #065f46; --green-mid: #059669; --green-light: #ecfdf5;
+            --red: #991b1b; --red-mid: #dc2626; --red-light: #fef2f2;
+            --page-bg: #f2efe9; --white: #ffffff; --border: #e5e7eb;
+            --text-dark: #111827; --text-mid: #374151; --text-light: #6b7280;
+            --sh-xl: 0 32px 80px rgba(30,58,138,0.10),0 16px 32px rgba(0,0,0,0.04);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--page-bg); color: var(--text-dark); min-height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8bfaf' fill-opacity='0.12'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        
+        .top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg,#1e3a8a 0%,#2563eb 30%,#7c3aed 60%,#d97706 100%); z-index: 1000; }
+        .main-wrap { max-width: 1200px; margin: 0 auto; padding: 5rem 1.5rem; }
+        .calc-card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; box-shadow: var(--sh-xl); }
+        .card-band { background: linear-gradient(130deg, #1e3a8a 0%, #1d4ed8 55%, #2563eb 100%); padding: 2rem; position: relative; overflow: hidden; }
+        .card-band::before { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; border-radius:50%; background: rgba(255,255,255,0.07); }
+        .band-row { display:flex; align-items:center; gap:14px; position:relative; z-index:2; }
+        .band-icon { width:56px; height:56px; flex-shrink:0; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.2); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:26px; color: white;}
+        .band-title { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:#fff; margin-bottom:3px; }
+        .band-sub { font-size:14px; color:rgba(255,255,255,0.7); }
+        
+        .card-body { padding: 2.5rem; }
+        @media (max-width: 768px) { .card-body { padding: 1.5rem; } }
+
+        .f-label { display:flex; align-items:center; gap:7px; font-size:11.5px; font-weight:700; color:var(--text-light); margin-bottom:8px; letter-spacing:0.04em; text-transform:uppercase; }
+        .f-label i { color:var(--navy-mid); font-size:11px; }
+        .f-input, .f-select { width:100%; padding:12px 16px; background: #f9f8f6; border: 1.5px solid var(--border); border-radius:11px; color:var(--text-dark); font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; outline:none; transition:all 0.2s; margin-bottom: 1.25rem; }
+        .f-input:focus, .f-select:focus { background:var(--white); border-color:var(--navy-mid); box-shadow:0 0 0 3px rgba(29,78,216,0.1); }
+        .f-input:disabled { background: #e5e7eb; cursor: not-allowed; color: var(--text-light); }
+        
+        .section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; margin-top: 1.5rem; }
+
+        .calc-btn { width:100%; padding:16px 24px; background:linear-gradient(135deg,#059669 0%,#10b981 100%); border:none; border-radius:12px; color:#fff; font-family:'Plus Jakarta Sans',sans-serif; font-size:16px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s; box-shadow:0 8px 24px rgba(5, 150, 105, 0.25); margin-top: 2rem; text-transform: uppercase; letter-spacing: 0.05em;}
+        .calc-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(5, 150, 105, 0.35); }
+
+        /* Print Specific Styles */
+        @media print {
+            body { background: white !important; padding: 0 !important; margin: 0 !important; background-image: none !important;}
+            .no-print, .top-bar, #globalMenuBtn, #globalNavOverlay { display: none !important; }
+            .main-wrap { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .calc-card { border: none !important; box-shadow: none !important; background: transparent !important; border-radius: 0 !important;}
+            .print-border { border: 1px solid #000 !important; }
+            .print-text { color: #000 !important; }
+            .print-bg-gray { background-color: #f3f4f6 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;}
+            #payslip-output { display: block !important; border: none !important; padding: 0 !important; }
+            @page { margin: 1.5cm; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<button id="globalMenuBtn" class="fixed top-5 left-5 md:top-6 md:left-6 z-[100] w-12 h-12 bg-white/90 backdrop-blur-md border border-gray-200 rounded-xl shadow-lg flex items-center justify-center text-[#1e3a8a] hover:bg-blue-50 transition-all group outline-none no-print">
+    <i class="fa-solid fa-bars text-xl transition-colors"></i>
+</button>
+
+<div id="globalNavOverlay" class="fixed inset-0 z-[90] bg-white/95 backdrop-blur-xl opacity-0 invisible transition-all duration-300 flex flex-col items-center justify-start overflow-y-auto py-16 no-print">
+    <div class="flex flex-col gap-6 text-center w-full max-w-md px-6 transform translate-y-8 transition-transform duration-300" id="overlayContent">
+        <a href="index.html" class="text-3xl font-black text-[#1e3a8a] hover:text-[#2563eb] transition-all font-['Playfair_Display']"><i class="fa-solid fa-house mr-2 text-[#d97706]"></i> Home</a>
+        <div class="w-full h-px bg-gray-200 my-2"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Calculators</span>
+        <div class="flex flex-col gap-4">
+            <a href="7th-pay-commission-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Calculator</a>
+            <a href="income-tax-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Income Tax Calculator</a>
+            <a href="salary-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Salary Calculator</a>
+            <a href="pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Pension Calculator</a>
+            <a href="7th-pay-pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Pension</a>
+            <a href="increment-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Increment Calculator</a>
+            <a href="payslip-generator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Payslip Generator</a>
+            <a href="da-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">DA Hike Calculator</a>
+        </div>
+        <div class="w-full h-px bg-gray-200 my-4"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Info</span>
+        <div class="flex flex-col gap-4">
+            <a href="blog.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Updates & Blog</a>
+            <a href="privacy.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Privacy Policy</a>
+            <a href="terms.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Terms & Conditions</a>
+            <a href="contact.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Contact Us</a>
+        </div>
+    </div>
+</div>
+
+<div class="main-wrap">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <div class="calc-card">
+            
+            <div class="no-print">
+                <div class="card-band">
+                    <div class="band-row">
+                        <div class="band-icon"><i class="fa-solid fa-file-invoice-dollar text-white"></i></div>
+                        <div>
+                            <div class="band-title">Payslip Generator</div>
+                            <div class="band-sub">Generate print-ready WB Govt payslips</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <h3 class="section-title mt-0">Employee Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-0">
+                        <div>
+                            <label class="f-label" for="orgName"><i class="fa-solid fa-building"></i> Organization / Office</label>
+                            <input type="text" id="orgName" placeholder="e.g. Finance Dept" class="f-input">
+                        </div>
+                        <div>
+                            <label class="f-label" for="empName"><i class="fa-solid fa-user"></i> Employee Name</label>
+                            <input type="text" id="empName" placeholder="Enter Full Name" class="f-input">
+                        </div>
+                        <div>
+                            <label class="f-label" for="hrmsId"><i class="fa-solid fa-id-badge"></i> Employee ID (HRMS)</label>
+                            <input type="text" id="hrmsId" placeholder="Enter ID" class="f-input">
+                        </div>
+                        <div>
+                            <label class="f-label" for="designation"><i class="fa-solid fa-user-tie"></i> Designation</label>
+                            <input type="text" id="designation" placeholder="e.g. UDC" class="f-input">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
+                        
+                        <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 shadow-sm">
+                            <h3 class="text-lg font-bold text-[#1e3a8a] border-b-2 border-blue-200 pb-2 mb-4 font-['Playfair_Display']">Earnings</h3>
+                            
+                            <label class="f-label" for="basicPay"><i class="fa-solid fa-wallet"></i> Basic Pay (₹)</label>
+                            <input type="number" id="basicPay" placeholder="0" class="f-input">
+                            
+                            <div class="flex gap-4">
+                                <div class="w-1/2">
+                                    <label class="f-label" for="daRate"><i class="fa-solid fa-arrow-trend-up"></i> DA (%)</label>
+                                    <input type="number" id="daRate" placeholder="e.g. 14" class="f-input">
+                                </div>
+                                <div class="w-1/2">
+                                    <label class="f-label" for="hraType"><i class="fa-solid fa-house"></i> HRA Slab</label>
+                                    <select id="hraType" class="f-select">
+                                        <option value="12">12% (Max 12k)</option>
+                                        <option value="16">16% (Max 16k)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <div class="w-1/2">
+                                    <label class="f-label" for="hraVal"><i class="fa-solid fa-calculator"></i> HRA (₹)</label>
+                                    <input type="text" id="hraVal" placeholder="Auto" disabled class="f-input">
+                                </div>
+                                <div class="w-1/2">
+                                    <label class="f-label" for="medToggle"><i class="fa-solid fa-heart-pulse"></i> Medical</label>
+                                    <select id="medToggle" class="f-select">
+                                        <option value="500">Yes (₹500)</option>
+                                        <option value="0">No (₹0)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <label class="f-label" for="otherAllow"><i class="fa-solid fa-circle-plus"></i> Other Allowance (₹)</label>
+                            <input type="number" id="otherAllow" placeholder="0" class="f-input mb-0">
+                        </div>
+
+                        <div class="bg-red-50/50 p-6 rounded-2xl border border-red-100 shadow-sm">
+                            <h3 class="text-lg font-bold text-red-800 border-b-2 border-red-200 pb-2 mb-4 font-['Playfair_Display']">Deductions</h3>
+                            
+                            <label class="f-label" for="gpf"><i class="fa-solid fa-piggy-bank"></i> GPF / NPS (₹)</label>
+                            <input type="number" id="gpf" placeholder="0" class="f-input">
+
+                            <label class="f-label" for="ptax"><i class="fa-solid fa-file-invoice"></i> Prof. Tax (PT) (₹)</label>
+                            <input type="text" id="ptax" placeholder="Auto-calculated Slab" disabled class="f-input">
+
+                            <label class="f-label" for="gis"><i class="fa-solid fa-notes-medical"></i> GISS / Health (₹)</label>
+                            <input type="number" id="gis" placeholder="0" class="f-input">
+
+                            <label class="f-label" for="otherDed"><i class="fa-solid fa-circle-minus"></i> Other Ded. (₹)</label>
+                            <input type="number" id="otherDed" placeholder="0" class="f-input mb-0">
+                        </div>
+                    </div>
+
+                    <button onclick="generatePayslip()" class="calc-btn">
+                        <i class="fa-solid fa-file-pdf"></i> Generate Payslip
+                    </button>
+                </div>
+            </div>
+
+            <div id="payslip-output" class="hidden bg-white p-8 md:p-12 text-black">
+                
+                <div class="text-center leading-relaxed mb-8">
+                    <h3 class="text-2xl font-black text-black m-0 print-text">GOVERNMENT OF WEST BENGAL</h3>
+                    <h4 id="outOrg" class="text-xl text-black underline my-2 font-bold print-text"></h4>
+                    <p class="text-lg print-text"><strong>Pay Slip for the month of <span id="slipMonth"></span></strong></p>
+                </div>
+
+                <table class="w-full mb-6 border-collapse">
+                    <tbody>
+                        <tr class="border-b border-gray-300">
+                            <td class="py-2 w-1/4 print-text"><strong>Name:</strong></td>
+                            <td id="outName" class="py-2 w-1/4 print-text font-medium"></td>
+                            <td class="py-2 w-1/4 print-text"><strong>Employee ID:</strong></td>
+                            <td id="outId" class="py-2 w-1/4 print-text font-medium"></td>
+                        </tr>
+                        <tr class="border-b border-gray-300">
+                            <td class="py-2 print-text"><strong>Designation:</strong></td>
+                            <td id="outDesig" colspan="3" class="py-2 print-text font-medium"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="w-full border-collapse mb-8 print-border border-2 border-black">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="border print-border border-black p-3 bg-gray-100 print-bg-gray text-center font-bold print-text text-lg">EARNINGS</th>
+                            <th colspan="2" class="border print-border border-black p-3 bg-gray-100 print-bg-gray text-center font-bold print-text text-lg">DEDUCTIONS</th>
+                        </tr>
+                        <tr>
+                            <th class="border print-border border-black p-3 bg-gray-50 print-bg-gray text-left print-text">Description</th>
+                            <th class="border print-border border-black p-3 bg-gray-50 print-bg-gray text-right print-text">Amount (₹)</th>
+                            <th class="border print-border border-black p-3 bg-gray-50 print-bg-gray text-left print-text">Description</th>
+                            <th class="border print-border border-black p-3 bg-gray-50 print-bg-gray text-right print-text">Amount (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border print-border border-black p-3 print-text font-medium">Basic Pay</td>
+                            <td id="outBasic" class="border print-border border-black p-3 text-right print-text">0</td>
+                            <td class="border print-border border-black p-3 print-text font-medium">GPF / NPS</td>
+                            <td id="outGpf" class="border print-border border-black p-3 text-right print-text">0</td>
+                        </tr>
+                        <tr>
+                            <td class="border print-border border-black p-3 print-text font-medium">Dearness Allowance (DA)</td>
+                            <td id="outDa" class="border print-border border-black p-3 text-right print-text">0</td>
+                            <td class="border print-border border-black p-3 print-text font-medium">Professional Tax (PT)</td>
+                            <td id="outPt" class="border print-border border-black p-3 text-right print-text">0</td>
+                        </tr>
+                        <tr>
+                            <td class="border print-border border-black p-3 print-text font-medium">House Rent Allowance (<span id="outHraLabel">12%</span>)</td>
+                            <td id="outHra" class="border print-border border-black p-3 text-right print-text">0</td>
+                            <td class="border print-border border-black p-3 print-text font-medium">GISS / Health Scheme</td>
+                            <td id="outGis" class="border print-border border-black p-3 text-right print-text">0</td>
+                        </tr>
+                        <tr>
+                            <td class="border print-border border-black p-3 print-text font-medium">Medical Allowance</td>
+                            <td id="outMed" class="border print-border border-black p-3 text-right print-text">0</td>
+                            <td class="border print-border border-black p-3 print-text font-medium">Other Deductions</td>
+                            <td id="outOtherDed" class="border print-border border-black p-3 text-right print-text">0</td>
+                        </tr>
+                        <tr>
+                            <td class="border print-border border-black p-3 print-text font-medium">Other Allowance</td>
+                            <td id="outOtherAllow" class="border print-border border-black p-3 text-right print-text">0</td>
+                            <td class="border print-border border-black p-3 text-right print-text"></td>
+                            <td class="border print-border border-black p-3 text-right print-text"></td>
+                        </tr>
+                        <tr class="font-bold bg-gray-100 print-bg-gray text-lg">
+                            <td class="border print-border border-black p-3 print-text">Gross Earnings</td>
+                            <td id="outGross" class="border print-border border-black p-3 text-right print-text">0</td>
+                            <td class="border print-border border-black p-3 print-text">Total Deductions</td>
+                            <td id="outTotalDed" class="border print-border border-black p-3 text-right print-text">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="text-center text-2xl bg-gray-100 print-bg-gray p-6 border-2 border-black mt-6 print-text print-border font-black">
+                    NET PAYABLE: ₹ <span id="outNet">0</span>
+                </div>
+
+                <div class="mt-40 flex justify-end">
+                    <div class="text-center w-72">
+                        <div class="border-t border-black mb-2 print-border"></div>
+                        <strong class="print-text">Signature of Designated Authority<br>with Seal</strong>
+                    </div>
+                </div>
+                
+                <div class="mt-10 text-sm print-text font-medium">
+                    <p>Date Generated: <span id="printDate"></span></p>
+                </div>
+                
+                <button onclick="window.print()" class="no-print mt-8 w-full md:w-auto bg-[#1e3a8a] hover:bg-[#1d4ed8] text-white font-bold py-4 px-10 rounded-xl shadow-lg transition-transform transform hover:-translate-y-1">
+                    <i class="fa-solid fa-print mr-2"></i> Print Document / Save as PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Educational Content & FAQs Section to satisfy AdSense guidelines -->
+    <div class="no-print" style="background: var(--white); border: 1px solid var(--border); border-radius: 22px; overflow: hidden; box-shadow: var(--sh-xl); margin-top: 1.75rem;">
+        <div style="padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: linear-gradient(to right, #eff6ff 0%, #fff 60%);">
+            <div style="width: 42px; height: 42px; flex-shrink: 0; background: var(--navy-light); border: 1px solid #bfdbfe; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">📄</div>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text-dark);">Salary Slips &amp; Payroll Audits: Comprehensive Guide</div>
+        </div>
+        <div style="padding: 1.75rem 2rem; line-height: 1.8; font-size: 14.5px; color: var(--text-mid);">
+            <p style="margin-bottom: 1rem;">A monthly salary slip (payslip) is more than just a summary of your earnings; it is a legally binding financial document issued by the Drawing and Disbursing Officer (DDO). For West Bengal state government employees, school teachers, and public sector workers, the payslip serves as primary evidence of employment, tax deductions, and contribution histories. It is frequently required for loan applications, credit card assessments, visa approvals, and income tax filing. This comprehensive guide covers the details of each entry on a West Bengal government payslip, how to verify calculations, and the administrative workflows of payroll audits.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">Decoding the Earnings Column</h3>
+            <p style="margin-bottom: 1rem;">The earnings section of your payslip lists all forms of compensation paid to you by the treasury for that calendar month. These components include:</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+                <li style="margin-bottom: 0.5rem;"><strong>Basic Pay:</strong> The core pay scale determined by your level and cell position in the ROPA 2019 Pay Matrix. It is the baseline value used to calculate other allowances.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Dearness Allowance (DA):</strong> A cost-of-living allowance that adjusts with inflation, calculated as a percentage of Basic Pay.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>House Rent Allowance (HRA):</strong> Compensation for rental housing. Under ROPA 2019, HRA is calculated at 12% of Basic Pay, subject to a maximum cap of ₹12,000 per month.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Medical Allowance:</strong> A fixed monthly cash allowance, currently ₹500, paid to help offset healthcare expenses unless the employee is enrolled in a health scheme.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Other Allowances:</strong> Special allowances like hill allowance, conveyance allowance, or washing allowance, paid to eligible employee categories.</li>
+            </ul>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">Understanding the Deductions Column</h3>
+            <p style="margin-bottom: 1rem;">The deductions column details all statutory, voluntary, and tax deductions subtracted from your gross earnings before your salary is deposited. Key deductions include:</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+                <li style="margin-bottom: 0.5rem;"><strong>GPF / NPS:</strong> General Provident Fund contributions (minimum 6% of basic pay) or National Pension System deductions (mandatory 10% of basic pay + DA).</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Professional Tax (P-Tax):</strong> A state-imposed tax deducted in accordance with progressive gross salary slabs.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Group Insurance Scheme (GISS):</strong> A small monthly premium for a group term insurance policy, determined by the employee's group classification.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Income Tax TDS:</strong> Tax Deducted at Source, estimated by the DDO to divide your annual income tax liability over twelve monthly payments.</li>
+            </ul>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold; border-top: 1px solid var(--border); padding-top: 1.5rem;">The Role of the DDO and WBIFMS Integration</h3>
+            <p style="margin-bottom: 1rem;">Salary slips are prepared and processed digitally through the **West Bengal Integrated Financial Management System (WBIFMS)** portal under the direction of your DDO. The DDO validates all attendance, leave records, and promotional adjustments before signing the monthly payroll run digitally using their Digital Signature Certificate (DSC). Once approved, the payroll file is sent to the treasury, which processes direct electronic deposits to the bank accounts of the employees. Active employees can log in to the WBIFMS Employee Self Service (ESS) portal using their HRMS ID to view and download their official, system-generated payslips.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.75rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold; border-top: 1px solid var(--border); padding-top: 1.5rem;">Frequently Asked Questions (FAQs)</h3>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q1: What are GISS deductions on my payslip?</strong>
+                <p>The Group Insurance Cum Savings Scheme (GISS) is a mandatory state insurance scheme that provides low-cost life cover and savings benefits to employees. The contribution amount is fixed based on the employee's group classification (Group A, B, C, or D) and accumulates interest, which is paid as a lump sum upon retirement or resignation.</p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q2: What is a DDO and how do they manage payroll?</strong>
+                <p>A Drawing and Disbursing Officer (DDO) is a gazetted officer authorized by the department head to draw money from the treasury for paying staff salaries and managing official office contingencies. The DDO is legally responsible for verifying the accuracy of all pay sheets, allowances, and statutory tax deductions.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q3: How can I verify that my payslip details are official?</strong>
+                <p>Official West Bengal government payslips are processed through the **WBIFMS (West Bengal Integrated Financial Management System)** portal. The figures shown on this calculator are estimates for reference and planning purposes. You should log in to your WBIFMS ESS portal to verify your official payslips and check your GPF/NPS statement logs.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q4: Why does my Professional Tax (P-Tax) deduction change in different months?</strong>
+                <p>Professional Tax (P-Tax) is calculated progressive based on your gross salary in a given month. If you receive a retrospective DA hike, bonus, or overtime allowance that pushes your monthly gross income into a higher bracket (e.g. above ₹40,000), your P-Tax deduction will adjust to ₹200 for that month, in accordance with the state slab structure.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q5: What should I do if there is a discrepancy in my basic pay on my payslip?</strong>
+                <p>If you find that the basic pay or increment rate shown on your payslip is incorrect, you must submit a written representation to your DDO. You should attach copies of your appointment order, service book entry, and ROPA fixation forms. The DDO can correct HRMS master data and request the treasury to process salary adjustments or recoveries.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q6: Can I download my payslips for previous financial years from the ESS portal?</strong>
+                <p>Yes. The WBIFMS ESS portal maintains a digital archive of payslips. Once logged in, you can search for and download monthly salary statements for past years. These documents are valuable when filing income tax returns or proving salary history to banks and lending institutions.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Navigation Toggle Logic
+    document.getElementById('globalMenuBtn').addEventListener('click', function() {
+        const overlay = document.getElementById('globalNavOverlay');
+        const icon = this.querySelector('i');
+        const content = document.getElementById('overlayContent');
+        if (overlay.classList.contains('opacity-0')) {
+            overlay.classList.remove('opacity-0', 'invisible');
+            overlay.classList.add('opacity-100', 'visible');
+            content.classList.remove('translate-y-8');
+            content.classList.add('translate-y-0');
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+            document.body.style.overflow = 'hidden';
+        } else {
+            overlay.classList.remove('opacity-100', 'visible');
+            overlay.classList.add('opacity-0', 'invisible');
+            content.classList.remove('translate-y-0');
+            content.classList.add('translate-y-8');
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // HRA Calculation Logic (Real-time update for placeholder)
+    function updateHRA() {
+        let basic = parseFloat(document.getElementById('basicPay').value) || 0;
+        let hraOption = parseInt(document.getElementById('hraType').value);
+        
+        let calcHra = Math.round(basic * (hraOption / 100));
+        let maxLimit = (hraOption === 16) ? 16000 : 12000;
+        let finalHra = (calcHra > maxLimit) ? maxLimit : calcHra;
+
+        document.getElementById('hraVal').value = finalHra > 0 ? "₹ " + finalHra : "";
+    }
+
+    document.getElementById('basicPay').addEventListener('input', updateHRA);
+    document.getElementById('hraType').addEventListener('change', updateHRA);
+
+    function generatePayslip() {
+        // Fetch Details
+        const orgName = document.getElementById('orgName').value || 'OFFICE / ORGANIZATION NAME';
+        const name = document.getElementById('empName').value || 'N/A';
+        const hrms = document.getElementById('hrmsId').value || 'N/A';
+        const desig = document.getElementById('designation').value || 'N/A';
+
+        // Fetch Earnings
+        const basic = parseFloat(document.getElementById('basicPay').value) || 0;
+        const daRate = parseFloat(document.getElementById('daRate').value) || 0;
+        const medical = parseFloat(document.getElementById('medToggle').value);
+        const otherAllow = parseFloat(document.getElementById('otherAllow').value) || 0;
+        
+        // HRA Calculation
+        const hraOption = parseInt(document.getElementById('hraType').value);
+        let calcHra = Math.round(basic * (hraOption / 100));
+        let maxLimit = (hraOption === 16) ? 16000 : 12000;
+        const hra = (calcHra > maxLimit) ? maxLimit : calcHra;
+        const da = Math.round(basic * (daRate / 100));
+        const gross = basic + da + hra + medical + otherAllow;
+
+        // Fetch Deductions
+        const gpf = parseFloat(document.getElementById('gpf').value) || 0;
+        const gis = parseFloat(document.getElementById('gis').value) || 0;
+        const otherDed = parseFloat(document.getElementById('otherDed').value) || 0;
+
+        // Calculate WB Professional Tax (PTax)
+        let ptax = 0;
+        if (gross > 40000) ptax = 200;
+        else if (gross > 25000) ptax = 150;
+        else if (gross > 15000) ptax = 130;
+        else if (gross > 10000) ptax = 110;
+
+        // Final Calculations
+        const deductions = gpf + ptax + gis + otherDed;
+        const net = gross - deductions;
+
+        // Date processing
+        const date = new Date();
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        
+        // Populate UI
+        document.getElementById('outOrg').innerText = orgName.toUpperCase();
+        document.getElementById('outName').innerText = name.toUpperCase();
+        document.getElementById('outId').innerText = hrms.toUpperCase();
+        document.getElementById('outDesig').innerText = desig.toUpperCase();
+        document.getElementById('slipMonth').innerText = monthNames[date.getMonth()] + " " + date.getFullYear();
+        document.getElementById('printDate').innerText = date.toLocaleDateString('en-IN');
+        
+        const fmt = n => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
+
+        document.getElementById('outBasic').innerText = fmt(basic);
+        document.getElementById('outDa').innerText = fmt(da);
+        document.getElementById('outHraLabel').innerText = hraOption + "%";
+        document.getElementById('outHra').innerText = fmt(hra);
+        document.getElementById('outMed').innerText = fmt(medical);
+        document.getElementById('outOtherAllow').innerText = fmt(otherAllow);
+        
+        document.getElementById('outGpf').innerText = fmt(gpf);
+        document.getElementById('outPt').innerText = fmt(ptax);
+        document.getElementById('outGis').innerText = fmt(gis);
+        document.getElementById('outOtherDed').innerText = fmt(otherDed);
+        
+        document.getElementById('outGross').innerText = fmt(gross);
+        document.getElementById('outTotalDed').innerText = fmt(deductions);
+        document.getElementById('outNet').innerText = fmt(net > 0 ? net : 0);
+        
+        // Show Output Area
+        const payslipOutput = document.getElementById('payslip-output');
+        payslipOutput.classList.remove('hidden');
+        payslipOutput.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>

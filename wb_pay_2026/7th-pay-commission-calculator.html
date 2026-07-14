@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your expected salary under the upcoming West Bengal 7th Pay Commission in 2027. Free WB ROPA calculator with dynamic fitment factors and allowances.">
+    <title>WB 7th Pay Commission Calculator</title>
+
+    <meta name="google-adsense-account" content="ca-pub-8045648145414867">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8045648145414867" crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* ── Tokens ───────────────────────────────────────────────── */
+        :root {
+            --navy:        #1e3a8a;
+            --navy-mid:    #1d4ed8;
+            --navy-light:  #eff6ff;
+            --gold:        #92400e;
+            --gold-mid:    #d97706;
+            --gold-light:  #fffbeb;
+            --green:       #065f46;
+            --green-mid:   #059669;
+            --green-light: #ecfdf5;
+            --purple-mid:  #7c3aed;
+            --purple-light:#f5f3ff;
+            --red-dark:    #991b1b;
+            --red-light:   #fef2f2;
+
+            --page-bg:  #f2efe9;
+            --white:    #ffffff;
+            --border:   #e5e7eb;
+            --border-2: #d1d5db;
+
+            --text-dark:  #111827;
+            --text-mid:   #374151;
+            --text-light: #6b7280;
+            --text-muted: #9ca3af;
+
+            --sh-sm: 0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04);
+            --sh-md: 0 4px 16px rgba(0,0,0,0.07),0 2px 6px rgba(0,0,0,0.04);
+            --sh-lg: 0 20px 48px rgba(30,58,138,0.08),0 8px 16px rgba(0,0,0,0.04);
+            --sh-xl: 0 32px 80px rgba(30,58,138,0.10),0 16px 32px rgba(0,0,0,0.04);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--page-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            /* Subtle linen texture */
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8bfaf' fill-opacity='0.12'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* ── Top accent bar ──────────────────────────────────────── */
+        .top-bar {
+            height: 3px;
+            background: linear-gradient(90deg,#1e3a8a 0%,#2563eb 30%,#7c3aed 60%,#d97706 100%);
+        }
+
+        /* ── Floating Hamburger & Sidebar ────────────────────────── */
+        .floating-hamburger {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--navy);
+            cursor: pointer;
+            box-shadow: var(--sh-md);
+            transition: all 0.2s;
+        }
+        .floating-hamburger:hover {
+            box-shadow: var(--sh-lg);
+            transform: translateY(-2px);
+            color: var(--navy-mid);
+        }
+
+        .menu-overlay {
+            position: fixed; inset: 0;
+            background: rgba(17, 24, 39, 0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1000;
+            opacity: 0; visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .menu-overlay.open { opacity: 1; visibility: visible; }
+
+        .side-menu {
+            position: fixed; top: 0; left: -100%;
+            width: 320px; height: 100vh;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 1001;
+            box-shadow: var(--sh-xl);
+            transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column;
+            border-right: 1px solid var(--border);
+        }
+        .side-menu.open { left: 0; }
+        
+        .side-menu-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 24px; border-bottom: 1px solid var(--border);
+        }
+        .close-btn {
+            background: none; border: none; font-size: 24px; color: var(--text-muted);
+            cursor: pointer; transition: color 0.2s;
+        }
+        .close-btn:hover { color: var(--red-dark); }
+        
+        .side-menu-content { padding: 24px; overflow-y: auto; }
+        .side-nav-group { margin-bottom: 28px; }
+        .side-nav-title { 
+            font-size: 11px; font-weight: 800; color: var(--text-muted); 
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; 
+        }
+        .side-nav-link {
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+            border-radius: 12px; color: var(--text-mid); text-decoration: none;
+            font-size: 14.5px; font-weight: 600; transition: all 0.2s; margin-bottom: 6px;
+        }
+        .side-nav-link i { color: var(--navy-mid); font-size: 16px; width: 20px; text-align: center; opacity: 0.8;}
+        .side-nav-link:hover, .side-nav-link.active { 
+            background: var(--navy-light); color: var(--navy); transform: translateX(4px); 
+        }
+        .side-nav-link:hover i, .side-nav-link.active i { opacity: 1; }
+
+        /* Shared Logo Styles */
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; flex-shrink: 0;
+        }
+        .logo-icon {
+            width: 38px; height: 38px;
+            background: linear-gradient(135deg, var(--navy) 0%, #1d4ed8 100%);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(30,58,138,0.28);
+        }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700; font-size: 16px;
+            color: var(--navy); letter-spacing: -0.01em;
+        }
+        .logo-text em { color: var(--gold-mid); font-style: normal; }
+
+        /* ── Hero ────────────────────────────────────────────────── */
+        .hero {
+            background: linear-gradient(140deg, #e8f0fe 0%, #f0f7ff 35%, #fffcf0 70%, #fef9ef 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 5rem 1.5rem 3.5rem; /* Increased top padding to accommodate floating menu */
+            position: relative; overflow: hidden;
+        }
+        /* Blueprint grid overlay */
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(30,58,138,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30,58,138,0.04) 1px, transparent 1px);
+            background-size: 44px 44px;
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 400px;
+            gap: 4rem; align-items: center; position: relative; z-index: 1;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 5px 14px;
+            background: rgba(30,58,138,0.08);
+            border: 1px solid rgba(30,58,138,0.15);
+            border-radius: 999px;
+            font-size: 11px; font-weight: 700; color: var(--navy);
+            margin-bottom: 1.25rem; letter-spacing: 0.06em; text-transform: uppercase;
+        }
+        .live-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22,163,74,0.2);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.1rem, 5vw, 3.1rem);
+            font-weight: 800; line-height: 1.14;
+            letter-spacing: -0.025em; color: var(--text-dark);
+            margin-bottom: 1.25rem;
+        }
+        .hero-title .navy { color: var(--navy); }
+        .hero-title .gold { color: var(--gold-mid); }
+
+        .hero-desc {
+            color: var(--text-light); font-size: 15px; line-height: 1.78;
+            margin-bottom: 1.75rem;
+        }
+        .hero-desc strong { color: var(--text-mid); font-weight: 600; }
+
+        /* Alert */
+        .alert {
+            display: flex; gap: 12px; padding: 13px 16px;
+            background: var(--red-light);
+            border: 1px solid rgba(153,27,27,0.12);
+            border-left: 4px solid #dc2626;
+            border-radius: 10px;
+        }
+        .alert i { color: #dc2626; font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+        .alert p { color: #7f1d1d; font-size: 13px; line-height: 1.6; }
+        .alert strong { font-weight: 700; }
+
+        /* ── Hero SVG visual ─────────────────────────────────────── */
+        .hero-visual { display: flex; align-items: center; justify-content: center; }
+
+        /* ── Quick Stats ─────────────────────────────────────────── */
+        .stats-strip {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1.25rem 1.5rem;
+        }
+        .stats-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+        }
+        .stat-card {
+            display: flex; align-items: center; gap: 14px;
+            padding: 15px 18px;
+            background: var(--page-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px; transition: all 0.2s; cursor: default;
+        }
+        .stat-card:hover { border-color: var(--border-2); box-shadow: var(--sh-md); transform: translateY(-1px); }
+        .stat-icon {
+            width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 20px;
+        }
+        .stat-icon.blue   { background: var(--navy-light); }
+        .stat-icon.gold   { background: var(--gold-light); }
+        .stat-icon.green  { background: var(--green-light); }
+        .stat-label { font-size: 10.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem; font-weight: 700; color: var(--text-dark); line-height: 1;
+        }
+        .stat-value sub { font-size: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; color: var(--text-light); margin-left: 3px; font-style: normal; vertical-align: middle; }
+
+        /* ── Main Wrap ───────────────────────────────────────────── */
+        .main-wrap {
+            max-width: 1200px; margin: 0 auto;
+            padding: 2.5rem 1.5rem 5rem;
+        }
+
+        /* ── Calculator Card ─────────────────────────────────────── */
+        .calc-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 24px; overflow: hidden;
+            box-shadow: var(--sh-xl);
+            margin-bottom: 1.75rem;
+        }
+
+        /* Header band */
+        .card-band {
+            background: linear-gradient(130deg, #1e3a8a 0%, #1d4ed8 55%, #2563eb 100%);
+            padding: 1.75rem 2rem;
+            position: relative; overflow: hidden;
+        }
+        .card-band::before {
+            content:''; position:absolute; top:-60px; right:-60px;
+            width:200px; height:200px; border-radius:50%;
+            background: rgba(255,255,255,0.07);
+        }
+        .card-band::after {
+            content:''; position:absolute; bottom:-45px; left:80px;
+            width:150px; height:150px; border-radius:50%;
+            background: rgba(255,255,255,0.04);
+        }
+        .band-row { display:flex; align-items:center; gap:14px; position:relative; z-index:2; }
+        .band-icon {
+            width:50px; height:50px; flex-shrink:0;
+            background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.2);
+            border-radius:14px;
+            display:flex; align-items:center; justify-content:center; font-size:23px;
+        }
+        .band-title {
+            font-family:'Playfair Display',serif;
+            font-size:1.4rem; font-weight:700; color:#fff; margin-bottom:3px;
+        }
+        .band-sub { font-size:13px; color:rgba(255,255,255,0.6); }
+
+        /* Card body */
+        .card-body { padding: 2rem 2rem 1.5rem; }
+
+        /* Form */
+        .f-group { margin-bottom: 1.35rem; }
+        .f-label {
+            display:flex; align-items:center; gap:7px;
+            font-size:11.5px; font-weight:700; color:var(--text-light);
+            margin-bottom:8px; letter-spacing:0.04em; text-transform:uppercase;
+        }
+        .f-label i { color:var(--navy-mid); font-size:11px; }
+
+        .f-input {
+            width:100%; padding:12px 16px;
+            background: #f9f8f6;
+            border: 1.5px solid var(--border);
+            border-radius:11px; color:var(--text-dark);
+            font-family:'Plus Jakarta Sans',sans-serif;
+            font-size:15px; font-weight:600; outline:none; transition:all 0.2s;
+        }
+        .f-input::placeholder { color:var(--text-muted); font-weight:400; }
+        .f-input:focus {
+            background:var(--white); border-color:var(--navy-mid);
+            box-shadow:0 0 0 3px rgba(29,78,216,0.1);
+        }
+        .f-input::-webkit-outer-spin-button,
+        .f-input::-webkit-inner-spin-button { -webkit-appearance:none; }
+        .f-input[type=number] { -moz-appearance:textfield; }
+
+        .input-row {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;
+            margin-bottom:1.35rem;
+        }
+
+        .f-select {
+            width:100%; padding:12px 40px 12px 16px;
+            background: #f9f8f6;
+            border: 1.5px solid var(--border);
+            border-radius:11px; color:var(--text-dark);
+            font-family:'Plus Jakarta Sans',sans-serif;
+            font-size:14px; font-weight:600; outline:none; cursor:pointer; appearance:none;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat:no-repeat; background-position:right 14px center;
+            transition:all 0.2s;
+        }
+        .f-select:focus {
+            background-color:var(--white); border-color:var(--navy-mid);
+            box-shadow:0 0 0 3px rgba(29,78,216,0.1);
+        }
+
+        .sep { height:1px; background:var(--border); margin:1.75rem 0; }
+
+        /* Button */
+        .calc-btn {
+            width:100%; margin-top:1.5rem;
+            padding:14px 24px;
+            background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 100%);
+            border:none; border-radius:12px; color:#fff;
+            font-family:'Plus Jakarta Sans',sans-serif;
+            font-size:15px; font-weight:700; cursor:pointer;
+            display:flex; align-items:center; justify-content:center; gap:10px;
+            transition:all 0.2s cubic-bezier(0.16,1,0.3,1);
+            box-shadow:0 8px 24px rgba(30,58,138,0.28),0 2px 4px rgba(30,58,138,0.18);
+            letter-spacing:0.01em; position:relative; overflow:hidden;
+        }
+        .calc-btn::before {
+            content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);
+            transition:left 0.55s;
+        }
+        .calc-btn:hover::before { left:100%; }
+        .calc-btn:hover {
+            transform:translateY(-2px);
+            box-shadow:0 12px 32px rgba(30,58,138,0.36),0 4px 8px rgba(30,58,138,0.2);
+        }
+        .calc-btn:active { transform:translateY(0); }
+
+        /* Results */
+        .results-wrap { margin-top:0; }
+        .results-heading {
+            font-size:11px; font-weight:700; color:var(--text-muted);
+            letter-spacing:0.08em; text-transform:uppercase; margin-bottom:1rem;
+        }
+        .results-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+
+        .r-item { padding:14px 16px; border-radius:13px; border:1px solid; transition:all 0.2s; }
+        .r-item:hover { transform:translateY(-2px); box-shadow:var(--sh-md); }
+        .r-item.blue   { background:#eff6ff; border-color:#bfdbfe; }
+        .r-item.purple { background:var(--purple-light); border-color:#ddd6fe; }
+        .r-item.green  { background:var(--green-light); border-color:#a7f3d0; }
+        .r-item.amber  { background:var(--gold-light); border-color:#fde68a; }
+
+        .r-lbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:7px; }
+        .r-item.blue   .r-lbl { color:#1d4ed8; }
+        .r-item.purple .r-lbl { color:#6d28d9; }
+        .r-item.green  .r-lbl { color:#065f46; }
+        .r-item.amber  .r-lbl { color:#92400e; }
+
+        .r-val { font-family:'Playfair Display',serif; font-size:1.45rem; font-weight:700; }
+        .r-item.blue   .r-val { color:#1e40af; }
+        .r-item.purple .r-val { color:#5b21b6; }
+        .r-item.green  .r-val { color:var(--green); }
+        .r-item.amber  .r-val { color:var(--gold); }
+
+        /* Gross card */
+        .gross-card {
+            background:linear-gradient(130deg,#1e3a8a 0%,#1d4ed8 55%,#2563eb 100%);
+            border-radius:16px; padding:1.5rem 2rem;
+            display:flex; justify-content:space-between; align-items:center;
+            position:relative; overflow:hidden;
+            box-shadow:0 12px 36px rgba(30,58,138,0.24);
+        }
+        .gross-card::before {
+            content:''; position:absolute; top:-50px; right:-50px;
+            width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.07);
+        }
+        .gross-card::after {
+            content:''; position:absolute; bottom:-35px; left:60px;
+            width:110px; height:110px; border-radius:50%; background:rgba(255,255,255,0.05);
+        }
+        .gross-lbl-wrap { position:relative; z-index:2; }
+        .gross-lbl-main { font-weight:600; font-size:14px; color:rgba(255,255,255,0.8); margin-bottom:2px; }
+        .gross-lbl-sub  { font-size:11px; color:rgba(255,255,255,0.5); }
+        .gross-val-wrap { text-align:right; position:relative; z-index:2; }
+        .gross-val {
+            font-family:'Playfair Display',serif;
+            font-size:clamp(1.8rem,4vw,2.4rem); font-weight:800;
+            color:#fff; letter-spacing:-0.025em; display:block;
+        }
+        .gross-per { font-size:11.5px; color:rgba(255,255,255,0.55); font-weight:500; }
+
+        /* Share */
+        .share-wrap {
+            margin-top:1.5rem; padding-top:1.5rem;
+            border-top:1px solid var(--border); text-align:center;
+        }
+        .share-lbl { font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px; }
+        .share-row { display:flex; justify-content:center; gap:10px; }
+        .share-btn {
+            display:flex; align-items:center; gap:8px; padding:9px 20px;
+            border-radius:10px; font-size:13px; font-weight:700;
+            text-decoration:none; border:1px solid; transition:all 0.18s;
+        }
+        .share-btn:hover { transform:translateY(-1px); box-shadow:var(--sh-md); }
+        .share-btn.wa { background:#f0fdf4; border-color:#86efac; color:#15803d; }
+        .share-btn.fb { background:var(--navy-light); border-color:#bfdbfe; color:#1d4ed8; }
+
+        .disclaimer { font-size:11.5px; color:var(--text-muted); text-align:center; margin-top:1.25rem; line-height:1.6; }
+
+        /* ── News Card ───────────────────────────────────────────── */
+        .news-card {
+            background:var(--white); border:1px solid var(--border);
+            border-radius:22px; overflow:hidden; box-shadow:var(--sh-lg);
+        }
+        .news-head {
+            padding:1.5rem 2rem; border-bottom:1px solid var(--border);
+            display:flex; align-items:center; gap:12px;
+            background:linear-gradient(to right,#fffbeb 0%,#fff 60%);
+        }
+        .news-head-icon {
+            width:42px; height:42px; flex-shrink:0;
+            background:var(--gold-light); border:1px solid #fde68a;
+            border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px;
+        }
+        .news-head-title {
+            font-family:'Playfair Display',serif;
+            font-size:1.1rem; font-weight:700; color:var(--text-dark);
+        }
+        .news-body { padding:1.75rem 2rem; }
+
+        /* Timeline */
+        .timeline { display:flex; flex-direction:column; }
+        .tl-item { display:flex; gap:1.25rem; padding-bottom:1.75rem; }
+        .tl-item:last-child { padding-bottom:0; }
+        .tl-left { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+        .tl-dot {
+            width:14px; height:14px; border-radius:50%; border:2px solid; margin-top:2px;
+        }
+        .tl-dot.g { background:#d1fae5; border-color:#10b981; }
+        .tl-dot.b { background:#dbeafe; border-color:#3b82f6; }
+        .tl-dot.p { background:#ede9fe; border-color:#8b5cf6; }
+        .tl-line { flex:1; width:1.5px; background:var(--border); margin-top:5px; }
+        .tl-item:last-child .tl-line { display:none; }
+        .tl-body { flex:1; }
+        .tl-tag {
+            display:inline-block; font-size:10.5px; font-weight:700;
+            letter-spacing:0.06em; text-transform:uppercase;
+            padding:3px 11px; border-radius:999px; margin-bottom:8px; border:1px solid;
+        }
+        .tl-tag.g { background:#f0fdf4; color:#15803d; border-color:#86efac; }
+        .tl-tag.b { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+        .tl-tag.p { background:#f5f3ff; color:#6d28d9; border-color:#ddd6fe; }
+        .tl-title {
+            font-family:'Playfair Display',serif;
+            font-size:15.5px; font-weight:700; color:var(--text-dark);
+            margin-bottom:6px; line-height:1.35;
+        }
+        .tl-text { font-size:13.5px; color:var(--text-light); line-height:1.72; }
+
+        /* ── Animations ──────────────────────────────────────────── */
+        @keyframes fadeInUp {
+            from { opacity:0; transform:translateY(18px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .anim       { animation:fadeInUp 0.55s cubic-bezier(0.16,1,0.3,1) forwards; }
+        .d1 { animation-delay:0.05s; opacity:0; }
+        .d2 { animation-delay:0.15s; opacity:0; }
+        .d3 { animation-delay:0.25s; opacity:0; }
+        .d4 { animation-delay:0.35s; opacity:0; }
+
+        .hidden { display:none !important; }
+
+        /* ── Responsive ──────────────────────────────────────────── */
+        @media (max-width:900px) {
+            .hero-inner { grid-template-columns:1fr; }
+            .hero-visual { display:none; }
+        }
+        @media (max-width:640px) {
+            /* Shifted down so hamburger button doesn't overlay the badge */
+            .hero { padding: 6.5rem 1rem 2.5rem; } 
+            .stats-strip { padding:1rem; }
+            .stats-inner { grid-template-columns:1fr; gap:8px; }
+            .main-wrap { padding:2rem 1rem 4rem; }
+            .card-body { padding:1.25rem; }
+            .card-band { padding:1.25rem; }
+            .input-row { grid-template-columns:1fr; margin-bottom:0; }
+            .input-row > div { margin-bottom:1.35rem; }
+            .results-grid { grid-template-columns:1fr; }
+            .gross-card { flex-direction:column; gap:10px; text-align:center; }
+            .gross-val-wrap { text-align:center; }
+            .news-head, .news-body { padding:1.25rem; }
+            .floating-hamburger { top: 15px; left: 15px; width: 44px; height: 44px; font-size: 18px;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<button id="menuBtn" class="floating-hamburger" aria-label="Open Menu">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+<div id="menuOverlay" class="menu-overlay"></div>
+
+<div id="sideMenu" class="side-menu">
+    <div class="side-menu-header">
+        <a href="index.html" class="nav-logo">
+            <div class="logo-icon">🏛</div>
+            <span class="logo-text">WB Pay<em>calculator</em></span>
+        </a>
+        <button id="closeBtn" class="close-btn" aria-label="Close Menu">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div class="side-menu-content">
+        <div class="side-nav-group">
+            <div class="side-nav-title">Calculators</div>
+            <a href="index.html" class="side-nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="7th-pay-commission-calculator.html" class="side-nav-link"><i class="fa-solid fa-scale-balanced"></i> 7th Pay Calculator</a>
+            <a href="income-tax-calculator.html" class="side-nav-link"><i class="fa-solid fa-calculator"></i> Income Tax</a>
+            <a href="salary-calculator.html" class="side-nav-link"><i class="fa-solid fa-coins"></i> Salary Calculator</a>
+            <a href="pension-calculator.html" class="side-nav-link"><i class="fa-solid fa-piggy-bank"></i> Pension Calculator</a>
+            <a href="7th-pay-pension-calculator.html" class="side-nav-link"><i class="fa-solid fa-user-shield"></i> 7th Pay Pension</a>
+            <a href="increment-calculator.html" class="side-nav-link"><i class="fa-solid fa-chart-line"></i> Increment</a>
+            <a href="payslip-generator.html" class="side-nav-link"><i class="fa-solid fa-file-invoice-dollar"></i> Payslip</a>
+            <a href="da-calculator.html" class="side-nav-link"><i class="fa-solid fa-file-invoice-dollar"></i> DA Hike Calculator</a>
+        </div>
+        <div class="side-nav-group">
+            <div class="side-nav-title">Information</div>
+            <a href="blog.html" class="side-nav-link"><i class="fa-solid fa-blog"></i> Updates & Blog</a>
+            <a href="privacy.html" class="side-nav-link"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+            <a href="terms.html" class="side-nav-link"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a>
+            <a href="contact.html" class="side-nav-link"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+        </div>
+    </div>
+</div>
+
+<section class="hero">
+    <div class="hero-inner">
+        <div class="anim d1">
+            <div class="hero-badge"><div class="live-dot"></div> June 2026 Update</div>
+            <h1 class="hero-title">
+                West Bengal<br>
+                <span class="navy">7th Pay Commission</span><br>
+                <span class="gold">Calculator</span>
+            </h1>
+            <p class="hero-desc">
+                Following a landmark June&nbsp;01 meeting at Nabanna between employee unions and the Chief Minister,
+                formal assurances on clearing pending DA have been extended.
+                Final allocations expected in the <strong>June&nbsp;22 state budget</strong>,
+                with 7th Pay Commission implementation projected for <strong>January&nbsp;2027</strong>.
+            </p>
+            <div class="alert">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <p><strong>Disclaimer:</strong> All projections are estimates based on media reports and do not represent official figures. Always rely on official government circulars for definitive information.</p>
+            </div>
+        </div>
+
+        <div class="hero-visual anim d2">
+            <svg viewBox="0 0 380 310" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 style="width:100%;max-width:400px;filter:drop-shadow(0 20px 48px rgba(30,58,138,0.13));">
+                <defs>
+                    <filter id="sh1"><feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="rgba(30,58,138,0.14)"/></filter>
+                    <filter id="sh2"><feDropShadow dx="0" dy="4" stdDeviation="8"  flood-color="rgba(0,0,0,0.10)"/></filter>
+                    <linearGradient id="hdr" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%"   stop-color="#1e3a8a"/>
+                        <stop offset="100%" stop-color="#2563eb"/>
+                    </linearGradient>
+                </defs>
+
+                <circle cx="300" cy="90"  r="130" fill="#dbeafe" opacity="0.45"/>
+                <circle cx="300" cy="90"  r="80"  fill="#bfdbfe" opacity="0.35"/>
+                <circle cx="65"  cy="245" r="68"  fill="#fffbeb" opacity="0.7"/>
+
+                <rect x="60" y="25" width="225" height="200" rx="18" fill="white" filter="url(#sh1)"/>
+
+                <rect x="60" y="25"  width="225" height="60" rx="18" fill="url(#hdr)"/>
+                <rect x="60" y="67"  width="225" height="18"         fill="url(#hdr)"/>
+
+                <text x="80" y="52" font-family="Georgia,serif" font-size="11.5" fill="white" font-weight="700" letter-spacing="0.6">SALARY STATEMENT</text>
+                <text x="80" y="70" font-family="Arial,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">West Bengal Government · ROPA 2027</text>
+
+                <circle cx="263" cy="46" r="19" fill="rgba(255,255,255,0.13)"/>
+                <text   x="263" y="52" font-size="16" text-anchor="middle" fill="rgba(255,255,255,0.85)">🏛</text>
+
+                <rect x="80" y="103" width="88" height="7" rx="3.5" fill="#e5e7eb"/>
+                <rect x="195" y="103" width="68" height="7" rx="3.5" fill="#bfdbfe"/>
+
+                <rect x="80" y="120" width="72" height="7" rx="3.5" fill="#e5e7eb"/>
+                <rect x="195" y="120" width="68" height="7" rx="3.5" fill="#bfdbfe"/>
+
+                <rect x="80" y="137" width="82" height="7" rx="3.5" fill="#e5e7eb"/>
+                <rect x="195" y="137" width="68" height="7" rx="3.5" fill="#c7d2fe"/>
+
+                <rect x="80" y="154" width="62" height="7" rx="3.5" fill="#e5e7eb"/>
+                <rect x="195" y="154" width="68" height="7" rx="3.5" fill="#fde68a"/>
+
+                <line x1="80" y1="174" x2="265" y2="174" stroke="#e5e7eb" stroke-width="1"/>
+
+                <text x="173" y="200" font-family="Georgia,serif" font-size="21" fill="#1e3a8a" font-weight="700" text-anchor="middle">₹ 84,500</text>
+                <text x="173" y="216" font-family="Arial,sans-serif" font-size="8.5" fill="#9ca3af" text-anchor="middle">ESTIMATED GROSS MONTHLY</text>
+
+                <rect x="80"  y="220" width="15" height="5"  rx="2.5" fill="#bfdbfe"/>
+                <rect x="100" y="216" width="15" height="9"  rx="2.5" fill="#93c5fd"/>
+                <rect x="120" y="210" width="15" height="15" rx="2.5" fill="#60a5fa"/>
+                <rect x="140" y="203" width="15" height="22" rx="2.5" fill="#3b82f6"/>
+
+                <g filter="url(#sh2)">
+                    <rect x="0" y="52" width="98" height="60" rx="14" fill="#1e3a8a"/>
+                    <text x="49" y="76"  font-family="Arial,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)" text-anchor="middle" font-weight="600" letter-spacing="0.8">FITMENT</text>
+                    <text x="49" y="100" font-family="Georgia,serif"    font-size="24"  fill="white" text-anchor="middle" font-weight="700">2.08×</text>
+                </g>
+
+                <g filter="url(#sh2)">
+                    <rect x="286" y="115" width="90" height="56" rx="14" fill="#059669"/>
+                    <text x="331" y="139" font-family="Arial,sans-serif" font-size="8"  fill="rgba(255,255,255,0.7)" text-anchor="middle" font-weight="600" letter-spacing="0.5">DA ASSURED</text>
+                    <text x="331" y="160" font-family="Georgia,serif"    font-size="19" fill="white" text-anchor="middle" font-weight="700">✓</text>
+                </g>
+
+                <g filter="url(#sh2)">
+                    <rect x="15" y="245" width="108" height="54" rx="14" fill="#d97706"/>
+                    <text x="69" y="267"  font-family="Arial,sans-serif" font-size="8"  fill="rgba(255,255,255,0.7)" text-anchor="middle" font-weight="600" letter-spacing="0.5">EFFECTIVE</text>
+                    <text x="69" y="288"  font-family="Georgia,serif"    font-size="16" fill="white" text-anchor="middle" font-weight="700">Jan 2027</text>
+                </g>
+
+                <circle cx="330" cy="215" r="26" fill="#eff6ff"/>
+                <path d="M330 228 L330 207 M322 215 L330 207 L338 215"
+                      stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <circle cx="296" cy="30"  r="9"   fill="#fbbf24" opacity="0.8"/>
+                <circle cx="313" cy="13"  r="5.5" fill="#fde68a" opacity="0.7"/>
+                <circle cx="280" cy="18"  r="4"   fill="#fcd34d" opacity="0.6"/>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<section class="stats-strip anim d2">
+    <div class="stats-inner">
+        <div class="stat-card">
+            <div class="stat-icon blue">📊</div>
+            <div>
+                <div class="stat-label">Expected Fitment Factor</div>
+                <div class="stat-value">2.08<sub>× multiplier</sub></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon gold">📅</div>
+            <div>
+                <div class="stat-label">DA Budget Announcement</div>
+                <div class="stat-value">Jun 22<sub>, 2026</sub></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green">🚀</div>
+            <div>
+                <div class="stat-label">Pay Commission Implementation</div>
+                <div class="stat-value">Jan 2027</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="main-wrap">
+
+    <div style="max-width: 900px; margin: 0 auto;">
+        <div class="calc-card anim d3">
+            <div class="card-band">
+                <div class="band-row">
+                    <div class="band-icon">🧮</div>
+                    <div>
+                        <div class="band-title">Pay Structure Calculator</div>
+                        <div class="band-sub">Forecast your revised gross salary under ROPA 2027</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="f-group">
+                    <label class="f-label" for="currentBasic">
+                        <i class="fa-solid fa-wallet"></i> Current Basic Pay — ROPA 2019
+                    </label>
+                    <input type="number" id="currentBasic" placeholder="e.g. 32100" class="f-input" required>
+                </div>
+                <div class="input-row">
+                    <div>
+                        <label class="f-label" for="hraPercent"><i class="fa-solid fa-house"></i> HRA %</label>
+                        <input type="number" id="hraPercent" placeholder="e.g. 12" class="f-input">
+                    </div>
+                    <div>
+                        <label class="f-label" for="presentMedical"><i class="fa-solid fa-heart-pulse"></i> Medical (₹)</label>
+                        <input type="number" id="presentMedical" placeholder="e.g. 500" class="f-input">
+                    </div>
+                    <div>
+                        <label class="f-label" for="otherAllowance"><i class="fa-solid fa-circle-plus"></i> Other (₹)</label>
+                        <input type="number" id="otherAllowance" placeholder="e.g. 0" class="f-input">
+                    </div>
+                </div>
+                <div class="f-group">
+                    <label class="f-label" for="fitmentFactor">
+                        <i class="fa-solid fa-chart-line"></i> Projected Fitment Factor
+                    </label>
+                    <select id="fitmentFactor" onchange="toggleCustomFitment()" class="f-select">
+                        <option value="2.08">2.08× — Expected (DA Merger Basis)</option>
+                        <option value="1.92">1.92× — Conservative Baseline</option>
+                        <option value="2.28">2.28× — Moderate Standard</option>
+                        <option value="2.86">2.86× — Optimistic / Union Demand</option>
+                        <option value="custom">✏️  Custom Fitment Factor</option>
+                    </select>
+                </div>
+                <div id="customFitmentGroup" class="hidden f-group">
+                    <label class="f-label" for="customFactor">
+                        <i class="fa-solid fa-sliders"></i> Enter Custom Factor
+                    </label>
+                    <input type="number" step="0.01" id="customFactor" placeholder="e.g. 2.50" class="f-input">
+                </div>
+                <button type="button" onclick="calculateSalary()" class="calc-btn">
+                    <i class="fa-solid fa-calculator"></i> Calculate My Expected Salary
+                </button>
+                <div id="resultsBlock" class="results-wrap hidden">
+                    <div class="sep"></div>
+                    <div class="results-heading">Your Projected Salary Breakdown</div>
+                    <div class="results-grid">
+                        <div class="r-item blue">
+                            <div class="r-lbl">Revised Basic Pay</div>
+                            <div class="r-val" id="resBasic">₹0</div>
+                        </div>
+                        <div class="r-item purple">
+                            <div class="r-lbl" id="lblHRA">HRA Component</div>
+                            <div class="r-val" id="resHRA">₹0</div>
+                        </div>
+                        <div class="r-item green">
+                            <div class="r-lbl">Medical Allowance (+20%)</div>
+                            <div class="r-val" id="resMedical">₹0</div>
+                        </div>
+                        <div class="r-item amber">
+                            <div class="r-lbl">Other Allowances (+20%)</div>
+                            <div class="r-val" id="resOther">₹0</div>
+                        </div>
+                    </div>
+                    <div class="gross-card">
+                        <div class="gross-lbl-wrap">
+                            <div class="gross-lbl-main">Estimated Total Gross Salary</div>
+                            <div class="gross-lbl-sub">Projected monthly (before deductions)</div>
+                        </div>
+                        <div class="gross-val-wrap">
+                            <span class="gross-val" id="resGross">₹0</span>
+                            <div class="gross-per">per month</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="share-wrap">
+                    <div class="share-lbl">Share with Colleagues</div>
+                    <div class="share-row">
+                        <a href="#" id="waShare" target="_blank" class="share-btn wa">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="#" id="fbShare" target="_blank" class="share-btn fb">
+                            <i class="fa-brands fa-facebook"></i> Facebook
+                        </a>
+                    </div>
+                </div>
+                <p class="disclaimer">* HRA on revised basic without caps. Medical &amp; Other projected at +20%.</p>
+            </div>
+        </div>
+
+        <div class="news-card anim d4">
+            <div class="news-head">
+                <div class="news-head-icon">📰</div>
+                <div class="news-head-title">Latest Updates &amp; News Wire</div>
+            </div>
+            <div class="news-body">
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-left"><div class="tl-dot g"></div><div class="tl-line"></div></div>
+                        <div class="tl-body">
+                            <span class="tl-tag g">Nabanna Assembly</span>
+                            <div class="tl-title">June 01: Direct DA Assurance from Chief Minister</div>
+                            <p class="tl-text">In a landmark June 01, 2026 meeting, government representatives and the Chief Minister provided state employees with a formal assurance that all outstanding DA will be processed to reach full parity with central government scales.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-left"><div class="tl-dot b"></div><div class="tl-line"></div></div>
+                        <div class="tl-body">
+                            <span class="tl-tag b">Budget Forecast</span>
+                            <div class="tl-title">DA Announcement Scheduled — June 22, 2026</div>
+                            <p class="tl-text">Official allocations for the revised state DA structure are expected to be formally declared during the upcoming state budget on June 22, 2026, establishing key financial guidelines for the fiscal year ahead.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-left"><div class="tl-dot p"></div><div class="tl-line"></div></div>
+                        <div class="tl-body">
+                            <span class="tl-tag p">Implementation</span>
+                            <div class="tl-title">7th Pay Commission Rollout: January 2027</div>
+                            <p class="tl-text">Per recent administrative summaries, the revised pay matrix restructuring under ROPA 2027 is slated for a systematic rollout in January 2027, comprehensively updating all existing pay scales under ROPA 2019.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Educational Content & FAQs Section to satisfy AdSense guidelines -->
+    <div class="news-card anim d4" style="margin-top: 1.75rem;">
+        <div class="news-head">
+            <div class="news-head-icon">📖</div>
+            <div class="news-head-title">Comprehensive Guide to the West Bengal 7th Pay Commission</div>
+        </div>
+        <div class="news-body" style="line-height: 1.8; font-size: 14.5px; color: var(--text-mid);">
+            <p style="margin-bottom: 1rem;">The introduction of a new Pay Commission represents a major restructuring of salaries, pensions, and allowance distributions for state government employees, school teachers, non-teaching staff, and pensioners. In West Bengal, salary structures have traditionally been revised in accordance with the recommendations of state-appointed Pay Commissions. The last major restructuring occurred under the Revision of Pay and Allowances (ROPA) Rules 2019, which implemented the recommendations of the 6th Pay Commission. As cost-of-living indices and inflationary pressures continue to rise, discussions and administrative frameworks have begun to lay the foundation for the upcoming 7th Pay Commission (projected as ROPA 2027). This comprehensive guide explains the mechanics of pay commissions, the mathematics of fitment factors, pay matrix structures, and how you can calculate your projected compensation.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">Understanding the Pay Commission Setup and Nabanna Updates</h3>
+            <p style="margin-bottom: 1rem;">A Pay Commission is a specialized committee appointed by the state government to review, evaluate, and recommend modifications to the existing salary structures of public sector workers. The committee takes into account several critical parameters: the state's fiscal health, revenue collection growth, consumer price indices, inflation trends, and representations from various employee federations. Following a historic meeting on June 01, 2026, employee union representatives met directly with the Chief Minister at Nabanna. The administration formally acknowledged the need for salary restructuring to maintain parity with central scales, pointing to an implementation target of January 2027. The upcoming panel will systematically revise the base values of the pay levels established under ROPA 2019.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">The Mathematics of the Fitment Factor and Pay Fixation</h3>
+            <p style="margin-bottom: 1rem;">The core calculation of any pay revision rests on a mathematical multiplier known as the <strong>Fitment Factor</strong>. The fitment factor is designed to consolidate the existing basic pay and a portion of the accumulated Dearness Allowance (DA) into a single, higher revised basic pay scale. The standard mathematical formula used to calculate your projected revised basic pay is:</p>
+            <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 1rem; border-radius: 12px; text-align: center; font-family: monospace; font-size: 15px; color: #1e3a8a; margin-bottom: 1.25rem; font-weight: bold;">
+                Projected Basic Pay = RoundUpToNearest100 ( Current Basic Pay &times; Fitment Factor )
+            </div>
+            <p style="margin-bottom: 1rem;">For instance, if your current Basic Pay under ROPA 2019 is ₹35,800, and the Pay Commission establishes an expected fitment factor of 2.08, the initial multiplication yields ₹74,464. Applying the rounding rules of the state finance department, this figure is rounded up to the nearest hundred, giving a revised basic pay of ₹74,500. This new figure becomes the base upon which allowances like House Rent Allowance (HRA) and future increments are calculated.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">Analyses of Different Fitment Factor Scenarios</h3>
+            <p style="margin-bottom: 1rem;">The final choice of the fitment factor determines the overall budget allocation of the state treasury. Different scenarios have been proposed by economic analysts and employee unions:</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+                <li style="margin-bottom: 0.5rem;"><strong>1.92× Conservative Baseline:</strong> This factor represents the minimum historical adjustment required to merge current DA levels without expanding the state's fiscal deficit. It provides a modest increase in take-home pay and is favored by conservative treasury models.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>2.08× Expected Multiplier:</strong> Calculated directly by merging the projected DA rates at the end of the current fiscal year. It maintains the purchasing power of employees relative to consumer inflation.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>2.28× Moderate Standard:</strong> This standard matches the intermediate recommendations of previous pay panels. It provides a healthy boost to real wages, stimulating consumer demand and improving employee satisfaction across administrative departments.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>2.86× Union Demand / Parity Multiplier:</strong> State employee federations actively campaign for this multiplier to align state salaries with Central Government Pay Matrix Levels. It represents a substantial increase in gross wages but requires significant state revenue generation reforms.</li>
+            </ul>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold; border-top: 1px solid var(--border); padding-top: 1.5rem;">The Structure of the ROPA Pay Matrix</h3>
+            <p style="margin-bottom: 1rem;">The Revision of Pay and Allowances rules utilize a structured table known as the Pay Matrix. The matrix consists of two dimensions: Levels (horizontal columns representing the responsibility and grade pay of the post) and Cells (vertical rows representing the annual increments within that level). The current ROPA 2019 matrix contains 24 levels, starting from Level 1 (minimum entry pay of ₹17,000) up to Level 24. The upcoming 7th Pay Commission will replace this grid with an upgraded matrix. When the new matrix is implemented, your revised basic pay will be mapped to the nearest cell in the corresponding level column that is equal to or immediately higher than your calculated revised basic pay, ensuring that no employee experiences a reduction in base pay.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.75rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold; border-top: 1px solid var(--border); padding-top: 1.5rem;">Frequently Asked Questions (FAQs)</h3>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q1: What is a fitment factor and how is it decided?</strong>
+                <p>A fitment factor is a mathematical multiplier used by the Pay Commission to revise existing basic salaries to a new pay scale. It is decided by a state-appointed pay committee after analyzing state revenues, inflation rates, cost-of-living indices, and representations from employee federations. Its primary goal is to merge accumulated Dearness Allowance into the basic pay structure.</p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q2: When will the West Bengal 7th Pay Commission be implemented?</strong>
+                <p>According to updates from Nabanna and recent cabinet summaries, the revised pay matrix under ROPA 2027 is projected to be systematically rolled out in <strong>January 2027</strong>. Pre-implementation clearances and budget allocations are expected to be finalized during the preceding legislative quarters.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q3: How will a new pay commission affect my House Rent Allowance (HRA)?</strong>
+                <p>House Rent Allowance (HRA) is calculated as a percentage of your revised basic pay. While the revision increases your basic pay (resulting in a higher HRA amount), the government also implements specific upper limits (caps) depending on the pay level to regulate expenditures. The revised caps will be declared alongside the pay matrix notifications.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q4: What is the rounding-up rule for revised basic pay?</strong>
+                <p>To simplify payroll accounts, the state government applies a rounding-up rule. When your current basic pay is multiplied by the fitment factor, any fraction or amount that does not end in an exact hundred is rounded up to the immediate next higher multiple of ₹100. This ensures that no calculations result in fractional rupees.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q5: Will my medical allowance and other benefits increase under the 7th Pay Commission?</strong>
+                <p>Yes. Along with the basic pay revision, pay commissions recommend changes to fixed allowances. The medical allowance, which is currently fixed at ₹500 per month under ROPA 2019, is projected to increase by 20% or more to offset rising healthcare costs. Other special allowances like hill allowance, conveyance allowance, and washing allowance will also see corresponding revisions.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q6: How will the pay commission affect retired employees and pensioners?</strong>
+                <p>Pensioners are entitled to a corresponding revision of their basic pension payouts. The fitment factor is applied to their basic pension amount, and the revised pension is rounded up to the nearest multiple of ₹100. Dearness Relief (DR) rates are then recalculated based on the new basic pension scale.</p>
+            </div>
+        </div>
+    </div>
+
+</div><script>
+    document.addEventListener('DOMContentLoaded', () => {
+        updateShareLinks("your estimated salary");
+
+        // Hamburger Menu Logic
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const sideMenu = document.getElementById('sideMenu');
+        const overlay = document.getElementById('menuOverlay');
+
+        function openMenu() {
+            sideMenu.classList.add('open');
+            overlay.classList.add('open');
+        }
+        function closeMenu() {
+            sideMenu.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+
+        menuBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+    });
+
+    function toggleCustomFitment() {
+        const v = document.getElementById('fitmentFactor').value;
+        const g = document.getElementById('customFitmentGroup');
+        if (v === 'custom') { g.classList.remove('hidden'); }
+        else { g.classList.add('hidden'); document.getElementById('customFactor').value = ''; }
+    }
+
+    function animateVal(el, target, ms) {
+        const fmt = new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0});
+        const t0 = performance.now();
+        (function tick(now){
+            const p = Math.min((now-t0)/ms,1), e = 1-Math.pow(1-p,4);
+            el.textContent = fmt.format(Math.round(e*target));
+            if(p<1) requestAnimationFrame(tick);
+        })(t0);
+    }
+
+    function calculateSalary() {
+        const basic  = parseFloat(document.getElementById('currentBasic').value);
+        const hraPct = parseFloat(document.getElementById('hraPercent').value)    || 0;
+        const med    = parseFloat(document.getElementById('presentMedical').value) || 0;
+        const other  = parseFloat(document.getElementById('otherAllowance').value) || 0;
+
+        if (!basic || basic <= 0) { alert('Please enter a valid Current Basic Pay.'); return; }
+
+        const sel = document.getElementById('fitmentFactor').value;
+        let factor;
+        if (sel === 'custom') {
+            factor = parseFloat(document.getElementById('customFactor').value);
+            if (!factor || factor <= 0) { alert('Please enter a valid Custom Fitment Factor.'); return; }
+        } else { factor = parseFloat(sel); }
+
+        const revBasic = Math.round((basic * factor) / 100) * 100;
+        const hra      = Math.round(revBasic * hraPct / 100);
+        const revMed   = Math.round(med    * 1.2);
+        const revOther = Math.round(other * 1.2);
+        const gross    = revBasic + hra + revMed + revOther;
+
+        document.getElementById('lblHRA').textContent = `HRA (${hraPct}%)`;
+
+        const panel = document.getElementById('resultsBlock');
+        panel.classList.remove('hidden');
+        panel.style.animation = 'none';
+        void panel.offsetWidth;
+        panel.style.animation = 'fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1) forwards';
+
+        animateVal(document.getElementById('resBasic'),   revBasic,  900);
+        animateVal(document.getElementById('resHRA'),     hra,       1050);
+        animateVal(document.getElementById('resMedical'), revMed,    1100);
+        animateVal(document.getElementById('resOther'),   revOther,  1100);
+        animateVal(document.getElementById('resGross'),   gross,     1400);
+
+        const fmt = n => new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n);
+        updateShareLinks(fmt(gross));
+        setTimeout(() => panel.scrollIntoView({behavior:'smooth',block:'nearest'}), 120);
+    }
+
+    function updateShareLinks(amt) {
+        const msg = `Check out this WB 7th Pay Commission Calculator! My projected gross is around ${amt}. Calculate yours: `;
+        const url = window.location.href;
+        document.getElementById('waShare').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg+url)}`;
+        document.getElementById('fbShare').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    }
+</script>
+</body>
+</html>

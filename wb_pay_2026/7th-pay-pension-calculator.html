@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your expected pension under the West Bengal 7th Pay Commission. Free WB ROPA 2026/2027 projection calculator for pensioners.">
+    <title>WB 7th Pay Commission Pension Calculator</title>
+
+    <meta name="google-adsense-account" content="ca-pub-8045648145414867">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8045648145414867" crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --navy: #1e3a8a; --navy-mid: #1d4ed8; --navy-light: #eff6ff;
+            --gold: #92400e; --gold-mid: #d97706; --gold-light: #fffbeb;
+            --green: #065f46; --green-mid: #059669; --green-light: #ecfdf5;
+            --red: #991b1b; --red-mid: #dc2626; --red-light: #fef2f2;
+            --page-bg: #f2efe9; --white: #ffffff; --border: #e5e7eb;
+            --text-dark: #111827; --text-mid: #374151; --text-light: #6b7280;
+            --sh-xl: 0 32px 80px rgba(30,58,138,0.10),0 16px 32px rgba(0,0,0,0.04);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--page-bg); color: var(--text-dark); min-height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8bfaf' fill-opacity='0.12'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        
+        .top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg,#1e3a8a 0%,#2563eb 30%,#7c3aed 60%,#d97706 100%); z-index: 1000; }
+        .main-wrap { max-width: 1200px; margin: 0 auto; padding: 5rem 1.5rem; }
+        .calc-card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; box-shadow: var(--sh-xl); }
+        .card-band { background: linear-gradient(130deg, #1e3a8a 0%, #1d4ed8 55%, #2563eb 100%); padding: 2rem; position: relative; overflow: hidden; }
+        .card-band::before { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; border-radius:50%; background: rgba(255,255,255,0.07); }
+        .band-row { display:flex; align-items:center; gap:14px; position:relative; z-index:2; }
+        .band-icon { width:56px; height:56px; flex-shrink:0; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.2); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:26px; color: white;}
+        .band-title { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:#fff; margin-bottom:3px; }
+        .band-sub { font-size:14px; color:rgba(255,255,255,0.7); }
+        
+        .card-body { padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        @media (max-width: 768px) { .card-body { grid-template-columns: 1fr; gap: 30px; padding: 1.5rem; } }
+
+        .f-label { display:flex; align-items:center; gap:7px; font-size:11.5px; font-weight:700; color:var(--text-light); margin-bottom:8px; letter-spacing:0.04em; text-transform:uppercase; }
+        .f-label i { color:var(--navy-mid); font-size:11px; }
+        .f-input, .f-select { width:100%; padding:12px 16px; background: #f9f8f6; border: 1.5px solid var(--border); border-radius:11px; color:var(--text-dark); font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; outline:none; transition:all 0.2s; margin-bottom: 1.25rem; }
+        .f-input:focus, .f-select:focus { background:var(--white); border-color:var(--navy-mid); box-shadow:0 0 0 3px rgba(29,78,216,0.1); }
+        
+        .section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
+
+        .calc-btn { width:100%; padding:14px 24px; background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 100%); border:none; border-radius:12px; color:#fff; font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s; box-shadow:0 8px 24px rgba(30,58,138,0.28); margin-top: 10px;}
+        .calc-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(30,58,138,0.36); }
+
+        .results-section { background: var(--navy-light); border-radius: 16px; padding: 25px; border: 1px solid #bfdbfe; display: flex; flex-direction: column; justify-content: space-between; }
+        .breakdown-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; font-weight: 600; }
+        .breakdown-row.allowance { color: var(--green-mid); }
+        .breakdown-row.quantum { color: var(--gold-mid); }
+        .breakdown-row.deduction { color: var(--red-mid); }
+        .breakdown-row span:first-child { color: var(--text-mid); }
+        .divider { height: 1px; background: #bfdbfe; margin: 15px 0; }
+        
+        .net-card { background: linear-gradient(130deg, #059669 0%, #10b981 100%); border-radius: 14px; padding: 20px; text-align: center; color: white; box-shadow: 0 10px 20px rgba(5, 150, 105, 0.2); margin-top: 15px; }
+        .net-card h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.9; font-weight: 700; }
+        .net-card .amount { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<button id="globalMenuBtn" class="fixed top-5 left-5 md:top-6 md:left-6 z-[100] w-12 h-12 bg-white/90 backdrop-blur-md border border-gray-200 rounded-xl shadow-lg flex items-center justify-center text-[#1e3a8a] hover:bg-blue-50 transition-all group outline-none">
+    <i class="fa-solid fa-bars text-xl transition-colors"></i>
+</button>
+
+<div id="globalNavOverlay" class="fixed inset-0 z-[90] bg-white/95 backdrop-blur-xl opacity-0 invisible transition-all duration-300 flex flex-col items-center justify-start overflow-y-auto py-16">
+    <div class="flex flex-col gap-6 text-center w-full max-w-md px-6 transform translate-y-8 transition-transform duration-300" id="overlayContent">
+        <a href="index.html" class="text-3xl font-black text-[#1e3a8a] hover:text-[#2563eb] transition-all font-['Playfair_Display']"><i class="fa-solid fa-house mr-2 text-[#d97706]"></i> Home</a>
+        <div class="w-full h-px bg-gray-200 my-2"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Calculators</span>
+        <div class="flex flex-col gap-4">
+            <a href="7th-pay-commission-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Calculator</a>
+            <a href="income-tax-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Income Tax Calculator</a>
+            <a href="salary-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Salary Calculator</a>
+            <a href="pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Pension Calculator</a>
+            <a href="7th-pay-pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Pension</a>
+            <a href="increment-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Increment Calculator</a>
+            <a href="payslip-generator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Payslip Generator</a>
+            <a href="da-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">DA Hike Calculator</a>
+        </div>
+        <div class="w-full h-px bg-gray-200 my-4"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Info</span>
+        <div class="flex flex-col gap-4">
+            <a href="blog.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Updates & Blog</a>
+            <a href="privacy.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Privacy Policy</a>
+            <a href="terms.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Terms & Conditions</a>
+            <a href="contact.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Contact Us</a>
+        </div>
+    </div>
+</div>
+
+<div class="main-wrap">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <div class="calc-card">
+            <div class="card-band">
+                <div class="band-row">
+                    <div class="band-icon"><i class="fa-solid fa-user-shield"></i></div>
+                    <div>
+                        <div class="band-title">7th Pay Pension Estimator</div>
+                        <div class="band-sub">West Bengal Govt. (2026/2027 Projections)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div>
+                    <h3 class="section-title">Pensioner Details</h3>
+                    
+                    <label class="f-label" for="currentBasic"><i class="fa-solid fa-wallet"></i> Current Basic Pension (Pre-7th PC) *</label>
+                    <input type="number" id="currentBasic" placeholder="e.g. 25000" class="f-input" min="1" required>
+
+                    <label class="f-label" for="fitmentSelect"><i class="fa-solid fa-chart-line"></i> Projected Fitment Factor</label>
+                    <select id="fitmentSelect" class="f-select" onchange="toggleFitmentView()">
+                        <option value="2.08">2.08× Framework (Default)</option>
+                        <option value="1.92">1.92× Framework</option>
+                        <option value="2.86">2.86× Framework</option>
+                        <option value="custom">✏️ Custom Multiplier</option>
+                    </select>
+
+                    <div id="customFitmentContainer" class="hidden">
+                        <label class="f-label" for="customFitment" style="color: var(--gold-mid);"><i class="fa-solid fa-sliders"></i> Enter Custom Factor</label>
+                        <input type="number" step="0.01" id="customFitment" placeholder="e.g. 2.57" value="2.57" class="f-input" style="border-color: var(--gold-mid);">
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="w-1/2">
+                            <label class="f-label" for="minPension"><i class="fa-solid fa-lock"></i> Minimum Cap (₹)</label>
+                            <input type="number" id="minPension" class="f-input" value="8500" min="0">
+                        </div>
+                        <div class="w-1/2">
+                            <label class="f-label" for="commutedAmount"><i class="fa-solid fa-scissors"></i> Commuted Ded. (₹)</label>
+                            <input type="number" id="commutedAmount" class="f-input" value="0" min="0">
+                        </div>
+                    </div>
+
+                    <label class="f-label" for="pensionerAge"><i class="fa-solid fa-user-clock"></i> Pensioner Age Slab</label>
+                    <select id="pensionerAge" class="f-select">
+                        <option value="0">Below 80 Years</option>
+                        <option value="0.20">80 to 84 Years (+20%)</option>
+                        <option value="0.30">85 to 89 Years (+30%)</option>
+                        <option value="0.40">90 to 94 Years (+40%)</option>
+                        <option value="0.50">95 to 99 Years (+50%)</option>
+                        <option value="1.00">100 Years or older (+100%)</option>
+                    </select>
+
+                    <div class="flex gap-4">
+                        <div class="w-1/2">
+                            <label class="f-label" for="drRate"><i class="fa-solid fa-arrow-trend-up"></i> DR (%)</label>
+                            <input type="number" id="drRate" class="f-input" value="18" min="0">
+                        </div>
+                        <div class="w-1/2">
+                            <label class="f-label" for="medicalOpt"><i class="fa-solid fa-heart-pulse"></i> Medical</label>
+                            <select id="medicalOpt" class="f-select">
+                                <option value="yes">Yes (₹600)</option>
+                                <option value="no">No (₹0)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="calc-btn" onclick="calculate7thPension()">
+                        <i class="fa-solid fa-calculator"></i> Calculate Breakdown
+                    </button>
+                </div>
+
+                <div class="results-section">
+                    <div>
+                        <h3 class="font-bold text-[#1e3a8a] text-lg mb-4 font-['Playfair_Display']">Calculation Breakdown</h3>
+                        
+                        <div class="breakdown-row">
+                            <span>Revised Basic Pension</span>
+                            <span id="outBasic" class="text-slate-800">₹0</span>
+                        </div>
+                        
+                        <div class="breakdown-row quantum" id="rowAdditional" style="display: none;">
+                            <span>Additional Age Quantum</span>
+                            <span id="outAdditional">+ ₹0</span>
+                        </div>
+                        
+                        <div class="divider"></div>
+                        
+                        <div class="breakdown-row allowance">
+                            <span>Dearness Relief (DR)</span>
+                            <span id="outDR">+ ₹0</span>
+                        </div>
+                        <div class="breakdown-row allowance">
+                            <span>Medical Allowance</span>
+                            <span id="outMedical">+ ₹0</span>
+                        </div>
+                        <div class="breakdown-row deduction" id="rowCommuted" style="display: none;">
+                            <span>Commuted Deduction</span>
+                            <span id="outCommuted">- ₹0</span>
+                        </div>
+                    </div>
+
+                    <div class="net-card">
+                        <h3>Estimated Net Monthly Pension</h3>
+                        <div class="amount" id="outNet">₹0</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Educational Content & FAQs Section to satisfy AdSense guidelines -->
+    <div style="background: var(--white); border: 1px solid var(--border); border-radius: 22px; overflow: hidden; box-shadow: var(--sh-xl); margin-top: 1.75rem;">
+        <div style="padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: linear-gradient(to right, #eff6ff 0%, #fff 60%);">
+            <div style="width: 42px; height: 42px; flex-shrink: 0; background: var(--navy-light); border: 1px solid #bfdbfe; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">👵</div>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text-dark);">7th Pay Commission Pension &amp; ROPA 2027: Comprehensive Guide</div>
+        </div>
+        <div style="padding: 1.75rem 2rem; line-height: 1.8; font-size: 14.5px; color: var(--text-mid);">
+            <p style="margin-bottom: 1rem;">The transition to a new Pay Commission is a major financial event for pensioners. For retired West Bengal government employees, school teachers, and family pension recipients, the implementation of the projected 7th Pay Commission (ROPA 2027) will systematically update their monthly pension benefits. The primary goal of a pension revision panel is to adjust payouts to account for inflation since the last major restructuring. This comprehensive guide covers the rules, calculations, fitment multipliers, and regulatory structures governing the revised pension payout under the ROPA 2027 framework.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">How 7th Pay Pension Revision Works</h3>
+            <p style="margin-bottom: 1rem;">To update existing basic pensions, the pay panel applies a designated **Pension Fitment Factor** to the current basic pension. The product is then rounded up to the nearest multiple of ₹10, as per standard West Bengal pension accounts guidelines. The core mathematical formula is:</p>
+            <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 1rem; border-radius: 12px; text-align: center; font-family: monospace; font-size: 14px; color: #1e3a8a; margin-bottom: 1.25rem; font-weight: bold;">
+                Revised Basic Pension = RoundUpToNearest10 ( Current Basic Pension &times; Fitment Factor )
+            </div>
+            <p style="margin-bottom: 1rem;">For example, if a pensioner receives a basic pension of ₹12,450 per month under ROPA 2019, and the pay commission establishes a fitment factor of 2.08 (aligned with DA merger recommendations), the multiplication gives ₹25,896. Under the rounding rules of the state finance department, this is rounded up to the next multiple of ₹10, resulting in a revised basic pension of ₹25,900. If the calculated revised basic pension falls below the minimum pension cap set by the state (projected to increase under ROPA 2027), the pension is automatically adjusted up to that minimum limit.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">Notional Pay Fixation for Older Pensioners</h3>
+            <p style="margin-bottom: 1rem;">For employees who retired several pay commissions ago, the revision process relies on **Notional Pay Fixation**. This method recalculates what the pensioner's basic pay would have been if they retired under the new pay scale rules, using their original scale and service record. Once this notional basic pay is derived in the new matrix, the revised basic pension is fixed at exactly 50% of that notional pay. This ensures that employees who retired decades ago receive pensions comparable to recently retired staff of the same rank, maintaining horizontal equity among pensioners.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">Additional Age-Based Pension Quantum</h3>
+            <p style="margin-bottom: 1rem;">The state government provides additional financial support to older pensioners as they cross specific age milestones. The additional pension is calculated as a direct percentage of their revised basic pension, beginning at age 80:</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+                <li style="margin-bottom: 0.5rem;"><strong>Ages 80 to under 85:</strong> Pensioners receive an additional 20% of their basic pension.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Ages 85 to under 90:</strong> Pensioners receive an additional 30% of their basic pension.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Ages 90 to under 95:</strong> Pensioners receive an additional 40% of their basic pension.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Ages 95 to under 100:</strong> Pensioners receive an additional 50% of their basic pension.</li>
+                <li style="margin-bottom: 100% and above:"><strong>Ages 100 and above:</strong> Pensioners receive an additional 100% of their basic pension.</li>
+            </ul>
+            <p style="margin-bottom: 1rem;">This additional age quantum is fully eligible for Dearness Relief (DR) calculations, providing essential support as healthcare costs increase in senior years.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.75rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold; border-top: 1px solid var(--border); padding-top: 1.5rem;">Frequently Asked Questions (FAQs)</h3>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q1: What is pension commutation and how does it affect monthly payouts?</strong>
+                <p>A pensioner can opt to commute (sell back) a portion of their basic pension—up to a maximum of **40%**—for a one-time lump-sum payment. In return, the monthly basic pension payout is reduced by the commuted percentage. The commuted portion is fully restored after **15 years** from the date of commutation.</p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q2: How is Dearness Relief (DR) calculated on commuted pension?</strong>
+                <p>Dearness Relief (DR) is always calculated on the **uncommuted Basic Pension** (i.e. the full basic pension amount before subtracting the commutation deduction), ensuring pensioners receive the full benefits of cost-of-living adjustments.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q3: What is the age-based additional pension scale?</strong>
+                <p>Pensioners receive additional basic pension allowances upon reaching senior age milestones, beginning with an extra **20%** of basic pension at 80 years, up to a full **100%** increase at 100 years or older.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q4: What is the projected minimum pension under the 7th Pay Commission?</strong>
+                <p>Under ROPA 2019 rules, the minimum basic pension is fixed at ₹8,500. With the implementation of the 7th Pay Commission (ROPA 2027) using an expected fitment factor of 2.08, the minimum basic pension is projected to increase to approximately ₹17,700 per month, providing a stronger safety net for low-income pensioners.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q5: How will the revised pay commission affect family pensioners?</strong>
+                <p>Family pensioners (surviving spouses or dependent children) will receive a corresponding revision. Their basic pension is multiplied by the same fitment factor and rounded to the nearest ₹10. The normal family pension rate (30% of the last drawn basic pay) will also benefit from the higher minimum cap.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q6: If I retired before 2016, will my pension be revised using the same fitment factor?</strong>
+                <p>Yes. The pay commission provides revision options for all pre-existing pensioners. Typically, older pensions are revised either by applying the fitment factor directly to their current basic pension, or by using the notional pay fixation method under ROPA rules, depending on which method results in a higher benefit for the pensioner.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Navigation Toggle Logic
+    document.getElementById('globalMenuBtn').addEventListener('click', function() {
+        const overlay = document.getElementById('globalNavOverlay');
+        const icon = this.querySelector('i');
+        const content = document.getElementById('overlayContent');
+        if (overlay.classList.contains('opacity-0')) {
+            overlay.classList.remove('opacity-0', 'invisible');
+            overlay.classList.add('opacity-100', 'visible');
+            content.classList.remove('translate-y-8');
+            content.classList.add('translate-y-0');
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+            document.body.style.overflow = 'hidden';
+        } else {
+            overlay.classList.remove('opacity-100', 'visible');
+            overlay.classList.add('opacity-0', 'invisible');
+            content.classList.remove('translate-y-0');
+            content.classList.add('translate-y-8');
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    function toggleFitmentView() {
+        const selectValue = document.getElementById('fitmentSelect').value;
+        const customContainer = document.getElementById('customFitmentContainer');
+        if (selectValue === 'custom') {
+            customContainer.classList.remove('hidden');
+        } else {
+            customContainer.classList.add('hidden');
+        }
+    }
+
+    // 7th Pay Pension Calculation Logic
+    function calculate7thPension() {
+        const currentBasic = parseFloat(document.getElementById('currentBasic').value) || 0;
+        if (currentBasic <= 0) {
+            alert("Please enter a valid Current Basic Pension.");
+            return;
+        }
+
+        const minPensionCap = parseFloat(document.getElementById('minPension').value) || 0;
+        const commutedAmount = parseFloat(document.getElementById('commutedAmount').value) || 0;
+        const ageBonusRate = parseFloat(document.getElementById('pensionerAge').value);
+        const drRate = parseFloat(document.getElementById('drRate').value) || 0;
+        const hasMedical = document.getElementById('medicalOpt').value === 'yes';
+
+        const selectValue = document.getElementById('fitmentSelect').value;
+        let fitmentFactor = 1.00;
+        if (selectValue === 'custom') {
+            fitmentFactor = parseFloat(document.getElementById('customFitment').value) || 1.00;
+        } else {
+            fitmentFactor = parseFloat(selectValue);
+        }
+
+        // 1. Calculate Revised Basic Pension (Rounded to next 10 as per WB Rules)
+        let multipliedBasic = currentBasic * fitmentFactor;
+        let revisedBasic = Math.ceil(multipliedBasic / 10) * 10;
+        
+        if (revisedBasic < minPensionCap) {
+            revisedBasic = minPensionCap;
+        }
+
+        // 2. Additional Age Quantum
+        let additionalQuantum = revisedBasic * ageBonusRate;
+        if (additionalQuantum > 0) {
+            additionalQuantum = Math.ceil(additionalQuantum / 10) * 10;
+        }
+
+        // 3. Dearness Relief
+        let totalBasicForDR = revisedBasic + additionalQuantum;
+        let drAmount = Math.round(totalBasicForDR * (drRate / 100));
+
+        // 4. Medical Allowance
+        let medicalAmount = hasMedical ? 600 : 0;
+
+        // 5. Net Pension Calculation
+        let netPension = (revisedBasic + additionalQuantum + drAmount + medicalAmount) - commutedAmount;
+        if (netPension < 0) netPension = 0;
+
+        // Currency Formatter
+        const fmt = n => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
+
+        // Update UI
+        document.getElementById('outBasic').innerText = '₹' + fmt(revisedBasic);
+        
+        const rowAdditional = document.getElementById('rowAdditional');
+        if (additionalQuantum > 0) {
+            rowAdditional.style.display = 'flex';
+            document.getElementById('outAdditional').innerText = '+ ₹' + fmt(additionalQuantum);
+        } else {
+            rowAdditional.style.display = 'none';
+        }
+
+        document.getElementById('outDR').innerText = '+ ₹' + fmt(drAmount);
+        document.getElementById('outMedical').innerText = '+ ₹' + fmt(medicalAmount);
+
+        const rowCommuted = document.getElementById('rowCommuted');
+        if (commutedAmount > 0) {
+            rowCommuted.style.display = 'flex';
+            document.getElementById('outCommuted').innerText = '- ₹' + fmt(commutedAmount);
+        } else {
+            rowCommuted.style.display = 'none';
+        }
+
+        document.getElementById('outNet').innerText = '₹' + fmt(netPension);
+    }
+</script>
+
+</body>
+</html>

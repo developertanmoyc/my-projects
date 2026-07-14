@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your expected increment under the WB ROPA 2019 Pay Matrix. Free West Bengal Government employee increment calculator.">
+    <title>WB Employee Increment Calculator</title>
+
+    <meta name="google-adsense-account" content="ca-pub-8045648145414867">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8045648145414867" crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --navy: #1e3a8a; --navy-mid: #1d4ed8; --navy-light: #eff6ff;
+            --gold: #92400e; --gold-mid: #d97706; --gold-light: #fffbeb;
+            --green: #065f46; --green-mid: #059669; --green-light: #ecfdf5;
+            --red: #991b1b; --red-mid: #dc2626; --red-light: #fef2f2;
+            --page-bg: #f2efe9; --white: #ffffff; --border: #e5e7eb;
+            --text-dark: #111827; --text-mid: #374151; --text-light: #6b7280;
+            --sh-xl: 0 32px 80px rgba(30,58,138,0.10),0 16px 32px rgba(0,0,0,0.04);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--page-bg); color: var(--text-dark); min-height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8bfaf' fill-opacity='0.12'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        
+        .top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg,#1e3a8a 0%,#2563eb 30%,#7c3aed 60%,#d97706 100%); z-index: 1000; }
+        .main-wrap { max-width: 1200px; margin: 0 auto; padding: 5rem 1.5rem; }
+        .calc-card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; box-shadow: var(--sh-xl); }
+        .card-band { background: linear-gradient(130deg, #1e3a8a 0%, #1d4ed8 55%, #2563eb 100%); padding: 2rem; position: relative; overflow: hidden; }
+        .card-band::before { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; border-radius:50%; background: rgba(255,255,255,0.07); }
+        .band-row { display:flex; align-items:center; gap:14px; position:relative; z-index:2; }
+        .band-icon { width:56px; height:56px; flex-shrink:0; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.2); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:26px; color: white;}
+        .band-title { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:#fff; margin-bottom:3px; }
+        .band-sub { font-size:14px; color:rgba(255,255,255,0.7); }
+        
+        .card-body { padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        @media (max-width: 768px) { .card-body { grid-template-columns: 1fr; gap: 30px; padding: 1.5rem; } }
+
+        .f-label { display:flex; align-items:center; gap:7px; font-size:11.5px; font-weight:700; color:var(--text-light); margin-bottom:8px; letter-spacing:0.04em; text-transform:uppercase; }
+        .f-label i { color:var(--navy-mid); font-size:11px; }
+        .f-input, .f-select { width:100%; padding:12px 16px; background: #f9f8f6; border: 1.5px solid var(--border); border-radius:11px; color:var(--text-dark); font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; outline:none; transition:all 0.2s; margin-bottom: 1.25rem; }
+        .f-input:focus, .f-select:focus { background:var(--white); border-color:var(--navy-mid); box-shadow:0 0 0 3px rgba(29,78,216,0.1); }
+        
+        .section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
+
+        .calc-btn { width:100%; padding:14px 24px; background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 100%); border:none; border-radius:12px; color:#fff; font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s; box-shadow:0 8px 24px rgba(30,58,138,0.28); margin-top: 10px;}
+        .calc-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(30,58,138,0.36); }
+
+        .results-section { background: var(--navy-light); border-radius: 16px; padding: 25px; border: 1px solid #bfdbfe; display: flex; flex-direction: column; justify-content: space-between; display: none; }
+        .breakdown-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; font-weight: 600; }
+        .breakdown-row.allowance { color: var(--green-mid); }
+        .breakdown-row span:first-child { color: var(--text-mid); }
+        
+        .net-card { background: linear-gradient(130deg, #1e3a8a 0%, #1d4ed8 100%); border-radius: 14px; padding: 20px; text-align: center; color: white; box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2); margin-top: 15px; }
+        .net-card h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.9; font-weight: 700; }
+        .net-card .amount { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; }
+
+        .current-basic-display { background: var(--navy-light); border: 1px dashed var(--navy-mid); padding: 12px; border-radius: 11px; text-align: center; font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 1.25rem; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<button id="globalMenuBtn" class="fixed top-5 left-5 md:top-6 md:left-6 z-[100] w-12 h-12 bg-white/90 backdrop-blur-md border border-gray-200 rounded-xl shadow-lg flex items-center justify-center text-[#1e3a8a] hover:bg-blue-50 transition-all group outline-none">
+    <i class="fa-solid fa-bars text-xl transition-colors"></i>
+</button>
+
+<div id="globalNavOverlay" class="fixed inset-0 z-[90] bg-white/95 backdrop-blur-xl opacity-0 invisible transition-all duration-300 flex flex-col items-center justify-start overflow-y-auto py-16">
+    <div class="flex flex-col gap-6 text-center w-full max-w-md px-6 transform translate-y-8 transition-transform duration-300" id="overlayContent">
+        <a href="index.html" class="text-3xl font-black text-[#1e3a8a] hover:text-[#2563eb] transition-all font-['Playfair_Display']"><i class="fa-solid fa-house mr-2 text-[#d97706]"></i> Home</a>
+        <div class="w-full h-px bg-gray-200 my-2"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Calculators</span>
+        <div class="flex flex-col gap-4">
+            <a href="7th-pay-commission-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Calculator</a>
+            <a href="income-tax-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Income Tax Calculator</a>
+            <a href="salary-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Salary Calculator</a>
+            <a href="pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Pension Calculator</a>
+            <a href="7th-pay-pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Pension</a>
+            <a href="increment-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Increment Calculator</a>
+            <a href="payslip-generator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Payslip Generator</a>
+            <a href="da-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">DA Hike Calculator</a>
+        </div>
+        <div class="w-full h-px bg-gray-200 my-4"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Info</span>
+        <div class="flex flex-col gap-4">
+            <a href="blog.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Updates & Blog</a>
+            <a href="privacy.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Privacy Policy</a>
+            <a href="terms.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Terms & Conditions</a>
+            <a href="contact.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Contact Us</a>
+        </div>
+    </div>
+</div>
+
+<div class="main-wrap">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <div class="calc-card">
+            <div class="card-band">
+                <div class="band-row">
+                    <div class="band-icon"><i class="fa-solid fa-arrow-trend-up text-white"></i></div>
+                    <div>
+                        <div class="band-title">Increment Calculator</div>
+                        <div class="band-sub">WB ROPA 2019 Pay Matrix Projection</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div>
+                    <h3 class="section-title">Matrix Selection</h3>
+                    
+                    <div class="flex gap-4">
+                        <div class="w-1/2">
+                            <label class="f-label" for="payLevel"><i class="fa-solid fa-layer-group"></i> Pay Level</label>
+                            <select id="payLevel" class="f-select" onchange="updateCurrentBasic()">
+                                </select>
+                        </div>
+                        <div class="w-1/2">
+                            <label class="f-label" for="currentCell"><i class="fa-solid fa-stairs"></i> Current Cell (Year)</label>
+                            <select id="currentCell" class="f-select" onchange="updateCurrentBasic()">
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="current-basic-display" id="displayBasic">
+                        Current Basic: ₹0
+                    </div>
+
+                    <label class="f-label" for="incrementYears"><i class="fa-solid fa-clock-rotate-left"></i> Years to Project</label>
+                    <select id="incrementYears" class="f-select">
+                        <option value="1">1 Year (Next Increment)</option>
+                        <option value="2">2 Years</option>
+                        <option value="3">3 Years</option>
+                        <option value="4">4 Years</option>
+                        <option value="5">5 Years</option>
+                        <option value="10">10 Years</option>
+                    </select>
+
+                    <button class="calc-btn" onclick="calculateMatrixIncrement()">
+                        <i class="fa-solid fa-calculator"></i> Calculate New Basic Pay
+                    </button>
+                </div>
+
+                <div class="results-section" id="results">
+                    <div>
+                        <h3 class="font-bold text-[#1e3a8a] text-lg mb-4 font-['Playfair_Display']">Increment Details</h3>
+                        
+                        <div class="breakdown-row">
+                            <span>Target Cell Matrix:</span>
+                            <span id="resTargetCell" class="text-slate-800 font-bold">-</span>
+                        </div>
+                        <div class="breakdown-row allowance">
+                            <span>Total Increment Amount:</span>
+                            <span id="resIncrementAmt">+ ₹0</span>
+                        </div>
+                    </div>
+
+                    <div class="net-card">
+                        <h3>New Basic Pay</h3>
+                        <div class="amount" id="resNewBasic">₹0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </div>
+
+    <!-- Educational Content & FAQs Section to satisfy AdSense guidelines -->
+    <div style="background: var(--white); border: 1px solid var(--border); border-radius: 22px; overflow: hidden; box-shadow: var(--sh-xl); margin-top: 1.75rem;">
+        <div style="padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: linear-gradient(to right, #eff6ff 0%, #fff 60%);">
+            <div style="width: 42px; height: 42px; flex-shrink: 0; background: var(--navy-light); border: 1px solid #bfdbfe; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">📈</div>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text-dark);">Annual Increments &amp; Pay Matrix: Comprehensive Guide</div>
+        </div>
+        <div style="padding: 1.75rem 2rem; line-height: 1.8; font-size: 14.5px; color: var(--text-mid);">
+            <p style="margin-bottom: 1rem;">The annual salary increment is a core aspect of career progression for state government employees, school teachers, and non-teaching staff in West Bengal. Under the Revision of Pay and Allowances (ROPA) 2019 rules, the process of calculating annual salary upgrades transitioned from a grade-pay percentage model to a structured grid system known as the **ROPA Pay Matrix**. The Pay Matrix provides transparent salary growth pathways, removing manual rounding ambiguities. This comprehensive guide covers the rules, calculations, compounding matrix cell mechanics, and policy regulations governing annual increments in West Bengal.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">How Pay Matrix Increments are Calculated</h3>
+            <p style="margin-bottom: 1rem;">Under the ROPA rules, an employee's basic pay increases annually by a standard **3% rate**. The calculation processes are defined as follows:</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+                <li style="margin-bottom: 0.5rem;"><strong>3% Multiplier:</strong> The current basic pay is multiplied by 1.03 to calculate the incremented figure.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Rounding Rule:</strong> The result of this multiplication is rounded to the nearest ₹100. Any amount ending in ₹50 or above is rounded up to the next hundred, while amounts below ₹50 are rounded down.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Matrix Placement:</strong> The employee's new basic pay is fixed by locating their current pay level column in the Pay Matrix and moving vertically down by exactly one cell (representing one year of service). The cell value must match or exceed the calculated rounded figure. If the calculated figure falls between two matrix cells, the pay is fixed at the immediate higher cell.</li>
+            </ul>
+            <p style="margin-bottom: 1rem;">This 3% compounding progression creates a stable and predictable salary trajectory over a 40-year career column.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold;">Modified Career Advancement Scheme (MCAS) Upgrades</h3>
+            <p style="margin-bottom: 1rem;">To prevent career stagnation for employees who remain in the same post without regular promotion, the state government implements the <strong>Modified Career Advancement Scheme (MCAS)</strong>. Under MCAS, employees receive financial upgrades upon completing 8, 16, and 25 years of continuous, satisfactory service. When an employee qualifies for an MCAS upgrade, they are granted a financial increment equivalent to one promotional increment (moving down one cell in their current pay level column) and are then mapped to the next higher pay level column in the ROPA matrix. This ensures salary progression even in the absence of administrative promotional vacancies.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold; border-top: 1px solid var(--border); padding-top: 1.5rem;">Qualifying Service Requirements for July 1st Payouts</h3>
+            <p style="margin-bottom: 1rem;">By default, annual salary increments are credited to employee pay sheets on **July 1st** of each year. To qualify for this annual upgrade, an employee must have completed a minimum of **six months** of continuous qualifying service in their current pay scale level between July 1st of the previous year and June 30th of the current year. Periods of extraordinary leave without pay (EOL) or suspensions do not count as qualifying service and can result in delaying the increment date. If an employee is appointed on January 2nd or later, they will not meet the six-month service requirement by July 1st, and their first increment will be deferred to July 1st of the following calendar year.</p>
+
+            <h3 style="color: var(--navy); margin-top: 1.5rem; margin-bottom: 0.75rem; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: bold; border-top: 1px solid var(--border); padding-top: 1.5rem;">Frequently Asked Questions (FAQs)</h3>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q1: When are increments credited in West Bengal?</strong>
+                <p>By default, annual salary increments are credited to employee pay sheets on **July 1st** of each year, provided they have completed the minimum qualifying service duration of six months in that scale.</p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q2: What is the rounding-up rule for matrix cells?</strong>
+                <p>When calculating a 3% increment, the amount is rounded to the nearest ₹100. The employee is then placed in the cell immediately below their previous cell in the ROPA vertical matrix column that matches or exceeds this rounded figure. This process ensures that no fractional calculations are present in the final pay ledger.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q3: How are promotional increments calculated?</strong>
+                <p>Upon promotion, an employee is granted one nominal increment in their existing level, and then their basic pay is placed in the cell of the promoted level that is equal to or immediately higher than this calculated amount. This is governed by ROPA Rule 11.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q4: How does suspension affect my annual increment date?</strong>
+                <p>Suspension periods do not qualify as active service. If an employee is under suspension, their annual increment is suspended. Upon reinstatement, the period of suspension may be regularized by the authority. If the suspension is declared as a period spent on duty, the increment is released with retrospective effect; otherwise, the increment date is deferred.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem; border-bottom: 1px dashed var(--border); padding-bottom: 1rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q5: What is a stagnation increment?</strong>
+                <p>When an employee reaches the maximum cell (the last row) of their pay level column in the Pay Matrix and cannot progress further, they are eligible for a stagnation increment. Stagnation increments are granted once every two years of service at that maximum rate, up to a maximum limit of three increments, ensuring continued career progression.</p>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <strong style="color: var(--text-dark); display: block; margin-bottom: 0.25rem;">Q6: If I take Maternity Leave, will my annual increment be affected?</strong>
+                <p>No. Maternity Leave of up to 180 days is treated as qualifying service spent on active duty. Therefore, it has no negative impact on the calculation of the six-month active service requirement, and your annual increment will be credited on July 1st as scheduled.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Navigation Toggle Logic
+    document.getElementById('globalMenuBtn').addEventListener('click', function() {
+        const overlay = document.getElementById('globalNavOverlay');
+        const icon = this.querySelector('i');
+        const content = document.getElementById('overlayContent');
+        if (overlay.classList.contains('opacity-0')) {
+            overlay.classList.remove('opacity-0', 'invisible');
+            overlay.classList.add('opacity-100', 'visible');
+            content.classList.remove('translate-y-8');
+            content.classList.add('translate-y-0');
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+            document.body.style.overflow = 'hidden';
+        } else {
+            overlay.classList.remove('opacity-100', 'visible');
+            overlay.classList.add('opacity-0', 'invisible');
+            content.classList.remove('translate-y-0');
+            content.classList.add('translate-y-8');
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Official WB ROPA 2019 Entry Basic Pay for Levels 1 to 16
+    const entryPays = {
+        1: 17000, 2: 17600, 3: 18800, 4: 19700, 5: 21000, 
+        6: 22700, 7: 24700, 8: 27000, 9: 28900, 10: 32100, 
+        11: 33400, 12: 35800, 13: 37100, 14: 39900, 15: 42600, 16: 56100
+    };
+
+    const maxCells = 40;
+    const ropaMatrix = {};
+
+    // Mathematically construct the ROPA Matrix (3% increment rounded to nearest 100)
+    function generateMatrix() {
+        for (let level in entryPays) {
+            let cells = [entryPays[level]]; 
+            for (let i = 1; i < maxCells; i++) {
+                let prevPay = cells[i - 1];
+                let nextPay = Math.round((prevPay * 1.03) / 100) * 100;
+                cells.push(nextPay);
+            }
+            ropaMatrix[level] = cells;
+        }
+    }
+
+    function populateDropdowns() {
+        const levelSelect = document.getElementById('payLevel');
+        const cellSelect = document.getElementById('currentCell');
+
+        for (let i = 1; i <= 16; i++) {
+            let option = document.createElement('option');
+            option.value = i;
+            option.text = `Level ${i}`;
+            levelSelect.appendChild(option);
+        }
+
+        for (let i = 1; i <= maxCells; i++) {
+            let option = document.createElement('option');
+            option.value = i;
+            option.text = `Cell ${i} (Year ${i})`;
+            cellSelect.appendChild(option);
+        }
+
+        levelSelect.value = "8";
+        updateCurrentBasic();
+    }
+
+    function updateCurrentBasic() {
+        const level = document.getElementById('payLevel').value;
+        const cell = document.getElementById('currentCell').value;
+        
+        const currentBasic = ropaMatrix[level][cell - 1];
+        
+        const fmt = n => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
+        document.getElementById('displayBasic').innerText = `Current Basic: ₹${fmt(currentBasic)}`;
+        document.getElementById('results').style.display = 'none'; 
+    }
+
+    function calculateMatrixIncrement() {
+        const level = document.getElementById('payLevel').value;
+        const currentCell = parseInt(document.getElementById('currentCell').value);
+        const yearsToProject = parseInt(document.getElementById('incrementYears').value);
+
+        const targetCell = currentCell + yearsToProject;
+
+        if (targetCell > maxCells) {
+            alert(`Calculation exceeds maximum allowed service years (Cell ${maxCells}) in this level.`);
+            return;
+        }
+
+        const currentBasic = ropaMatrix[level][currentCell - 1];
+        const newBasic = ropaMatrix[level][targetCell - 1];
+        const incrementAmt = newBasic - currentBasic;
+
+        const fmt = n => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
+
+        // Display Results
+        document.getElementById('resTargetCell').innerText = `Cell ${targetCell}`;
+        document.getElementById('resIncrementAmt').innerText = '+ ₹' + fmt(incrementAmt);
+        document.getElementById('resNewBasic').innerText = '₹' + fmt(newBasic);
+        
+        // Show results with animation
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'flex';
+        resultsDiv.style.animation = 'none';
+        void resultsDiv.offsetWidth; // trigger reflow
+        resultsDiv.style.animation = 'fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1) forwards';
+    }
+
+    // Initialize App
+    window.onload = () => {
+        generateMatrix();
+        populateDropdowns();
+    };
+</script>
+
+</body>
+</html>

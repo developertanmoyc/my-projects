@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - WB Employee Portal</title>
+    
+    <meta name="google-adsense-account" content="ca-pub-8045648145414867">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8045648145414867" crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --navy: #1e3a8a; --navy-mid: #1d4ed8; --navy-light: #eff6ff;
+            --page-bg: #f2efe9; --white: #ffffff; --border: #e5e7eb;
+            --text-dark: #111827; --text-mid: #374151; --text-light: #6b7280;
+            --sh-xl: 0 32px 80px rgba(30,58,138,0.10),0 16px 32px rgba(0,0,0,0.04);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--page-bg); color: var(--text-dark); min-height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8bfaf' fill-opacity='0.12'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg,#1e3a8a 0%,#2563eb 30%,#7c3aed 60%,#d97706 100%); z-index: 1000; }
+        .main-wrap { max-width: 600px; width: 100%; padding: 5rem 1.5rem; }
+        .calc-card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; box-shadow: var(--sh-xl); text-align: center; }
+        .card-band { background: linear-gradient(130deg, #1e3a8a 0%, #1d4ed8 55%, #2563eb 100%); padding: 2.5rem 2rem; position: relative; overflow: hidden; }
+        .card-band::before { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; border-radius:50%; background: rgba(255,255,255,0.07); }
+        .band-title { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:800; color:#fff; margin-bottom:5px; }
+        .band-sub { font-size:15px; color:rgba(255,255,255,0.7); }
+        .card-body { padding: 3rem 2rem; }
+        .contact-box { background: var(--navy-light); border: 1px solid #bfdbfe; padding: 2rem; border-radius: 16px; margin: 1rem 0 2rem; }
+        .email-btn {
+            display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px;
+            background: linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 100%);
+            border-radius: 12px; color: #fff; font-weight: 700; font-size: 15px;
+            text-decoration: none; box-shadow: 0 8px 24px rgba(30,58,138,0.28);
+            transition: all 0.2s;
+        }
+        .email-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(30,58,138,0.36); }
+    </style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<button id="globalMenuBtn" class="fixed top-5 left-5 md:top-6 md:left-6 z-[100] w-12 h-12 bg-white/90 backdrop-blur-md border border-gray-200 rounded-xl shadow-lg flex items-center justify-center text-[#1e3a8a] hover:bg-blue-50 transition-all group outline-none">
+    <i class="fa-solid fa-bars text-xl transition-colors"></i>
+</button>
+
+<div id="globalNavOverlay" class="fixed inset-0 z-[90] bg-white/95 backdrop-blur-xl opacity-0 invisible transition-all duration-300 flex flex-col items-center justify-start overflow-y-auto py-16">
+    <div class="flex flex-col gap-6 text-center w-full max-w-md px-6 transform translate-y-8 transition-transform duration-300" id="overlayContent">
+        <a href="index.html" class="text-3xl font-black text-[#1e3a8a] hover:text-[#2563eb] transition-all font-['Playfair_Display']"><i class="fa-solid fa-house mr-2 text-[#d97706]"></i> Home</a>
+        <div class="w-full h-px bg-gray-200 my-2"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Calculators</span>
+        <div class="flex flex-col gap-4">
+            <a href="7th-pay-commission-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Calculator</a>
+            <a href="income-tax-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Income Tax Calculator</a>
+            <a href="salary-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Salary Calculator</a>
+            <a href="da-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">DA Hike Calculator</a>
+            <a href="pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Pension Calculator</a>
+            <a href="7th-pay-pension-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">7th Pay Commission Pension</a>
+            <a href="increment-calculator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Increment Calculator</a>
+            <a href="payslip-generator.html" class="text-lg font-semibold text-gray-700 hover:text-[#1d4ed8] transition-colors">Payslip Generator</a>
+        </div>
+        <div class="w-full h-px bg-gray-200 my-4"></div>
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Info</span>
+        <div class="flex flex-col gap-4">
+            <a href="blog.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Updates & Blog</a>
+            <a href="privacy.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Privacy Policy</a>
+            <a href="terms.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Terms & Conditions</a>
+            <a href="contact.html" class="text-lg font-semibold text-gray-700 hover:text-[#7c3aed] transition-colors">Contact Us</a>
+        </div>
+    </div>
+</div>
+
+<div class="main-wrap">
+    <div class="calc-card">
+        <div class="card-band">
+            <div class="band-title">Get in Touch</div>
+            <div class="band-sub">We are here to help with your portal questions</div>
+        </div>
+        <div class="card-body">
+            
+            <div class="w-16 h-16 bg-white border border-gray-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-2xl text-[#1d4ed8]">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Email the Developer</h3>
+            <p class="text-slate-600 font-medium text-[15px] mb-6 max-w-sm mx-auto leading-relaxed">
+                Found a calculation bug or want to suggest a new calculator feature? Reach out directly via email.
+            </p>
+            
+            <div class="contact-box">
+                <a href="mailto:developertanmoyc@gmail.com" class="email-btn">
+                    <i class="fa-solid fa-paper-plane"></i> developertanmoyc@gmail.com
+                </a>
+            </div>
+
+            <p class="text-xs text-slate-400 font-medium">We aim to respond to all technical queries within 48 hours.</p>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('globalMenuBtn').addEventListener('click', function() {
+        const overlay = document.getElementById('globalNavOverlay');
+        const icon = this.querySelector('i');
+        const content = document.getElementById('overlayContent');
+        if (overlay.classList.contains('opacity-0')) {
+            overlay.classList.remove('opacity-0', 'invisible');
+            overlay.classList.add('opacity-100', 'visible');
+            content.classList.remove('translate-y-8');
+            content.classList.add('translate-y-0');
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+            document.body.style.overflow = 'hidden';
+        } else {
+            overlay.classList.remove('opacity-100', 'visible');
+            overlay.classList.add('opacity-0', 'invisible');
+            content.classList.remove('translate-y-0');
+            content.classList.add('translate-y-8');
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+            document.body.style.overflow = 'auto';
+        }
+    });
+</script>
+</body>
+</html>
