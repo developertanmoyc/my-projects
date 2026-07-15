@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizlish - Writings & Paragraphs</title>
+    <meta name="description" content="Reference library of standard composition drafts and essays. Perfect for school exams and vocabulary development.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        
+        body { font-family: 'Outfit', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-[#f0f9ff] via-white to-[#ecfdf5] dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 text-slate-800 dark:text-slate-100 flex flex-col min-h-screen relative overflow-x-hidden transition-colors duration-300">
+    
+    <header class="shrink-0 bg-white/70 dark:bg-slate-900/80 backdrop-blur-md z-30 sticky top-0 border-b border-slate-100 dark:border-slate-800 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors duration-300"></header>
+
+    <main class="flex-1 min-h-0 w-full max-w-6xl mx-auto p-4 md:p-8 flex flex-col justify-center">
+        <div id="writings-screen" class="w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] md:rounded-[2.5rem] shadow-lg p-5 md:p-12 border border-white dark:border-slate-700 max-w-4xl mx-auto my-8 text-left">
+            <div class="w-full flex justify-between items-center mb-8 border-b border-slate-100 dark:border-slate-700 pb-4">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white">Writings Section</h2>
+                <a href="index.html" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 font-black transition-colors bg-white dark:bg-slate-700 px-5 py-2.5 rounded-full shadow-sm border border-slate-200 dark:border-slate-600">
+                    &larr; Home
+                </a>
+            </div>
+            
+            <div id="writings-container" class="space-y-8">
+                <!-- Dynamically populated from writingsData -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="shrink-0 w-full bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-8 relative z-20 mt-auto"></footer>
+
+    <script src="js/writings_data.js"></script>
+    <script src="js/shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('writings-container');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            if (typeof writingsData !== 'undefined' && Array.isArray(writingsData)) {
+                writingsData.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = "bg-blue-50/50 dark:bg-slate-700/50 p-8 rounded-3xl border border-blue-100 dark:border-slate-600 mb-8 shadow-sm text-left";
+                    card.innerHTML = `
+                        <h3 class="text-2xl font-black text-blue-900 dark:text-blue-300 mb-4">Paragraph: ${item.title}</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-bold text-sm uppercase tracking-widest mb-6 border-b border-blue-200 dark:border-slate-500 pb-2">Topic: ${item.topic} | Word Count: ${item.words}</p>
+                        <p class="text-slate-700 dark:text-slate-300 font-semibold leading-relaxed text-lg text-justify indent-8">
+                            ${item.content}
+                        </p>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

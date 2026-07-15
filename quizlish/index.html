@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizlish - Master English Grammar & Composition</title>
+    <meta name="description" content="Master English Grammar, sentence transformations, voice change, narrations, and paragraphs through practice tests and interactive mock exams on Quizlish.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = { darkMode: 'class' };
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                if (typeof tailwind !== 'undefined') tailwind.config = { darkMode: 'class' };
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 5s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 5s ease-in-out 2.5s infinite; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-[#f0f9ff] via-white to-[#ecfdf5] dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 text-slate-800 dark:text-slate-100 flex flex-col min-h-screen relative overflow-x-hidden transition-colors duration-300">
+    
+    <header class="shrink-0 bg-white/70 dark:bg-slate-900/80 backdrop-blur-md z-30 sticky top-0 border-b border-slate-100 dark:border-slate-800 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors duration-300"></header>
+
+    <main class="flex-1 min-h-0 w-full max-w-6xl mx-auto p-4 md:p-8 flex flex-col justify-center">
+        <!-- Home Screen -->
+        <div id="home-screen" class="app-screen w-full flex flex-col gap-12 py-6">
+            
+            <!-- Hero Banner (Dark Blue Box Wrapper Removed) -->
+            <div class="py-6 text-center lg:text-left flex flex-col lg:flex-row items-center justify-between gap-12 relative">
+                
+                <div class="flex-1 flex flex-col items-center lg:items-start z-10">
+                    <span class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-black px-5 py-2 rounded-full uppercase tracking-widest mb-6 border border-blue-100 dark:border-blue-800">🎓 Ultimate English Assessment Platform</span>
+                    
+                    <h2 class="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight tracking-tight max-w-3xl">
+                        Master English <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Grammar & Composition</span>
+                    </h2>
+                    
+                    <p class="text-slate-500 dark:text-slate-400 max-w-2xl text-lg md:text-xl font-bold leading-relaxed mb-10">
+                        Challenge yourself with 25 Full-Length Mock Exams and detailed grammar category tests. Access study guides, composition notes, and track your metrics.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center w-full max-w-lg">
+                        <a href="#grammar-topics" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-base py-4.5 px-8 rounded-full shadow-lg transition-transform transform hover:-translate-y-0.5 active:scale-[0.99] w-full sm:w-auto text-center cursor-pointer">
+                            Practice Topics
+                        </a>
+                        <a href="full-tests.html" class="bg-slate-150 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-extrabold text-base py-4.5 px-8 rounded-full shadow-md transition-transform transform hover:-translate-y-0.5 w-full sm:w-auto text-center cursor-pointer border border-slate-200 dark:border-slate-700">
+                            Take Full Tests
+                        </a>
+                        <button id="auth-front-btn" onclick="openAuthModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base py-4.5 px-8 rounded-full shadow-lg transition-transform transform hover:-translate-y-0.5 w-full sm:w-auto text-center cursor-pointer">
+                            Sign In
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex-1 relative w-full flex items-center justify-center lg:justify-end mt-10 lg:mt-0 z-10 shrink-0">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-rose-500/10 to-blue-500/10 rounded-full opacity-65 blur-3xl z-0"></div>
+                    <div class="relative z-10 w-full max-w-md lg:max-w-lg rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.1)] border-8 border-white dark:border-slate-800 bg-white dark:bg-slate-800 animate-float">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=800&auto=format&fit=crop" alt="Boys and girls studying together" class="w-full h-[320px] lg:h-[400px] object-cover" />
+                    </div>
+                    <div class="absolute top-10 lg:top-16 -left-4 lg:left-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md p-4 lg:p-5 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700 animate-float-delayed z-20 text-center min-w-[140px]">
+                        <div class="text-emerald-500 font-black text-2xl lg:text-3xl">1000+</div>
+                        <div class="text-slate-500 dark:text-slate-400 font-bold text-[10px] uppercase tracking-widest mt-1">Questions</div>
+                    </div>
+                    <div class="absolute bottom-10 lg:bottom-16 -right-4 lg:-right-8 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md p-4 lg:p-5 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700 animate-float z-20 text-center min-w-[140px]">
+                        <div class="text-blue-500 font-black text-2xl lg:text-3xl">Instant</div>
+                        <div class="text-slate-500 dark:text-slate-400 font-bold text-[10px] uppercase tracking-widest mt-1">Feedback</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grammar Topics Directory -->
+            <div id="grammar-topics" class="w-full py-4 text-left scroll-mt-24">
+                <h3 class="text-3xl font-black text-slate-900 dark:text-white mb-8">Grammar <span class="text-blue-600">Topics</span></h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Full Tests Banner -->
+                    <div class="col-span-1 md:col-span-2 lg:col-span-3 mb-4">
+                        <a href="full-tests.html" class="w-full bg-gradient-to-r from-rose-500 to-orange-500 p-8 rounded-[2rem] shadow-lg hover:-translate-y-2 hover:shadow-xl transition-all flex flex-col md:flex-row items-center justify-between text-left group border border-white/20 block cursor-pointer">
+                            <div class="flex items-center gap-6">
+                                <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-white text-3xl backdrop-blur-sm">🏆</div>
+                                <div>
+                                    <h3 class="text-2xl md:text-3xl font-black text-white mb-2">Full Length Mock Tests</h3>
+                                    <p class="text-white/90 font-bold text-sm md:text-base">50 Questions • 35 Minutes • Covers all grammar sections + Comprehension</p>
+                                </div>
+                            </div>
+                            <div class="mt-6 md:mt-0 bg-white text-rose-600 font-black px-8 py-3 rounded-full shadow-md group-hover:scale-105 transition-transform flex items-center gap-2">
+                                Start Exam &rarr;
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Prep Card -->
+                    <a href="prepositions.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-blue-50 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center text-blue-500 dark:text-blue-400 mb-4 group-hover:bg-blue-500 group-hover:text-white transition-colors">📘</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Prepositions</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Master spatial and temporal relations.</p>
+                    </a>
+                    
+                    <!-- Tenses -->
+                    <a href="tenses.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center text-emerald-500 dark:text-emerald-400 mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-colors">⏳</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Tenses</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Perfect your understanding of time.</p>
+                    </a>
+
+                    <!-- Adjectives -->
+                    <a href="adjectives.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-purple-50 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center text-purple-500 dark:text-purple-400 mb-4 group-hover:bg-purple-500 group-hover:text-white transition-colors">🎨</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Adjectives</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Learn standard noun modifier rankings.</p>
+                    </a>
+
+                    <!-- Adverbs -->
+                    <a href="adverbs.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-orange-50 dark:bg-orange-900/30 rounded-2xl flex items-center justify-center text-orange-500 dark:text-orange-400 mb-4 group-hover:bg-orange-500 group-hover:text-white transition-colors">🚀</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Adverbs</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Understand verb modifiers and placement rules.</p>
+                    </a>
+
+                    <!-- Conjunctions -->
+                    <a href="conjunctions.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-pink-50 dark:bg-pink-900/30 rounded-2xl flex items-center justify-center text-pink-500 dark:text-pink-400 mb-4 group-hover:bg-pink-500 group-hover:text-white transition-colors">🔗</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Conjunctions</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Link independent and dependent clauses.</p>
+                    </a>
+
+                    <!-- Voice Change -->
+                    <a href="voice.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-rose-50 dark:bg-rose-900/30 rounded-2xl flex items-center justify-center text-rose-500 dark:text-rose-400 mb-4 group-hover:bg-rose-500 group-hover:text-white transition-colors">📢</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Voice Change</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Transform sentences between active and passive.</p>
+                    </a>
+
+                    <!-- Narration Change -->
+                    <a href="narration.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-teal-50 dark:bg-teal-900/30 rounded-2xl flex items-center justify-center text-teal-500 dark:text-teal-400 mb-4 group-hover:bg-teal-500 group-hover:text-white transition-colors">🗣️</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Narration Change</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Convert direct speech into indirect speech.</p>
+                    </a>
+
+                    <!-- Joining -->
+                    <a href="joining.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl flex items-center justify-center text-indigo-500 dark:text-indigo-400 mb-4 group-hover:bg-indigo-500 group-hover:text-white transition-colors">🧩</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Joining</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Combine sentences using participles/clauses.</p>
+                    </a>
+
+                    <!-- Transformation -->
+                    <a href="transformation.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-amber-50 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-amber-500 dark:text-amber-400 mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors">🔀</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Transformation</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Rewrite sentences without altering context.</p>
+                    </a>
+
+                    <!-- Comprehension -->
+                    <a href="comprehension.html" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group cursor-pointer block">
+                        <div class="w-12 h-12 bg-yellow-50 dark:bg-yellow-900/30 rounded-2xl flex items-center justify-center text-yellow-500 dark:text-yellow-400 mb-4 group-hover:bg-yellow-500 group-hover:text-white transition-colors">📖</div>
+                        <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Comprehension</h3>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Read passages and answer reading queries.</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- AdSense Crawler SEO section (Static Learning Content) -->
+            <div class="w-full bg-white dark:bg-slate-850 p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100 dark:border-slate-750 text-left my-8">
+                <h3 class="text-3xl font-black text-slate-900 dark:text-white mb-6">Standard English Grammar Guide</h3>
+                <p class="text-slate-500 dark:text-slate-400 font-bold mb-10 leading-relaxed text-justify">
+                    Welcome to the Quizlish grammar directory. Review these fundamental structures to sharpen your language skills before attempting our mock tests:
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-600 dark:text-slate-355 font-medium leading-relaxed">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">1. Preposition Syntax Rules</h4>
+                            <p class="text-justify">
+                                Prepositions establish relationships between nouns, pronouns, and other elements in a sentence. Key temporal and spatial prepositions include 'in' (for enclosed bounds or broad periods like months or years), 'on' (indicating surface connections or specific days and dates), and 'at' (targeting specific clock hours or points). In addition, learning appropriate prepositional collocations—such as 'agree with' a person vs. 'agree to' a proposal—is crucial for standard proficiency exams.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">2. Verb Tenses & Aspect</h4>
+                            <p class="text-justify">
+                                Verb tenses place actions in chronological time, divided into Present, Past, and Future. Each time frame is modified by aspects: Simple (habits and universal truths), Continuous (ongoing actions), Perfect (completed events with relevance to a reference frame), and Perfect Continuous. An essential rule is maintaining tense agreement across clauses—if the reporting action is past, subsequent verbs must correspond appropriately.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">3. Adjectives & Ordering Rank</h4>
+                            <p class="text-justify">
+                                Adjectives modify nouns by detailing properties like size, age, or origin. When using multiple modifiers, follow standard ranking rules: Opinion, Size, Physical Quality, Shape, Age, Color, Origin, Material, Type, Purpose. For example, say 'a beautiful small round old blue Indian wooden chest' rather than scrambling the order.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">4. Adverbs & Modifiers</h4>
+                            <p class="text-justify">
+                                Adverbs modify verbs, adjectives, or other adverbs, answering questions like how, when, where, and to what extent. Adverbs of manner usually end in '-ly' (e.g., 'He ran quickly'). Note that some words like 'fast' function as both adjectives and adverbs. Proper placement of adverbs is crucial—frequency adverbs (always, seldom) generally precede the main verb they modify.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">5. Conjunctions & Clause Connectors</h4>
+                            <p class="text-justify">
+                                Conjunctions are the glue that joins words, phrases, and clauses. Coordinating conjunctions (FANBOYS: for, and, nor, but, or, yet, so) connect grammatically equal elements. Subordinating conjunctions (although, because, unless, since) connect a dependent clause to an independent clause, showing relationships of cause, time, contrast, or condition. Correlatives like 'either...or' and 'neither...nor' must always be paired correctly.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">6. Voice Change Rules</h4>
+                            <p class="text-justify">
+                                Voice refers to the relation of the subject to the action expressed by the verb. In Active Voice, the subject performs the action (e.g., 'The teacher teaches grammar'). In Passive Voice, the subject receives the action (e.g., 'Grammar is taught by the teacher'). To transform active to passive, shift the object to the subject position, introduce the appropriate auxiliary verb 'be' matching the tense, use the past participle (V3) of the verb, and append the agent.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">7. Narration Change & Indirect Speech</h4>
+                            <p class="text-justify">
+                                Narration change involves converting Direct Speech (quoting actual words) into Indirect Speech (reporting the message). During this shift, quotation marks are removed, reporting verbs are adjusted (e.g., 'said to' becomes 'told' or 'asked'), pronouns change to match the point of view, and verbs undergo backshifting (e.g., simple present becomes simple past) if the reporting verb is in the past tense. Adverbs of time/place also shift (e.g., 'now' becomes 'then', 'tomorrow' becomes 'the next day').
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">8. Sentence Joining Techniques</h4>
+                            <p class="text-justify">
+                                Joining teaches you how to combine multiple short sentences into a single cohesive simple, complex, or compound sentence. Simple sentences can be created using participles (e.g., 'Seeing the policeman, he fled'), infinitives ('He works hard to support his family'), or nominative absolutes ('The captain having been killed, the army fled'). Complex sentences use relative pronouns or adverbial clauses, while compound sentences rely on coordinators.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">9. Transformation of Sentences</h4>
+                            <p class="text-justify">
+                                Transformation is the art of changing the structure of a sentence without altering its meaning. Key transformations include converting Affirmative to Negative (e.g., 'Only a fool would say this' becomes 'None but a fool would say this'), Assertive to Interrogative ('Everyone loves his country' becomes 'Who does not love his country?'), and Degree changes. This tests a student's flexible command over grammatical syntax.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">10. Reading Comprehension</h4>
+                            <p class="text-justify">
+                                Reading comprehension evaluates a learner's ability to decode complex texts, infer meanings of unfamiliar vocabulary, identify main themes, and extract supporting details. Success in comprehension requires active reading—first skimming the passage to grab the tone and central idea, and then scanning specific segments to resolve factual and context-based multiple choice questions accurately.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Writings Preview Section -->
+            <div class="bg-blue-50/30 dark:bg-slate-800/30 p-8 md:p-12 rounded-[2.5rem] border border-blue-100 dark:border-slate-700 text-left my-4">
+                <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-4">Writings & Paragraph Library</h3>
+                <p class="text-slate-500 dark:text-slate-400 font-bold mb-6">Study compositions, essays, and school-level texts directly compiled by educators.</p>
+                <a href="writings.html" class="inline-flex px-6 py-3 rounded-full font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-md transition-all">
+                    Explore Writings &rarr;
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="shrink-0 w-full bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-8 relative z-20 mt-auto"></footer>
+
+    <!-- Shared layouts and engines -->
+    <script src="js/shared.js"></script>
+</body>
+</html>

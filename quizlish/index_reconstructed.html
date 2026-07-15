@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quizlish is the ultimate online platform for school students, competitive exam aspirants, and English learners to master English grammar.">
+    
+    <meta name="google-adsense-account" content="ca-pub-8045648145414867">
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <title>Quizlish - Master English Grammar</title>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8045648145414867" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Nunito', 'sans-serif'] }
+                }
+            }
+        }
+
+
+    </script>
+    
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        .option-btn { transition: all 0.2s ease; }
+        
+        /* Vibrant active tab styling */
+        .nav-active { background-color: #eff6ff; color: #2563eb; font-weight: 800; } 
+        .dark .nav-active { background-color: #1e3a8a; color: #60a5fa; }
+        
+        /* HIDDEN SCROLLBAR UTILITY */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Soft floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 5s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 5s ease-in-out 2.5s infinite; }
+        
+        /* AI Typing dots */
+        @keyframes blink { 0% {opacity: .2;} 20% {opacity: 1;} 100% {opacity: .2;} }
+        .typing-dot { animation: blink 1.4s infinite both; }
+        .typing-dot:nth-child(2) { animation-delay: .2s; }
+        .typing-dot:nth-child(3) { animation-delay: .4s; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-[#f0f9ff] via-white to-[#ecfdf5] dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 text-slate-800 dark:text-slate-100 flex flex-col min-h-screen relative overflow-x-hidden transition-colors duration-300">
+
+    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-100/50 dark:bg-blue-900/20 blur-3xl -z-10"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-100/50 dark:bg-emerald-900/20 blur-3xl -z-10"></div>
+
+    <header class="shrink-0 bg-white/70 dark:bg-slate-900/80 backdrop-blur-md z-30 sticky top-0 border-b border-slate-100 dark:border-slate-800 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors duration-300">
+        <div class="max-w-6xl mx-auto p-4 md:px-6 flex justify-between items-center w-full">
+            
+            <h1 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight cursor-pointer" onclick="showHome()">Quiz<span class="text-rose-500">lish</span></h1>
+            
+            <nav class="hidden lg:flex flex-wrap gap-2 justify-center items-center" id="desktop-nav">
+                <button onclick="showHome()" id="nav-home" class="nav-btn nav-active px-5 py-2 rounded-full font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Home</button>
+                
+                <button onclick="prepareCategory('full_tests')" id="nav-full_tests" class="nav-btn px-5 py-2 rounded-full font-black text-rose-500 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-1">
+                    🏆 Full Tests
+                </button>
+
+                <div class="relative group">
+                    <button onclick="showScreen('grammar-topics-screen')" id="nav-grammar" class="nav-btn px-5 py-2 rounded-full font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-1">
+                        Grammar Tests
+                        <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute left-1/2 -translate-x-1/2 mt-1 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top z-50 flex flex-col p-2">
+                        <button onclick="prepareCategory('prepositions')" class="text-left px-4 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors">Prepositions</button>
+                        <button onclick="prepareCategory('tenses')" class="text-left px-4 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors">Tenses</button>
+                        <button onclick="prepareCategory('adjectives')" class="text-left px-4 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors">Adjectives</button>
+                        <button onclick="prepareCategory('adverbs')" class="text-left px-4 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors">Adverbs</button>
+                        <button onclick="prepareCategory('conjunctions')" class="text-left px-4 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors">Conjunctions</button>
+                        <hr class="my-1 border-slate-100 dark:border-slate-700">
+                        <button onclick="prepareCategory('voice')" class="text-left px-4 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors">Voice Change</button>
+                        <button onclick="prepareCategory('narration')" class="text-left px-4 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors">Narration Change</button>
+                        <button onclick="prepareCategory('joining')" class="text-left px-4 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors">Joining</button>
+                        <button onclick="prepareCategory('transformation')" class="text-left px-4 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors">Transformation</button>
+                    </div>
+
+    <!-- Sign In / Sign Up Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md z-[150] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-[0_25px_60px_rgba(0,0,0,0.25)] border border-slate-100 dark:border-slate-800 max-w-4xl w-[calc(100vw-32px)] md:h-[580px] overflow-hidden transform transition-all duration-300 scale-95 flex flex-col md:flex-row relative font-sans">
+            
+            <button onclick="closeAuthModal()" class="absolute top-6 right-6 p-2.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white transition-all z-20 focus:outline-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <!-- Left Pane: Form Pane (55% width) -->
+            <div class="flex-1 p-8 md:p-12 overflow-y-auto no-scrollbar flex flex-col justify-between bg-white dark:bg-slate-900">
+                <div class="space-y-6">
+                    <!-- Top Logo Header -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-lg shadow-[0_4px_12px_rgba(37,99,235,0.3)]">Q</div>
+                            <span class="font-extrabold text-xl text-slate-850 dark:text-white tracking-tight">Quizlish</span>
+                        </div>
+                        <button onclick="toggleAuthMode()" id="auth-switch-link" class="px-4.5 py-2 text-xs font-bold text-blue-600 dark:text-blue-450 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-xl transition-all">Create an account</button>
+                    </div>
+
+                    <!-- Titles -->
+                    <div>
+                        <h3 id="auth-modal-title" class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-2">Welcome Back</h3>
+                        <p id="auth-modal-subtitle" class="text-slate-500 dark:text-slate-400 font-medium text-sm leading-relaxed">Enter your account details to resume your grammar path.</p>
+                    </div>
+
+                    <!-- Input Fields -->
+                    <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-5">
+                        <div id="auth-name-container" class="hidden flex flex-col">
+                            <label class="text-[10px] uppercase tracking-widest font-black text-slate-400 dark:text-slate-500 mb-1.5">Full Name</label>
+                            <input type="text" id="auth-name-input" placeholder="John Doe" class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-950/40 transition-all font-semibold placeholder-slate-400 dark:placeholder-slate-600">
+                        </div>
+                        
+                        <div class="flex flex-col">
+                            <label class="text-[10px] uppercase tracking-widest font-black text-slate-400 dark:text-slate-500 mb-1.5">Email or Mobile Number</label>
+                            <div class="flex gap-2">
+                                <select id="auth-country-select" class="hidden bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl px-3 py-3.5 text-sm focus:outline-none focus:border-blue-600 transition-all font-bold w-44 text-left cursor-pointer no-scrollbar">
+                                    <option value="+880" selected>🇧🇩 Bangladesh (+880)</option>
+                                    <option value="+91">🇮🇳 India (+91)</option>
+                                    <option value="+1">🇺🇸 United States (+1)</option>
+                                    <option value="+44">🇬🇧 United Kingdom (+44)</option>
+                                    <option value="+971">🇦🇪 UAE (+971)</option>
+                                    <option value="+966">🇸🇦 Saudi Arabia (+966)</option>
+                                    <option value="+60">🇲🇾 Malaysia (+60)</option>
+                                    <option value="+65">🇸🇬 Singapore (+65)</option>
+                                    <option value="+61">🇦🇺 Australia (+61)</option>
+                                    <option value="+1">🇨🇦 Canada (+1)</option>
+                                    <option value="+49">🇩🇪 Germany (+49)</option>
+                                    <option value="+33">🇫🇷 France (+33)</option>
+                                    <option value="+81">🇯🇵 Japan (+81)</option>
+                                    <option value="+92">🇵🇰 Pakistan (+92)</option>
+                                    <option value="+977">🇳🇵 Nepal (+977)</option>
+                                    <option value="+94">🇱🇰 Sri Lanka (+94)</option>
+                                    <option value="+974">🇶🇦 Qatar (+974)</option>
+                                    <option value="+968">🇴🇲 Oman (+968)</option>
+                                    <option value="+965">🇰🇼 Kuwait (+965)</option>
+                                    <option value="+973">🇧🇭 Bahrain (+973)</option>
+                                    <option value="+90">🇹🇷 Turkey (+90)</option>
+                                    <option value="+62">🇮🇩 Indonesia (+62)</option>
+                                    <option value="+27">🇿🇦 South Africa (+27)</option>
+                                    <option value="+55">🇧🇷 Brazil (+55)</option>
+                                    <option value="+86">🇨🇳 China (+86)</option>
+                                    <option value="+82">🇰🇷 South Korea (+82)</option>
+                                </select>
+                                <input type="text" id="auth-identifier-input" required placeholder="email@example.com or 17XXXXXXXX" class="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-950/40 transition-all font-semibold placeholder-slate-400 dark:placeholder-slate-600">
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col">
+                            <label class="text-[10px] uppercase tracking-widest font-black text-slate-400 dark:text-slate-500 mb-1.5">Password</label>
+                            <input type="password" id="auth-password-input" required placeholder="••••••••" class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-950/40 transition-all font-semibold placeholder-slate-400 dark:placeholder-slate-600">
+                        </div>
+                        
+                        <button type="submit" id="auth-submit-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base py-4 rounded-2xl shadow-lg transition-all transform active:scale-[0.99] mt-3">Sign In</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Pane: Premium Value Proposition Panel (45% width) -->
+            <div class="hidden md:flex md:w-[42%] h-full bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-10 flex-col justify-between text-left relative shrink-0 overflow-hidden border-l border-slate-100 dark:border-slate-850">
+                <!-- Background ambient lights -->
+                <div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-blue-500/10 blur-[80px]"></div>
+                <div class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-indigo-500/10 blur-[80px]"></div>
+
+                <div class="space-y-2 z-10">
+                    <span class="text-xs font-black uppercase tracking-widest text-blue-400">Quizlish Premium</span>
+                    <h4 class="text-2xl font-extrabold text-white leading-tight">Elevate Your Language Skills</h4>
+                </div>
+
+                <!-- Feature Cards -->
+                <div class="space-y-6 z-10">
+                    <div class="flex gap-4 items-start">
+                        <div class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-blue-400 text-lg">💡</div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Instant Explanations</h5>
+                            <p class="text-xs text-slate-400 leading-relaxed mt-1">Get precise guidance on incorrect answers instantly.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        <div class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-emerald-400 text-lg">📈</div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Track Scores & Progress</h5>
+                            <p class="text-xs text-slate-400 leading-relaxed mt-1">Review performance, take history logs, and view averages.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        <div class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-purple-400 text-lg">🏆</div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Full-Length Grammar Tests</h5>
+                            <p class="text-xs text-slate-400 leading-relaxed mt-1">Standardized assessments covering over 10 grammatical fields.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-[10px] text-slate-500 dark:text-slate-500 uppercase tracking-widest font-black z-10">
+                    Join thousands of language learners worldwide.
+                </div>
+            </div>
+
+        </div>
+    </div>
+                </div>
+
+                <button onclick="prepareCategory('comprehension')" id="nav-comprehension" class="nav-btn px-5 py-2 rounded-full font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Comprehension</button>
+                <button onclick="showScreen('writings')" id="nav-writings" class="nav-btn px-5 py-2 rounded-full font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Writings</button>
+                <button onclick="showScreen('feedback')" id="nav-feedback" class="nav-btn px-5 py-2 rounded-full font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Feedback</button>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <div id="auth-header-container" class="relative">
+                    <button id="auth-nav-btn" onclick="handleAuthClick()" class="hidden sm:inline-flex px-5 py-2.5 rounded-full font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_14px_rgba(37,99,235,0.3)] transition-all items-center gap-1.5 focus:outline-none">
+                        Sign In
+                    </button>
+                    <!-- User Profile Dropdown (Initially Hidden) -->
+                    <div id="user-profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 p-2 z-50 flex-col">
+                        <div class="px-4 py-2.5 border-b border-slate-100 dark:border-slate-700 mb-1">
+                            <p class="text-[10px] text-slate-400 dark:text-slate-500 font-black uppercase tracking-wider">Signed In As</p>
+                            <p id="user-display-name" class="font-bold text-sm text-slate-700 dark:text-slate-200 truncate mt-0.5"></p>
+                        </div>
+                        <button onclick="showProfile()" class="w-full text-left px-4 py-2.5 font-bold text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 rounded-xl transition-colors mb-1">My Progress</button>
+                        <button onclick="handleSignOut()" class="w-full text-left px-4 py-2.5 font-bold text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl transition-colors">Sign Out</button>
+                    </div>
+                </div>
+
+                <button onclick="toggleTheme()" class="p-2.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none" title="Toggle Theme">
+                    <svg id="theme-icon-moon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-icon-sun" class="w-5 h-5 block dark:hidden text-slate-600" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                </button>
+
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Detailed Site Information (AdSense & Educational details ~600 words) -->
+            <div class="w-full mt-16 border-t border-slate-100 dark:border-slate-800 pt-16 text-left">
+                <h3 class="text-3xl font-black text-slate-900 dark:text-white mb-8 text-center">About <span class="text-blue-600 dark:text-blue-400">Quizlish</span> Grammar Portal</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-600 dark:text-slate-400 font-medium text-base leading-relaxed">
+                    <div class="space-y-6 text-justify">
+                        <p>
+                            <strong>Quizlish</strong> is a premier educational web portal designed to serve as a comprehensive learning resource and diagnostic hub for English grammar, structure, and writing skills. Our mission is to bridge the gap between theoretical grammar rules and practical language proficiency. Tailored specifically for school-going students, university learners, and candidates preparing for rigorous competitive exams (such as SAT, TOEFL, IELTS, and civil service English papers), Quizlish provides a structured and interactive environment where learners can learn, practice, test, and master the language with maximum clarity.
+                        </p>
+                        <p>
+                            Unlike traditional text-based platforms, we approach English learning from a multidimensional perspective. We understand that memorizing rules is only half the battle; the real challenge lies in identifying context, spotting exceptions, and applying grammatical constructs in written sentences. To facilitate this, Quizlish incorporates detailed chapter-wise study guides that serve as exhaustive reference notes. By studying these guides before attempting our quizzes, learners can systematically build their concepts from the ground up.
+                        </p>
+                        <p>
+                            We cover a wide spectrum of essential grammatical domains. This includes basic parts of speech, such as prepositions and adjectives, as well as complex syntactic mechanics like voice change, narration change, sentence joining, and transformations. Each category is loaded with dynamic exercises designed to stimulate critical thinking. By presenting multiple-choice questions that mirror real-world exams, we ensure that students are prepared to tackle any structural test with confidence.
+                        </p>
+                        <p>
+                            Our diagnostic design focuses on incremental skill-building. For instance, in our Voice Change or Narration modules, questions are carefully sequenced to test specific changes in verb forms, pronoun adjustments, and tenses. This allows students to isolate their weaknesses and address them specifically using our study notes, making their preparation focused and highly efficient.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-6 text-justify">
+                        <p>
+                            A key differentiator of Quizlish is our integration of modern technology to enhance the overall study flow. Our built-in **AI Grammar Tutor** functions as a personal, round-the-clock teaching assistant. If a student is confused by a specific rule or wishes to query an explanation, they can interact with the tutor to receive instant, tailored responses. This real-time feedback mechanism mimics the presence of a private classroom tutor, boosting engagement and reducing confusion.
+                        </p>
+                        <p>
+                            Additionally, the platform features a dedicated **Writings and Paragraphs** section. This contains a rich collection of standard essays and paragraphs ranging from traditional values like discipline and friendship to modern global trends like artificial intelligence, climate action, and online safety. Each draft is structured to meet school word-count requirements (about 180 words) and follows standard grammatical formatting. This repository serves as an excellent reference library for students to improve their composition style, sentence structure, and vocabulary.
+                        </p>
+                        <p>
+                            For evaluation, our mock tests and quizzes are paired with intelligent performance metrics, including precise timers and automated review screens. After completing a quiz, the student is presented with a detailed, card-by-card question analysis showing the chosen option, the correct answer, and a descriptive explanation of the logical rule applied. This structured cycle of study, practice, and immediate self-correction makes Quizlish the ultimate companion for grammar mastery and vocabulary development.
+                        </p>
+                        <p>
+                            Ultimately, our goal is to build long-term linguistic confidence. By integrating interactive quiz-taking, detailed review sheets, high-quality essay models, and AI-powered tutoring into a single cohesive experience, we empower students to communicate effectively and excel academically. Whether you are correcting basic errors or polishing advanced syntax, Quizlish provides the tools you need to succeed.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Complete English Grammar & Composition Study Guide (For AdSense compliance and bot crawlers) -->
+                <div class="w-full mt-16 border-t border-slate-100 dark:border-slate-800 pt-16 text-left">
+                    <h3 class="text-3xl font-black text-slate-900 dark:text-white mb-8 text-center">Complete <span class="text-indigo-600 dark:text-indigo-400">English Grammar</span> Study Guide</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-600 dark:text-slate-400 font-medium text-base leading-relaxed">
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">1. Prepositions Guide</h4>
+                                <p class="text-justify">
+                                    Prepositions are words that establish relationships between nouns, pronouns, and other words in a sentence. They indicate direction, time, place, location, and spatial relationships. For example, we use 'at' for precise times (at 3 PM), 'in' for months or years (in July, in 2026), and 'on' for days and dates (on Monday). Understanding fixed prepositions is critical for competitive exams—such as 'accused of', 'interested in', and 'congratulate on'.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">2. Tenses & Verb Forms</h4>
+                                <p class="text-justify">
+                                    Tenses denote the time of an action. The English language uses twelve tense structures classified under Present, Past, and Future. The present simple is used for habitual actions or general truths (e.g., 'Water boils at 100°C'). The past perfect denotes an action completed before another past action (e.g., 'The train had left before we arrived'). Mastering tense changes is the baseline for complex voice and narration modifications.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">3. Adjectives & Comparisons</h4>
+                                <p class="text-justify">
+                                    Adjectives modify nouns and pronouns by describing their qualities, quantity, or states of being. When comparing, they take positive, comparative, or superlative degrees. For instance, 'tall' becomes 'taller' and 'tallest'. The order of cumulative adjectives is also strictly defined in grammar: opinion, size, physical quality, shape, age, color, origin, material, and purpose (e.g., 'a beautiful small round antique gold coin').
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">4. Adverbs & Modifiers</h4>
+                                <p class="text-justify">
+                                    Adverbs modify verbs, adjectives, or other adverbs, answering questions like how, when, where, and to what extent. Adverbs of manner usually end in '-ly' (e.g., 'He ran quickly'). Note that some words like 'fast' function as both adjectives and adverbs. Proper placement of adverbs is crucial—frequency adverbs (always, seldom) generally precede the main verb they modify.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">5. Conjunctions & Clause Connectors</h4>
+                                <p class="text-justify">
+                                    Conjunctions are the glue that joins words, phrases, and clauses. Coordinating conjunctions (FANBOYS: for, and, nor, but, or, yet, so) connect grammatically equal elements. Subordinating conjunctions (although, because, unless, since) connect a dependent clause to an independent clause, showing relationships of cause, time, contrast, or condition. Correlatives like 'either...or' and 'neither...nor' must always be paired correctly.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">6. Voice Change Rules</h4>
+                                <p class="text-justify">
+                                    Voice refers to the relation of the subject to the action expressed by the verb. In Active Voice, the subject performs the action (e.g., 'The teacher teaches grammar'). In Passive Voice, the subject receives the action (e.g., 'Grammar is taught by the teacher'). To transform active to passive, shift the object to the subject position, introduce the appropriate auxiliary verb 'be' matching the tense, use the past participle (V3) of the verb, and append the agent.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">7. Narration Change & Indirect Speech</h4>
+                                <p class="text-justify">
+                                    Narration change involves converting Direct Speech (quoting actual words) into Indirect Speech (reporting the message). During this shift, quotation marks are removed, reporting verbs are adjusted (e.g., 'said to' becomes 'told' or 'asked'), pronouns change to match the point of view, and verbs undergo backshifting (e.g., simple present becomes simple past) if the reporting verb is in the past tense. Adverbs of time/place also shift (e.g., 'now' becomes 'then', 'tomorrow' becomes 'the next day').
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">8. Sentence Joining Techniques</h4>
+                                <p class="text-justify">
+                                    Joining teaches you how to combine multiple short sentences into a single cohesive simple, complex, or compound sentence. Simple sentences can be created using participles (e.g., 'Seeing the policeman, he fled'), infinitives ('He works hard to support his family'), or nominative absolutes ('The captain having been killed, the army fled'). Complex sentences use relative pronouns or adverbial clauses, while compound sentences rely on coordinators.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">9. Transformation of Sentences</h4>
+                                <p class="text-justify">
+                                    Transformation is the art of changing the structure of a sentence without altering its meaning. Key transformations include converting Affirmative to Negative (e.g., 'Only a fool would say this' becomes 'None but a fool would say this'), Assertive to Interrogative ('Everyone loves his country' becomes 'Who does not love his country?'), and Degree changes. This tests a student's flexible command over grammatical syntax.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">10. Reading Comprehension</h4>
+                                <p class="text-justify">
+                                    Reading comprehension evaluates a learner's ability to decode complex texts, infer meanings of unfamiliar vocabulary, identify main themes, and extract supporting details. Success in comprehension requires active reading—first skimming the passage to grab the tone and central idea, and then scanning specific segments to resolve factual and context-based multiple choice questions accurately.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu-overlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+    
+    <div id="mobile-menu-sidebar" class="fixed inset-y-0 right-0 w-72 bg-white dark:bg-slate-900 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6 overflow-y-auto no-scrollbar border-l border-slate-100 dark:border-slate-800">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-black text-slate-900 dark:text-white">Menu</h2>
+            <button onclick="toggleMobileMenu()" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        
+        <div class="flex flex-col gap-2">
+            <button onclick="mobileNav('home')" class="text-left px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Home</button>
+            <button onclick="mobileNav('full_tests')" class="text-left px-4 py-3 rounded-xl font-black text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800">🏆 Full Length Tests</button>
+            <button onclick="mobileNav('grammar-topics-screen')" class="text-left px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Grammar Tests</button>
+            <button onclick="mobileNav('comprehension')" class="text-left px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Comprehension</button>
+            <button onclick="mobileNav('writings')" class="text-left px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Writings</button>
+            <button onclick="mobileNav('feedback')" class="text-left px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Feedback</button>
+            <button onclick="mobileNav('terms')" class="text-left px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Terms & Conditions</button>
+            <button onclick="mobileNav('privacy')" class="text-left px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Privacy Policy</button>
+            <hr class="my-2 border-slate-100 dark:border-slate-800">
+            <button id="profile-mobile-btn" onclick="toggleMobileMenu(); showProfile();" class="hidden text-left px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">My Progress</button>
+            <button id="auth-mobile-btn" onclick="toggleMobileMenu(); openAuthModal();" class="text-left px-4 py-3 rounded-xl font-black text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800">Sign In</button>
+        </div>
+    </div>
+
+    <main class="flex-1 min-h-0 w-full max-w-6xl mx-auto p-4 md:p-8 flex flex-col justify-center">
+        
+        <div id="home-screen" class="app-screen w-full flex flex-col gap-16 py-8 lg:py-12">
+            <div class="w-full flex flex-col lg:flex-row items-center gap-12">
+                <div class="flex-1 space-y-6 text-center lg:text-left z-10">
+                    <div class="inline-block bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 font-bold px-4 py-1.5 rounded-full text-sm mb-2 shadow-sm border border-orange-200 dark:border-orange-800">🏆 Excellence in Grammar</div>
+                    <h2 class="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white leading-tight">Master <span class="text-rose-500 dark:text-rose-400">English</span><br>with confidence</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-lg md:text-xl font-bold leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        Welcome to Quizlish, your ultimate online destination for mastering English grammar and composition. Perfect for school students and competitive exam aspirants.
+                    </p>
+                    
+                    <div class="pt-6 flex flex-wrap gap-4 justify-center lg:justify-start">
+                        <button onclick="prepareCategory('full_tests')" class="bg-rose-600 hover:bg-rose-700 text-white font-black text-lg py-4 px-10 rounded-full shadow-[0_10px_25px_rgba(225,29,72,0.4)] transition-transform transform hover:-translate-y-1 flex items-center gap-3">
+                            Take Full Test
+                            <span class="bg-white text-rose-600 rounded-full w-8 h-8 flex items-center justify-center">&rarr;</span>
+                        </button>
+                        <button onclick="showScreen('grammar-topics-screen')" class="bg-blue-600 hover:bg-blue-700 text-white font-black text-lg py-4 px-8 rounded-full shadow-[0_10px_25px_rgba(37,99,235,0.4)] transition-transform transform hover:-translate-y-1 flex items-center gap-3">
+                            Practice Topics
+                        </button>
+                        <button onclick="toggleAIChat()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg py-4 px-8 rounded-full shadow-[0_10px_25px_rgba(79,70,229,0.4)] transition-transform transform hover:-translate-y-1 flex items-center gap-3">
+                            Ask your tutor ✨
+                        </button>
+                        <button id="auth-front-btn" onclick="handleAuthClick()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-lg py-4 px-8 rounded-full shadow-[0_10px_25px_rgba(16,185,129,0.4)] transition-transform transform hover:-translate-y-1 flex items-center gap-3">
+                            Sign In
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex-1 relative w-full flex items-center justify-center lg:justify-end mt-10 lg:mt-0">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-rose-200 to-blue-200 dark:from-rose-900/40 dark:to-blue-900/40 rounded-full opacity-60 blur-3xl z-0"></div>
+                    <div class="relative z-10 w-full max-w-md lg:max-w-lg rounded-[3rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.12)] border-8 border-white dark:border-slate-800 bg-white dark:bg-slate-800 animate-float">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=800&auto=format&fit=crop" alt="Boys and girls studying together" class="w-full h-[350px] lg:h-[450px] object-cover" />
+                    </div>
+                    <div class="absolute top-10 lg:top-16 -left-4 lg:left-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md p-4 lg:p-5 rounded-3xl shadow-xl border border-slate-50 dark:border-slate-700 animate-float-delayed z-20 text-center min-w-[140px]">
+                        <div class="text-emerald-500 font-black text-2xl lg:text-3xl">1000+</div>
+                        <div class="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-widest mt-1">Questions</div>
+                    </div>
+                    <div class="absolute bottom-10 lg:bottom-16 -right-4 lg:-right-8 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md p-4 lg:p-5 rounded-3xl shadow-xl border border-slate-50 dark:border-slate-700 animate-float z-20 text-center min-w-[140px]">
+                        <div class="text-blue-500 font-black text-2xl lg:text-3xl">Instant</div>
+                        <div class="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-widest mt-1">Feedback</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="grammar-topics-screen" class="app-screen hidden w-full max-w-5xl mx-auto py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
+                <button onclick="showHome()" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 font-black transition-colors bg-white dark:bg-slate-800 px-5 py-2.5 rounded-full shadow-sm border border-slate-100 dark:border-slate-700">
+                    &larr; Back to Home
+                </button>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white">Grammar <span class="text-blue-600 dark:text-blue-400">Topics</span></h2>
+                <div class="hidden md:block w-32"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="col-span-1 md:col-span-2 lg:col-span-3 mb-4">
+                    <button onclick="prepareCategory('full_tests')" class="w-full bg-gradient-to-r from-rose-500 to-orange-500 p-8 rounded-[2rem] shadow-lg hover:-translate-y-2 hover:shadow-xl transition-all flex flex-col md:flex-row items-center justify-between text-left group border border-white/20">
+                        <div class="flex items-center gap-6">
+                            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-white text-3xl backdrop-blur-sm">🏆</div>
+                            <div>
+                                <h3 class="text-2xl md:text-3xl font-black text-white mb-2">Full Length Mock Tests</h3>
+                                <p class="text-white/90 font-bold text-sm md:text-base">50 Questions • 35 Minutes • Covers all grammar sections + Comprehension</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 md:mt-0 bg-white text-rose-600 font-black px-8 py-3 rounded-full shadow-md group-hover:scale-105 transition-transform flex items-center gap-2">
+                            Start Exam &rarr;
+                        </div>
+                    </button>
+                </div>
+
+                <button onclick="prepareCategory('prepositions')" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group">
+                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center text-blue-500 dark:text-blue-400 mb-4 group-hover:bg-blue-500 group-hover:text-white transition-colors">📘</div>
+                    <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Prepositions</h3>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Master spatial and temporal relations.</p>
+                </button>
+                <button onclick="prepareCategory('tenses')" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group">
+                    <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center text-emerald-500 dark:text-emerald-400 mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-colors">⏳</div>
+                    <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Tenses</h3>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Perfect your understanding of time.</p>
+                </button>
+                <button onclick="prepareCategory('adjectives')" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group">
+                    <div class="w-12 h-12 bg-rose-50 dark:bg-rose-900/30 rounded-2xl flex items-center justify-center text-rose-500 dark:text-rose-400 mb-4 group-hover:bg-rose-500 group-hover:text-white transition-colors">🎨</div>
+                    <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Adjectives</h3>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Learn to describe nouns vividly.</p>
+                </button>
+                <button onclick="prepareCategory('adverbs')" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group">
+                    <div class="w-12 h-12 bg-amber-50 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-amber-500 dark:text-amber-400 mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors">🚀</div>
+                    <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Adverbs</h3>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Modify verbs and adjectives accurately.</p>
+                </button>
+                <button onclick="prepareCategory('conjunctions')" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group">
+                    <div class="w-12 h-12 bg-purple-50 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center text-purple-500 dark:text-purple-400 mb-4 group-hover:bg-purple-500 group-hover:text-white transition-colors">🔗</div>
+                    <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Conjunctions</h3>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Connect ideas and clauses smoothly.</p>
+                </button>
+                <button onclick="prepareCategory('voice')" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group border-l-4 border-l-blue-400">
+                    <div class="w-12 h-12 bg-sky-50 dark:bg-sky-900/30 rounded-2xl flex items-center justify-center text-sky-500 dark:text-sky-400 mb-4 group-hover:bg-sky-500 group-hover:text-white transition-colors">🔄</div>
+                    <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Voice Change</h3>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Master Active to Passive transitions.</p>
+                </button>
+                <button onclick="prepareCategory('narration')" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group border-l-4 border-l-indigo-400">
+                    <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl flex items-center justify-center text-indigo-500 dark:text-indigo-400 mb-4 group-hover:bg-indigo-500 group-hover:text-white transition-colors">🗣️</div>
+                    <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Narration</h3>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Direct and Indirect speech rules.</p>
+                </button>
+                <button onclick="prepareCategory('joining')" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group border-l-4 border-l-teal-400">
+                    <div class="w-12 h-12 bg-teal-50 dark:bg-teal-900/30 rounded-2xl flex items-center justify-center text-teal-500 dark:text-teal-400 mb-4 group-hover:bg-teal-500 group-hover:text-white transition-colors">🧩</div>
+                    <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Joining</h3>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Combine sentences without altering meaning.</p>
+                </button>
+                <button onclick="prepareCategory('transformation')" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-slate-50 dark:border-slate-700 hover:-translate-y-2 hover:shadow-lg transition-all flex flex-col items-start text-left group border-l-4 border-l-fuchsia-400">
+                    <div class="w-12 h-12 bg-fuchsia-50 dark:bg-fuchsia-900/30 rounded-2xl flex items-center justify-center text-fuchsia-500 dark:text-fuchsia-400 mb-4 group-hover:bg-fuchsia-500 group-hover:text-white transition-colors">✨</div>
+                    <h3 class="text-xl font-black text-slate-800 dark:text-white mb-2">Transformation</h3>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Rewrite sentences in different forms.</p>
+                </button>
+            </div>
+        </div>
+
+        <div id="feedback-screen" class="app-screen hidden w-full flex flex-col items-center justify-center gap-6 py-8 text-center max-w-3xl mx-auto">
+            <div class="w-full flex justify-start mb-2">
+                <button onclick="showHome()" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 font-black transition-colors bg-white dark:bg-slate-800 px-5 py-2.5 rounded-full shadow-sm border border-slate-100 dark:border-slate-700">
+                    &larr; Back to Home
+                </button>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-2">We Value Your <span class="text-blue-500">Feedback!</span></h2>
+            
+            <p class="text-slate-500 dark:text-slate-400 text-lg font-bold leading-relaxed mb-4">
+                Your feedback helps us improve Quizlish and provide a better learning experience for everyone.
+                <br><br>
+                Reach out to us directly at: <a href="mailto:developertanmoyc@gmail.com" class="text-blue-600 dark:text-blue-400 hover:underline">developertanmoyc@gmail.com</a>
+            </p>
+            
+            <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-lg border border-slate-50 dark:border-slate-700 w-full animate-float flex flex-col items-center">
+                <p class="text-slate-500 dark:text-slate-400 font-bold mb-4 uppercase tracking-widest text-sm">Rate your experience:</p>
+                <div class="flex gap-2 cursor-pointer" id="star-rating">
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="1">★</span>
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="2">★</span>
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="3">★</span>
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="4">★</span>
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="5">★</span>
+                </div>
+                <p id="rating-msg" class="text-emerald-500 font-bold mt-4 h-6 opacity-0 transition-opacity duration-300">Thank you for your rating!</p>
+            </div>
+        </div>
+
+        <div id="writings-screen" class="app-screen hidden w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] md:rounded-[2.5rem] shadow-lg p-5 md:p-12 border border-white dark:border-slate-700 max-w-4xl mx-auto my-8 text-left">
+            <div class="w-full flex justify-between items-center mb-8 border-b border-slate-100 dark:border-slate-700 pb-4">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white">Writings Section</h2>
+                <button onclick="showHome()" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 font-black transition-colors bg-white dark:bg-slate-700 px-5 py-2.5 rounded-full shadow-sm border border-slate-200 dark:border-slate-600">
+                    &larr; Home
+                </button>
+            </div>
+            
+            <div id="writings-container" class="space-y-8">
+                <!-- Dynamically populated from writingsData -->
+            </div>
+        </div>
+
+        <div id="privacy-screen" class="app-screen hidden w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] md:rounded-[2.5rem] shadow-lg p-5 md:p-12 border border-white dark:border-slate-700 max-w-4xl mx-auto my-8 text-left">
+            <div class="w-full flex justify-between items-center mb-6">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white">Privacy Policy</h2>
+                <button onclick="showHome()" class="flex items-center gap-2 text-slate-500 hover:text-blue-600 font-black transition-colors bg-white dark:bg-slate-700 px-5 py-2.5 rounded-full shadow-sm">
+                    &larr; Home
+                </button>
+            </div>
+            <div class="text-slate-600 dark:text-slate-400 font-medium space-y-4 leading-relaxed">
+                <p class="mb-4">At Quizlish, accessible from our website, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Quizlish and how we use it.</p>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">Consent</h3>
+                <p class="mb-4">By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">Information We Collect</h3>
+                <p class="mb-4">Quizlish is an educational platform. You can practice grammar quizzes, read detailed grammar explanations, and study writing paragraphs without creating an account. If you contact us directly via email (developertanmoyc@gmail.com), we may receive additional information about you such as your name, email address, the contents of the message, and any attachments you may send.</p>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">Google DoubleClick DART Cookie</h3>
+                <p class="mb-4">Google is one of the third-party vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to our site and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL: <a href="https://policies.google.com/technologies/ads" target="_blank" class="text-blue-600 dark:text-blue-400 underline">https://policies.google.com/technologies/ads</a>.</p>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">Our Advertising Partners</h3>
+                <p class="mb-4">Some of advertisers on our site may use cookies and web beacons. Our advertising partners include Google AdSense. Each of our advertising partners has their own Privacy Policy for their policies on user data.</p>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">Third-Party Privacy Policies</h3>
+                <p class="mb-4">Quizlish's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information.</p>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">GDPR and CCPA Data Protection Rights</h3>
+                <p class="mb-4">We want to make sure you are fully aware of all of your data protection rights. Every user is entitled to the right to access, rectification, erasure, restrict processing, object to processing, and data portability. If you would like to exercise any of these rights, please contact us.</p>
+            </div>
+        </div>
+
+        <div id="terms-screen" class="app-screen hidden w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] md:rounded-[2.5rem] shadow-lg p-5 md:p-12 border border-white dark:border-slate-700 max-w-4xl mx-auto my-8 text-left">
+            <div class="w-full flex justify-between items-center mb-6">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white">Terms & Conditions</h2>
+                <button onclick="showHome()" class="flex items-center gap-2 text-slate-500 hover:text-blue-600 font-black transition-colors bg-white dark:bg-slate-700 px-5 py-2.5 rounded-full shadow-sm">
+                    &larr; Home
+                </button>
+            </div>
+            <div class="text-slate-600 dark:text-slate-400 font-medium space-y-4 leading-relaxed">
+                <p class="mb-4">Welcome to Quizlish. These terms and conditions outline the rules and regulations for the use of Quizlish's Website.</p>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">Intellectual Property Rights</h3>
+                <p class="mb-4">Other than the content you own, under these Terms, Quizlish and/or its licensors own all the intellectual property rights and materials contained in this Website. You are granted a limited license only for purposes of viewing and interacting with the educational material, quizzes, and study guides contained on this Website.</p>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">Restrictions</h3>
+                <p class="mb-4">You are specifically restricted from all of the following:</p>
+                <ul class="list-disc pl-6 mb-4 space-y-1">
+                    <li>Publishing any Website material in any other media;</li>
+                    <li>Selling, sublicensing and/or otherwise commercializing any Website material;</li>
+                    <li>Publicly performing and/or showing any Website material;</li>
+                    <li>Using this Website in any way that is or may be damaging to this Website;</li>
+                    <li>Using this Website in any way that impacts user access to this Website;</li>
+                    <li>Using this Website contrary to applicable laws and regulations.</li>
+                </ul>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">No Warranties</h3>
+                <p class="mb-4">This Website is provided "as is," with all faults, and Quizlish expresses no representations or warranties of any kind related to this Website or the materials contained on this Website. Also, nothing contained on this Website shall be interpreted as advising you.</p>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6 mb-2">Limitation of Liability</h3>
+                <p class="mb-4">In no event shall Quizlish, nor any of its officers, directors, and employees, be held liable for anything arising out of or in any way connected with your use of this Website whether such liability is under contract. Quizlish shall not be held liable for any indirect, consequential, or special liability arising out of or in any way connected to your use of this Website.</p>
+            </div>
+        </div>
+
+        <div id="quiz-selection-screen" class="app-screen hidden m-auto w-full max-w-4xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] md:rounded-[2.5rem] shadow-lg p-5 md:p-12 border border-white dark:border-slate-700">
+            <div class="text-center mb-10 relative">
+                <button onclick="showScreen('grammar-topics-screen')" class="absolute left-0 top-0 hidden md:flex items-center gap-2 text-slate-500 hover:text-blue-600 font-black transition-colors bg-white dark:bg-slate-700 px-5 py-2.5 rounded-full shadow-sm">
+                    &larr; Back
+                </button>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-3">Select a Test</h2>
+                <p class="text-slate-500 dark:text-slate-400 font-bold text-lg">Topic: <span id="selection-category-name" class="text-blue-600 dark:text-blue-400 uppercase"></span></p>
+                <button onclick="showScreen('grammar-topics-screen')" class="mt-4 md:hidden inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 font-black transition-colors bg-white dark:bg-slate-700 px-5 py-2.5 rounded-full shadow-sm">
+                    &larr; Back
+                </button>
+            </div>
+            
+            <div id="category-rules-container" class="mb-10 p-8 bg-blue-50 dark:bg-slate-700/50 border border-blue-100 dark:border-slate-600 rounded-3xl text-left hidden shadow-sm">
+                <h3 class="text-xl font-black text-blue-900 dark:text-blue-300 mb-4 flex items-center gap-2" id="rules-title"></h3>
+                <div id="rules-content" class="text-blue-800 dark:text-blue-200 font-medium space-y-3"></div>
+            </div>
+
+            <div id="quiz-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
+
+            <div id="category-explanation-container" class="mt-10 p-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl text-left hidden shadow-sm">
+                <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-2">📖 Study & Learning Guide</h3>
+                <div id="explanation-content" class="text-slate-700 dark:text-slate-350 font-medium space-y-6 text-justify leading-relaxed max-w-none"></div>
+            </div>
+        </div>
+
+        <div id="quiz-container" class="app-screen hidden flex-1 flex flex-col bg-white dark:bg-slate-800 rounded-3xl md:rounded-[2.5rem] shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden max-w-5xl w-full mx-auto my-0 md:my-4 h-auto min-h-[70dvh] md:max-h-[90vh]">
+            <div class="shrink-0 flex justify-between items-start md:items-center p-6 md:p-8 border-b border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-800 z-10 flex-col md:flex-row gap-4">
+                <div class="flex items-center gap-4">
+                    <button onclick="showHome()" class="p-3 bg-slate-50 dark:bg-slate-700 hover:bg-rose-50 dark:hover:bg-rose-900/50 text-slate-400 dark:text-slate-300 hover:text-rose-500 rounded-2xl transition-colors shadow-sm" title="Exit Quiz">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    <div>
+                        <span id="category-badge" class="inline-block bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-widest mb-1">Category</span>
+                        <h2 class="text-xl md:text-2xl font-black text-slate-800 dark:text-white" id="question-number">Question 1 of 10</h2>
+                    </div>
+                </div>
+                
+                <div class="text-base font-black text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-5 py-2.5 rounded-full border border-blue-100 dark:border-blue-800 flex items-center gap-2 shadow-sm">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span id="timer-display">00:00</span>
+                </div>
+            </div>
+
+            <div class="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden">
+                
+                <div id="question-nav-panel" class="hidden w-full md:w-72 lg:w-80 shrink-0 bg-slate-50/80 dark:bg-slate-800/50 border-b md:border-b-0 md:border-l border-slate-200 dark:border-slate-700 p-4 md:p-6 overflow-y-auto no-scrollbar flex-col order-first md:order-last max-h-40 md:max-h-full z-10">
+                    <div class="flex flex-row md:flex-col justify-between md:justify-start items-center md:items-start gap-2 md:gap-3 mb-4 md:mb-6">
+                        <span class="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Question Navigator</span>
+                        <div class="flex gap-3 md:gap-4 text-[10px] md:text-xs font-bold text-slate-400">
+                            <span class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-blue-600"></div> Current</span>
+                            <span class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-emerald-400"></div> Answered</span>
+                        </div>
+                    </div>
+                    <div id="question-nav-grid" class="flex flex-wrap gap-1.5 md:gap-2 content-start pb-2">
+                        </div>
+                </div>
+
+                <div id="scrollable-content" class="flex-1 overflow-y-auto p-5 md:p-10 no-scrollbar bg-white dark:bg-slate-800">
+                    <div id="reading-passage" class="hidden mb-6 md:mb-8 p-5 bg-slate-50 dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm md:text-base shadow-sm"></div>
+                    <p id="question-text" class="text-lg md:text-2xl font-bold mb-6 md:mb-8 text-slate-900 dark:text-white leading-relaxed"></p>
+                    <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 pb-4"></div>
+                </div>
+
+            </div>
+
+            <div class="shrink-0 p-6 border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-800 flex justify-between items-center gap-4 z-10">
+                <button id="prev-btn" class="hidden bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 font-bold py-3.5 px-8 rounded-full transition-colors duration-200 w-full sm:w-auto">
+                    &larr; Previous
+                </button>
+                <button id="next-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-10 rounded-full shadow-lg transition-all duration-200 w-full sm:w-auto ml-auto">
+                    Skip Question &rarr;
+                </button>
+            </div>
+        </div>
+
+        <div id="results-container" class="app-screen hidden w-full max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-[2rem] md:rounded-[2.5rem] shadow-xl p-5 md:p-16 text-center border-t-8 border-blue-500 my-8">
+            <h2 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4">Test Completed!</h2>
+            <p class="text-xl font-bold mb-2 text-slate-500 dark:text-slate-400">Your Final Score for <span id="result-category" class="text-blue-600 dark:text-blue-400"></span></p>
+            
+            <div class="my-8">
+                <span class="text-7xl md:text-8xl font-black text-blue-600 dark:text-blue-400 tracking-tighter" id="final-score">0</span> 
+                <span class="text-3xl font-black text-slate-300 dark:text-slate-600" id="total-score-display">/ 10</span>
+            </div>
+            
+            <p id="feedback-text" class="text-slate-600 dark:text-slate-300 mb-10 font-bold text-lg bg-blue-50/50 dark:bg-slate-700/50 p-6 rounded-3xl border border-blue-100 dark:border-slate-600 mx-auto max-w-2xl"></p>
+            
+            <div class="mb-10 flex flex-col items-center">
+                <span class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">Brag about your score:</span>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="shareScore('whatsapp')" class="bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform transform hover:-translate-y-1 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86
+            Object.values(screens).forEach(screen => screen.classList.add('hidden'));
+            screens.quiz.classList.remove('hidden');
+            els.badge.innerText = `${categoryNames[currentCategory]} • ${currentQuizName}`;
+            
+            loadQuestion();
+            startTimer(); 
+        }
+
+        function loadQuestion() {
+            selectedOptionIndex = userAnswers[currentQuestionIndex];
+            const currentQ = currentQuizData[currentQuestionIndex];
+            els.qNum.innerText = `Question ${currentQuestionIndex + 1} of ${currentQuizData.length}`;
+            
+            if (currentQ.passage) {
+                els.passage.classList.remove('hidden');
+                els.passage.innerText = currentQ.passage;
+            } else els.passage.classList.add('hidden');
+
+            els.text.innerText = currentQ.q;
+            els.options.innerHTML = '';
+            
+            if (currentQuestionIndex === 0) els.prevBtn.classList.add('hidden');
+            else els.prevBtn.classList.remove('hidden');
+
+            updateNextButtonText();
+            updateQuestionNavUI(); 
+            
+            if(currentCategory !== 'full_tests') els.scrollableContent.scrollTop = 0;
+
+            currentQ.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn w-full text-left p-4 border-2 border-slate-100 dark:border-slate-600 bg-white dark:bg-slate-700 rounded-2xl text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 hover:border-slate-300 dark:hover:border-slate-500 font-bold shadow-sm transition-all text-base md:text-lg';
+                
+                if (index === selectedOptionIndex) {
+                    btn.classList.add('bg-blue-50', 'border-blue-500', 'text-blue-800', 'dark:bg-blue-900/40', 'dark:text-blue-200');
+                    btn.classList.remove('hover:bg-slate-50', 'hover:border-slate-300', 'border-slate-100', 'dark:border-slate-600', 'dark:bg-slate-700', 'dark:text-slate-200');
+                }
+
+                btn.innerText = option;
+                btn.onclick = () => selectOption(index, btn);
+                els.options.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedIndex, btnElement) {
+            selectedOptionIndex = selectedIndex;
+            userAnswers[currentQuestionIndex] = selectedIndex; 
+            
+            const allBtns = els.options.children;
+            for (let i = 0; i < allBtns.length; i++) {
+                allBtns[i].className = 'option-btn w-full text-left p-4 border-2 border-slate-100 dark:border-slate-600 bg-white dark:bg-slate-700 rounded-2xl text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 hover:border-slate-300 dark:hover:border-slate-500 font-bold shadow-sm transition-all text-base md:text-lg';
+            }
+            btnElement.className = 'option-btn w-full text-left p-4 border-2 border-blue-500 rounded-2xl text-blue-800 dark:text-blue-200 bg-blue-50 dark:bg-blue-900/40 font-bold shadow-sm transition-all text-base md:text-lg';
+            
+            updateNextButtonText();
+            updateQuestionNavUI(); 
+        }
+        
+        function updateNextButtonText() {
+            let actionText = selectedOptionIndex === null ? 'Skip Question' : 'Next Question';
+            if (currentQuestionIndex === currentQuizData.length - 1) {
+                actionText = selectedOptionIndex === null ? 'Skip & Submit Test' : 'Submit Test';
+            }
+            els.nextBtn.innerHTML = `${actionText} &rarr;`;
+        }
+
+        els.prevBtn.onclick = () => { if (currentQuestionIndex > 0) { currentQuestionIndex--; loadQuestion(); } };
+        els.nextBtn.onclick = () => { currentQuestionIndex++; if (currentQuestionIndex < currentQuizData.length) loadQuestion(); else showResults(); };
+
+        function showResults() {
+            window.scrollTo(0, 0); clearInterval(timerInterval); 
+            Object.values(screens).forEach(screen => screen.classList.add('hidden'));
+            screens.results.classList.remove('hidden');
+            
+            document.getElementById('ai-chat-toggle-btn').classList.remove('hidden');
+
+            document.getElementById('result-category').innerText = `${categoryNames[currentCategory]} (${currentQuizName})`;
+            
+            let score = 0;
+            userAnswers.forEach((ans, i) => { if (ans === currentQuizData[i].correct) score++; });
+            document.getElementById('final-score').innerText = score;
+            
+            document.getElementById('total-score-display').innerText = `/ ${currentQuizData.length}`;
+
+            const percent = (score / currentQuizData.length) * 100;
+            const feedback = document.getElementById('feedback-text');
+            if (percent >= 80) feedback.innerHTML = "🏆 <strong>Outstanding!</strong> You have a masterful grasp of this topic.";
+            else if (percent >= 60) feedback.innerHTML = "👍 <strong>Good effort!</strong> Make sure to check the review below to see what you missed.";
+            else feedback.innerHTML = "📚 <strong>Keep going!</strong> Review the explanations below carefully to improve your skills.";
+            
+            if (currentUser) {
+                saveScoreToDatabase(currentUser.email, currentCategory, currentQuizName, score, currentQuizData.length);
+            } else {
+                let count = parseInt(localStorage.getItem('free_tests_count') || '0', 10);
+                count++;
+                localStorage.setItem('free_tests_count', count);
+            }
+
+            generateReviewSection();
+        }
+        
+        function generateReviewSection() {
+            const reviewContainer = document.getElementById('review-container');
+            reviewContainer.innerHTML = '<h3 class="text-3xl font-black text-slate-900 dark:text-white mb-8 text-left">Detailed Review</h3>';
+
+            currentQuizData.forEach((q, index) => {
+                const userAnswerIdx = userAnswers[index];
+                const isCorrect = userAnswerIdx === q.correct;
+                const isSkipped = userAnswerIdx === null || userAnswerIdx === undefined;
+                const uAnsText = isSkipped ? "<em class='text-slate-400'>Skipped</em>" : q.options[userAnswerIdx];
+                const cAnsText = q.options[q.correct];
+                
+                const cardColor = isCorrect ? "border-emerald-200 dark:border-emerald-800 bg-emerald-50/50 dark:bg-emerald-900/20" : "border-rose-200 dark:border-rose-800 bg-rose-50/50 dark:bg-rose-900/20";
+                const icon = isCorrect ? "✅ Correct" : (isSkipped ? "⚠️ Skipped" : "❌ Incorrect");
+                const textColor = isCorrect ? "text-emerald-700 dark:text-emerald-400" : "text-rose-700 dark:text-rose-400";
+
+                let passageHTML = '';
+                if (q.passage) {
+                    passageHTML = `<div class="mb-5 p-5 bg-white/80 dark:bg-slate-800/80 rounded-2xl text-sm text-slate-600 dark:text-slate-300 font-medium border border-slate-100 dark:border-slate-700">${q.passage}</div>`;
+                }
+
+                reviewContainer.innerHTML += `
+                    <div class="mb-8 p-6 md:p-8 border-2 rounded-3xl shadow-sm bg-white dark:bg-slate-800 ${cardColor} text-left">
+                        <div class="font-black ${textColor} text-sm uppercase tracking-widest mb-4 flex items-center gap-2">${icon}</div>
+                        ${passageHTML}
+                        <p class="text-xl font-bold text-slate-900 dark:text-white mb-6"><strong>Q${index + 1}:</strong> ${q.q}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="p-5 bg-white dark:bg-slate-700 rounded-2xl border border-slate-100 dark:border-slate-600 shadow-sm">
+                                <span class="block text-xs uppercase tracking-widest text-slate-400 dark:text-slate-400 font-black mb-2">Your Answer</span>
+                                <span class="font-bold text-slate-700 dark:text-slate-200 text-lg">${uAnsText}</span>
+                            </div>
+                            <div class="p-5 bg-white dark:bg-slate-700 rounded-2xl border border-slate-100 dark:border-slate-600 shadow-sm">
+                                <span class="block text-xs uppercase tracking-widest text-emerald-500 dark:text-emerald-400 font-black mb-2">Correct Answer</span>
+                                <span class="font-bold text-emerald-700 dark:text-emerald-300 text-lg">${cAnsText}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="p-5 bg-blue-50/50 dark:bg-blue-900/30 rounded-2xl border border-blue-100 dark:border-blue-800 shadow-sm">
+                            <span class="block text-xs uppercase tracking-widest text-blue-600 dark:text-blue-400 font-black mb-2">Explanation</span>
+                            <p class="text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">${q.exp}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        const stars = document.querySelectorAll('.star');
+        let currentRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                const val = this.getAttribute('data-val');
+                stars.forEach(s => {
+                    if (s.getAttribute('data-val') <= val) s.classList.add('text-amber-300');
+                    else s.classList.remove('text-amber-300');
+                });
+            });
+            star.addEventListener('mouseout', function() {
+                stars.forEach(s => {
+                    s.classList.remove('text-amber-300');
+                    if (s.getAttribute('data-val') <= currentRating) {
+                        s.classList.add('text-amber-400');
+                        s.classList.remove('text-slate-200', 'dark:text-slate-600');
+                    } else {
+                        s.classList.remove('text-amber-400');
+                        s.classList.add('text-slate-200', 'dark:text-slate-600');
+                    }
+                });
+            });
+            star.addEventListener('click', function() {
+                currentRating = this.getAttribute('data-val');
+                stars.forEach(s => {
+                    if (s.getAttribute('data-val') <= currentRating) {
+                        s.classList.add('text-amber-400');
+                        s.classList.remove('text-slate-200', 'dark:text-slate-600');
+                    } else {
+                        s.classList.remove('text-amber-400');
+                        s.classList.add('text-slate-200', 'dark:text-slate-600');
+                    }
+                });
+                const msg = document.getElementById('rating-msg');
+                msg.style.opacity = '1'; setTimeout(() => { msg.style.opacity = '0'; }, 3000);
+            });
+        });
+
+        const aiChatWindow = document.getElementById('ai-chat-window');
+        const aiChatInput = document.getElementById('ai-chat-input');
+        const aiChatMessages = document.getElementById('ai-chat-messages');
+        const aiTypingIndicator = document.getElementById('ai-typing-indicator');
+        let chatOpen = false;
+        let chatTimestamps = []; 
+
+        function toggleAIChat() {
+            chatOpen = !chatOpen;
+            if(chatOpen) {
+                aiChatWindow.classList.remove('hidden'); aiChatWindow.classList.add('flex');
+                setTimeout(() => { aiChatWindow.classList.remove('translate-y-4', 'opacity-0', 'scale-95'); aiChatInput.focus(); }, 10);
+            } else {
+                aiChatWindow.classList.add('translate-y-4', 'opacity-0', 'scale-95');
+                setTimeout(() => { aiChatWindow.classList.add('hidden'); aiChatWindow.classList.remove('flex'); }, 300);
+            }
+        }
+
+        function handleEnter(e) { if (e.key === 'Enter') handleSendButtonClick(); }
+
+        function handleSendButtonClick() {
+            const userMessage = aiChatInput.value.trim();
+            if (!userMessage) return;
+
+            const now = Date.now();
+            chatTimestamps = chatTimestamps.filter(time => now - time < 60000); 
+
+            if (chatTimestamps.length >= 2) {
+                appendMessage("⚠️ Please wait a moment. I can only answer 2 questions per minute to ensure high-quality responses!", 'ai');
+                aiChatInput.value = '';
+                return;
+            }
+            
+            chatTimestamps.push(now); 
+            sendChatMessage(userMessage);
+        }
+
+        function appendMessage(text, sender) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex gap-3 max-w-[85%] ${sender === 'user' ? 'ml-auto flex-row-reverse' : ''}`;
+            
+            let avatar = sender === 'ai' 
+                ? `<div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 font-bold text-sm">AI</div>`
+                : `<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-600 text-slate-600 dark:text-slate-300 flex items-center justify-center shrink-0 font-bold text-sm">U</div>`;
+
+            const bubbleClass = sender === 'user' 
+                ? 'bg-blue-600 text-white rounded-tr-none' 
+                : 'bg-white dark:bg-slate-700 border border-slate-100 dark:border-slate-600 text-slate-700 dark:text-slate-200 rounded-tl-none';
+
+            wrapper.innerHTML = `${avatar}<div class="${bubbleClass} p-3.5 rounded-2xl shadow-sm text-sm font-medium leading-relaxed break-words">${text}</div>`;
+            aiChatMessages.appendChild(wrapper);
+            setTimeout(() => { aiChatMessages.scrollTo({ top: aiChatMessages.scrollHeight, behavior: 'smooth' }); }, 50);
+        }
+
+        async function sendChatMessage(userMessage) {
+            appendMessage(userMessage, 'user');
+            aiChatInput.value = '';
+            aiTypingIndicator.classList.remove('hidden');
+            aiChatMessages.scrollTo({ top: aiChatMessages.scrollHeight, behavior: 'smooth' });
+
+            try {
+                const response = await fetch('https://hbylodrkprppisskqaup.supabase.co/functions/v1/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhieWxvZHJrcHJwcGlzc2txYXVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0MjkyMzMsImV4cCI6MjA5NzAwNTIzM30.XLW3N0asYYlr2SSsntr7Z37jOp-MpNeNkseXqZ-Bxqw'
+                    },
+                    body: JSON.stringify({ message: userMessage })
+                });
+
+                const data = await response.json();
+                aiTypingIndicator.classList.add('hidden'); 
+                
+                if (data.answer) appendMessage(data.answer, 'ai');
+                else appendMessage("I'm sorry, I couldn't understand that response.", 'ai');
+
+            } catch (error) {
+                console.error("Error connecting to backend:", error);
+                aiTypingIndicator.classList.add('hidden');
+                appendMessage("Oops! Cannot connect to the server.", 'ai');
+            }
+        }
+
+        // Initialize authentication state
+        syncAuthState();
+    </script>
+</body>
+</html>

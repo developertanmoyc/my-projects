@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizlish - Contact & Feedback</title>
+    <meta name="description" content="Reach out to us directly or rate your grammar test experience to help us improve the Quizlish learning platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        
+        body { font-family: 'Outfit', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-[#f0f9ff] via-white to-[#ecfdf5] dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 text-slate-800 dark:text-slate-100 flex flex-col min-h-screen relative overflow-x-hidden transition-colors duration-300">
+    
+    <header class="shrink-0 bg-white/70 dark:bg-slate-900/80 backdrop-blur-md z-30 sticky top-0 border-b border-slate-100 dark:border-slate-800 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors duration-300"></header>
+
+    <main class="flex-1 min-h-0 w-full max-w-6xl mx-auto p-4 md:p-8 flex flex-col justify-center">
+        <div id="feedback-screen" class="w-full flex flex-col items-center justify-center gap-6 py-8 text-center max-w-3xl mx-auto">
+            <div class="w-full flex justify-start mb-2">
+                <a href="index.html" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 font-black transition-colors bg-white dark:bg-slate-800 px-5 py-2.5 rounded-full shadow-sm border border-slate-100 dark:border-slate-700">
+                    &larr; Home
+                </a>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-2">We Value Your <span class="text-blue-500">Feedback!</span></h2>
+            
+            <p class="text-slate-500 dark:text-slate-400 text-lg font-bold leading-relaxed mb-4">
+                Your feedback helps us improve Quizlish and provide a better learning experience for everyone.
+                <br><br>
+                Reach out to us directly at: <a href="mailto:developertanmoyc@gmail.com" class="text-blue-600 dark:text-blue-400 hover:underline">developertanmoyc@gmail.com</a>
+            </p>
+            
+            <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-lg border border-slate-55 dark:border-slate-700 w-full animate-float flex flex-col items-center">
+                <p class="text-slate-500 dark:text-slate-400 font-bold mb-4 uppercase tracking-widest text-sm">Rate your experience:</p>
+                <div class="flex gap-2 cursor-pointer" id="star-rating">
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="1">★</span>
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="2">★</span>
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="3">★</span>
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="4">★</span>
+                    <span class="star text-5xl text-slate-200 dark:text-slate-600 transition-colors" data-val="5">★</span>
+                </div>
+                <p id="rating-msg" class="text-emerald-500 font-bold mt-4 h-6 opacity-0 transition-opacity duration-300">Thank you for your rating!</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="shrink-0 w-full bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-8 relative z-20 mt-auto"></footer>
+
+    <script src="js/shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const stars = document.querySelectorAll('.star');
+            let currentRating = 0;
+
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    const val = this.getAttribute('data-val');
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-val') <= val) s.classList.add('text-amber-300');
+                        else s.classList.remove('text-amber-300');
+                    });
+                });
+                star.addEventListener('mouseout', function() {
+                    stars.forEach(s => {
+                        s.classList.remove('text-amber-300');
+                        if (s.getAttribute('data-val') <= currentRating) {
+                            s.classList.add('text-amber-400');
+                            s.classList.remove('text-slate-200', 'dark:text-slate-600');
+                        } else {
+                            s.classList.remove('text-amber-400');
+                            s.classList.add('text-slate-200', 'dark:text-slate-600');
+                        }
+                    });
+                });
+                star.addEventListener('click', function() {
+                    currentRating = this.getAttribute('data-val');
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-val') <= currentRating) {
+                            s.classList.add('text-amber-400');
+                            s.classList.remove('text-slate-200', 'dark:text-slate-600');
+                        } else {
+                            s.classList.remove('text-amber-400');
+                            s.classList.add('text-slate-200', 'dark:text-slate-600');
+                        }
+                    });
+                    const msg = document.getElementById('rating-msg');
+                    msg.classList.remove('opacity-0');
+                    setTimeout(() => { msg.classList.add('opacity-0'); }, 3000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
